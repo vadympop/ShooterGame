@@ -6,8 +6,11 @@ import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
 import com.game.core.managers.CollisionVisitor;
 import com.game.core.strategies.ShootingStrategy;
+import com.game.core.utils.Timer;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 public class Player extends Entity {
     private int maxHealth = 3;
@@ -23,9 +26,9 @@ public class Player extends Entity {
     private int rotationDirection = 1;
     private float rotationAngle = 0f;
 
+    private final List<Timer> timers = new ArrayList<>();
     private Effect activeEffect;
-
-    private double removeEffectAfter = 0;
+    private boolean hasShield = false;
     private ShootingStrategy shootingStrategy;
 
     public Player() {
@@ -50,7 +53,11 @@ public class Player extends Entity {
 
         setActiveEffect(effect);
         effect.apply(this);
-        setRemoveEffectAfter(effect.getDuration());
+
+        timers.add(new Timer(effect.getDuration(), (x) -> {
+            x.getActiveEffect().remove(x);
+            x.setActiveEffect(null);
+        }));
 
         return true;
     }
@@ -69,13 +76,12 @@ public class Player extends Entity {
 
     @Override
     public void update(double deltaTime) {
-        if (getRemoveEffectAfter() > 0) {
-            setRemoveEffectAfter(getRemoveEffectAfter() - deltaTime);
+        for (Timer t: timers) {
+            t.decreaseTime(deltaTime);
 
-            if (getRemoveEffectAfter() <= 0) {
-                setRemoveEffectAfter(0);
-                getActiveEffect().remove(this);
-                setActiveEffect(null);
+            if (t.getTime() <= 0) {
+                t.getExecute().accept(this);
+                timers.remove(t);
             }
         }
     }
@@ -165,11 +171,11 @@ public class Player extends Entity {
         this.maxHealth = maxHealth;
     }
 
-    public double getRemoveEffectAfter() {
-        return removeEffectAfter;
+    public boolean isHasShield() {
+        return hasShield;
     }
 
-    public void setRemoveEffectAfter(double removeEffectAfter) {
-        this.removeEffectAfter = removeEffectAfter;
+    public void setHasShield(boolean hasShield) {
+        this.hasShield = hasShield;
     }
 }
