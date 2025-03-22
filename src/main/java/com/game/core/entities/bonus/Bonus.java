@@ -18,12 +18,13 @@ public class Bonus extends Entity {
     }
 
     public void applyEffect(Player player) {
-
+        boolean isApplied = player.applyEffect(this.getEffect());
+        if (isApplied) this.setState(false);
     }
 
     @Override
     public void onCollision(CollisionVisitor visitor, Collidable other) {
-
+        visitor.visit(this, other);
     }
 
     @Override

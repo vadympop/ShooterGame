@@ -2,14 +2,15 @@ package com.game.core.effects;
 
 import com.game.core.entities.Player;
 
-public class NoEffect implements Effect {
-    private final float duration = 600f;
+public class TakeDamageEffect implements Effect {
+    private final float duration = 20f;
+    private final int damage = 1;
 
     @Override
     public void apply(Player player) {
-        if (player.getActiveEffect() == null) return;
+        if (player.getHealth() - damage <= 0) return;
 
-        player.getActiveEffect().remove(player);
+        player.takeDamage(damage);
     }
 
     @Override
@@ -17,6 +18,6 @@ public class NoEffect implements Effect {
 
     @Override
     public float getDuration() {
-        return this.duration;
+        return duration;
     }
 }

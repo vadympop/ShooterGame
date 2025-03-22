@@ -1,9 +1,11 @@
 package com.game.core.behaviour.base;
 
-import com.game.core.behaviour.Bounds;
 import com.game.core.behaviour.interfaces.Collidable;
+import com.game.core.behaviour.interfaces.Positionable;
+import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.bounds.Shape;
 
-public abstract class CollidableGameObject extends GameObject implements Collidable {
+public abstract class CollidableGameObject implements Shape, Positionable, Collidable {
     private Bounds bounds;
 
     @Override
@@ -17,8 +19,27 @@ public abstract class CollidableGameObject extends GameObject implements Collida
     }
 
     @Override
+    public float getX() {
+        return this.getBounds().getX();
+    }
+
+    @Override
+    public float getY() {
+        return this.getBounds().getY();
+    }
+
+    @Override
+    public void setPos(float x, float y) {
+        this.getBounds().setPos(x, y);
+    }
+
+    @Override
     public boolean contains(float x, float y) {
-        return x >= getX() && x <= getX() + getBounds().getWidth() &&
-                y >= getY() && y <= getY() + getBounds().getHeight();
+        return this.getBounds().contains(x, y);
+    }
+
+    @Override
+    public boolean intersects(Bounds other) {
+        return this.getBounds().intersects(other);
     }
 }

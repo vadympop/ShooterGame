@@ -5,11 +5,11 @@ import com.game.core.entities.Entity;
 import com.game.core.managers.CollisionVisitor;
 
 public class BreakableBlock extends Entity implements Block {
-    private int durability;
+    private int durability = 10;
 
     @Override
     public void onCollision(CollisionVisitor visitor, Collidable other) {
-
+        visitor.visit(this, other);
     }
 
     @Override
@@ -17,11 +17,14 @@ public class BreakableBlock extends Entity implements Block {
 
     }
 
-    public int getDurability() {
+    public float getDurability() {
         return this.durability;
     }
 
-    public void takeDamage() {
-
+    public void takeDamage(int damage) {
+        durability -= damage;
+        if (getDurability() <= 0) {
+            setState(false);
+        }
     }
 }

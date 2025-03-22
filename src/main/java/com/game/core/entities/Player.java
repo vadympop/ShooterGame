@@ -1,40 +1,80 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.interfaces.Collidable;
+import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.effects.Effect;
 import com.game.core.managers.CollisionVisitor;
 import com.game.core.strategies.ShootingStrategy;
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Player extends Entity {
-    private int health;
+    private int maxHealth = 3;
+    private int health = maxHealth;
+
+    private int bulletsCount = 5;
+    private int bulletDamage = 1;
+    private float bulletsReloadDelay = 1;
+
+    private boolean isDead = false;
+    private float defaultSpeed = 4f;
+
+    private int rotationDirection = 1;
+    private float rotationAngle = 0f;
+
     private Effect activeEffect;
-    private int bulletsCount;
-    private boolean isDead;
-    private int rotationDirection;
-    private float bulletsReloadDelay;
-    private int deathCount;
-    private float rotationAngle;
+    private long removeEffectAfter;
     private ShootingStrategy shootingStrategy;
+
+    public Player() {
+        setBounds(new CircleBounds(20));
+    }
 
     public void move() {
 
     }
 
     public void shoot() {
-
+        setBulletsCount(getBulletsCount() - 1);
+        List<Bullet> bullets = getShootingStrategy().shoot(this);
     }
 
     public void changeRotationDirection() {
-
+        rotationDirection *= -1;
     }
 
-    public void applyEffect(Effect effect) {
+    public boolean applyEffect(Effect effect) {
+        if (getActiveEffect() != null) return false;
 
+        Player curPlayer = this;
+        activeEffect = effect;
+        effect.apply(curPlayer);
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (activeEffect != null) {
+                    activeEffect.remove(curPlayer);
+                    activeEffect = null;
+                }
+            }
+        }, (long) (effect.getDuration() * 1000));
+
+        return true;
+    }
+
+    public void takeDamage(int damage) {
+        this.setHealth(this.getHealth() - damage);
+        if (this.getHealth() <= 0) {
+
+        }
     }
 
     @Override
     public void onCollision(CollisionVisitor visitor, Collidable other) {
-
+        visitor.visit(this, other);
     }
 
     @Override
@@ -82,14 +122,6 @@ public class Player extends Entity {
         this.bulletsReloadDelay = bulletsReloadDelay;
     }
 
-    public int getDeathCount() {
-        return this.deathCount;
-    }
-
-    public void setDeathCount(int deathCount) {
-        this.deathCount = deathCount;
-    }
-
     public float getRotationAngle() {
         return this.rotationAngle;
     }
@@ -104,5 +136,29 @@ public class Player extends Entity {
 
     public void setShootingStrategy(ShootingStrategy shootingStrategy) {
         this.shootingStrategy = shootingStrategy;
+    }
+
+    public int getBulletDamage() {
+        return bulletDamage;
+    }
+
+    public void setBulletDamage(int bulletDamage) {
+        this.bulletDamage = bulletDamage;
+    }
+
+    public float getDefaultSpeed() {
+        return defaultSpeed;
+    }
+
+    public void setDefaultSpeed(float defaultSpeed) {
+        this.defaultSpeed = defaultSpeed;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 }
