@@ -13,7 +13,7 @@ public class BreakableBlock extends Entity implements Block {
     }
 
     @Override
-    public void update() {
+    public void update(double deltaTime) {
 
     }
 

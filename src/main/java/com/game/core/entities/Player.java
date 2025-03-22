@@ -3,12 +3,11 @@ package com.game.core.entities;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.effects.Effect;
+import com.game.core.effects.NoEffect;
 import com.game.core.managers.CollisionVisitor;
 import com.game.core.strategies.ShootingStrategy;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Player extends Entity {
     private int maxHealth = 3;
@@ -25,7 +24,8 @@ public class Player extends Entity {
     private float rotationAngle = 0f;
 
     private Effect activeEffect;
-    private long removeEffectAfter;
+
+    private double removeEffectAfter = 0;
     private ShootingStrategy shootingStrategy;
 
     public Player() {
@@ -46,21 +46,11 @@ public class Player extends Entity {
     }
 
     public boolean applyEffect(Effect effect) {
-        if (getActiveEffect() != null) return false;
+        if (getActiveEffect() != null || getActiveEffect() instanceof NoEffect) return false;
 
-        Player curPlayer = this;
-        activeEffect = effect;
-        effect.apply(curPlayer);
-
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (activeEffect != null) {
-                    activeEffect.remove(curPlayer);
-                    activeEffect = null;
-                }
-            }
-        }, (long) (effect.getDuration() * 1000));
+        setActiveEffect(effect);
+        effect.apply(this);
+        setRemoveEffectAfter(effect.getDuration());
 
         return true;
     }
@@ -68,7 +58,7 @@ public class Player extends Entity {
     public void takeDamage(int damage) {
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
-
+            setDead(true);
         }
     }
 
@@ -78,8 +68,16 @@ public class Player extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(double deltaTime) {
+        if (getRemoveEffectAfter() > 0) {
+            setRemoveEffectAfter(getRemoveEffectAfter() - deltaTime);
 
+            if (getRemoveEffectAfter() <= 0) {
+                setRemoveEffectAfter(0);
+                getActiveEffect().remove(this);
+                setActiveEffect(null);
+            }
+        }
     }
 
     public int getHealth() {
@@ -93,6 +91,11 @@ public class Player extends Entity {
     public Effect getActiveEffect() {
         return this.activeEffect;
     }
+
+    private void setActiveEffect(Effect effect) {
+        activeEffect = effect;
+    }
+
 
     public int getBulletsCount() {
         return this.bulletsCount;
@@ -160,5 +163,13 @@ public class Player extends Entity {
 
     public void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
+    }
+
+    public double getRemoveEffectAfter() {
+        return removeEffectAfter;
+    }
+
+    public void setRemoveEffectAfter(double removeEffectAfter) {
+        this.removeEffectAfter = removeEffectAfter;
     }
 }

@@ -7,11 +7,11 @@ import com.game.core.managers.CollisionVisitor;
 public class SolidBlock extends CollidableGameObject implements Block {
     @Override
     public void onCollision(CollisionVisitor visitor, Collidable other) {
-
+        visitor.visit(this, other);
     }
 
     @Override
-    public void render() {
+    public void draw() {
 
     }
 }

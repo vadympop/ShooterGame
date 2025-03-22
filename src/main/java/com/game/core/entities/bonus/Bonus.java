@@ -28,7 +28,7 @@ public class Bonus extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(double deltaTime) {
 
     }
 }

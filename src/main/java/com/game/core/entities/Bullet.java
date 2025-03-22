@@ -27,7 +27,7 @@ public class Bullet extends Entity {
     }
 
     @Override
-    public void update() {
+    public void update(double deltaTime) {
 
     }
 

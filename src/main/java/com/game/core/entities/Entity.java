@@ -9,10 +9,13 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     private float speed;
 
     @Override
-    public void render() {
+    public void draw() {
 
     }
 
+    public void render() {
+        if (getState()) draw();
+    }
 
     public void setState(boolean active) {
         this.isActive = active;
