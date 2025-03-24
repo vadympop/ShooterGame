@@ -16,7 +16,8 @@ public class Player extends Entity {
     private int maxHealth = 3;
     private int health = maxHealth;
 
-    private int bulletsCount = 5;
+    private int maxBulletsCount = 5;
+    private int bulletsCount = maxBulletsCount;
     private int bulletDamage = 1;
     private float bulletsReloadDelay = 1;
 
@@ -33,6 +34,11 @@ public class Player extends Entity {
 
     public Player() {
         setBounds(new CircleBounds(20));
+        timers.add(new Timer(getBulletsReloadDelay(), (x) -> {
+            if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
+
+            x.setBulletsCount(x.getBulletsCount() + 1);
+        }, true));
     }
 
     public void move() {
@@ -66,7 +72,17 @@ public class Player extends Entity {
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
             setDead(true);
+            timers.add(new Timer(5f, Player::respawn));
         }
+    }
+
+    public void respawn() {
+        setHealth(getMaxHealth());
+        setDead(false);
+        // setPos
+        setHasShield(true);
+
+        timers.add(new Timer(5f, (x) -> x.setHasShield(false)));
     }
 
     @Override
@@ -79,9 +95,14 @@ public class Player extends Entity {
         for (Timer t: timers) {
             t.decreaseTime(deltaTime);
 
-            if (t.getTime() <= 0) {
-                t.getExecute().accept(this);
-                timers.remove(t);
+            if (t.getTimeLeft() <= 0) {
+                t.getFunc().accept(this);
+
+                if (t.isRepetitive()) {
+                    t.setTimeLeft(t.getBaseTime());
+                } else {
+                    timers.remove(t);
+                }
             }
         }
     }
@@ -101,7 +122,6 @@ public class Player extends Entity {
     private void setActiveEffect(Effect effect) {
         activeEffect = effect;
     }
-
 
     public int getBulletsCount() {
         return this.bulletsCount;
@@ -177,5 +197,13 @@ public class Player extends Entity {
 
     public void setHasShield(boolean hasShield) {
         this.hasShield = hasShield;
+    }
+
+    public int getMaxBulletsCount() {
+        return maxBulletsCount;
+    }
+
+    public void setMaxBulletsCount(int maxBulletsCount) {
+        this.maxBulletsCount = maxBulletsCount;
     }
 }
