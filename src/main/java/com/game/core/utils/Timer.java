@@ -5,31 +5,57 @@ import com.game.core.entities.Player;
 import java.util.function.Consumer;
 
 public class Timer {
-    private double time;
-    private Consumer<Player> execute;
+    private double baseTime;
+    private boolean isRepetitive = false;
+    private double timeLeft;
+    private Consumer<Player> func;
 
-    public Timer(double time, Consumer<Player> execute) {
-        setTime(time);
-        setExecute(execute);
+    public Timer(double time, Consumer<Player> func) {
+        setTimeLeft(time);
+        setFunc(func);
+    }
+
+    public Timer(double time, Consumer<Player> func, boolean isRepetitive) {
+        if (isRepetitive) setBaseTime(time);
+
+        setRepetitive(isRepetitive);
+        setTimeLeft(time);
+        setFunc(func);
     }
 
     public void decreaseTime(double value) {
-        setTime(getTime() - value);
+        setTimeLeft(getTimeLeft() - value);
     }
 
-    public double getTime() {
-        return time;
+    public double getTimeLeft() {
+        return timeLeft;
     }
 
-    private void setTime(double time) {
-        this.time = time;
+    public void setTimeLeft(double timeLeft) {
+        this.timeLeft = timeLeft;
     }
 
-    public Consumer<Player> getExecute() {
-        return execute;
+    public Consumer<Player> getFunc() {
+        return func;
     }
 
-    private void setExecute(Consumer<Player> execute) {
-        this.execute = execute;
+    private void setFunc(Consumer<Player> func) {
+        this.func = func;
+    }
+
+    public double getBaseTime() {
+        return baseTime;
+    }
+
+    private void setBaseTime(double baseTime) {
+        this.baseTime = baseTime;
+    }
+
+    public boolean isRepetitive() {
+        return this.isRepetitive;
+    }
+
+    private void setRepetitive(boolean repetitive) {
+        isRepetitive = repetitive;
     }
 }
