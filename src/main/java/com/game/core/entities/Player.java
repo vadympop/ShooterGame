@@ -99,17 +99,7 @@ public class Player extends Entity {
     @Override
     public void update(double deltaTime) {
         for (Timer<Player> t: timers) {
-            t.decreaseTime(deltaTime);
-
-            if (t.getTimeLeft() <= 0) {
-                t.getFunc().accept(this);
-
-                if (t.isRepetitive()) {
-                    t.setTimeLeft(t.getBaseTime());
-                } else {
-                    timers.remove(t);
-                }
-            }
+            t.update(deltaTime, this, () -> timers.remove(t));
         }
     }
 

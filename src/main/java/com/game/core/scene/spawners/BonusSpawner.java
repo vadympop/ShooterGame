@@ -30,12 +30,7 @@ public class BonusSpawner extends GameObject implements Spawner {
 
     @Override
     public void update(double deltaTime) {
-        getSpawnTimer().decreaseTime(deltaTime);
-
-        if (getSpawnTimer().getTimeLeft() <= 0) {
-            getSpawnTimer().getFunc().accept(this);
-            getSpawnTimer().setTimeLeft(getSpawnTimer().getBaseTime());
-        }
+        getSpawnTimer().update(deltaTime, this, null);
     }
 
     public Timer<BonusSpawner> getSpawnTimer() {
