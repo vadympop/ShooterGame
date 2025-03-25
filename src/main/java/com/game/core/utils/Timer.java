@@ -1,21 +1,19 @@
 package com.game.core.utils;
 
-import com.game.core.entities.Player;
-
 import java.util.function.Consumer;
 
-public class Timer {
+public class Timer<T> {
     private double baseTime;
     private boolean isRepetitive = false;
     private double timeLeft;
-    private Consumer<Player> func;
+    private Consumer<T> func;
 
-    public Timer(double time, Consumer<Player> func) {
+    public Timer(double time, Consumer<T> func) {
         setTimeLeft(time);
         setFunc(func);
     }
 
-    public Timer(double time, Consumer<Player> func, boolean isRepetitive) {
+    public Timer(double time, Consumer<T> func, boolean isRepetitive) {
         if (isRepetitive) setBaseTime(time);
 
         setRepetitive(isRepetitive);
@@ -35,11 +33,11 @@ public class Timer {
         this.timeLeft = timeLeft;
     }
 
-    public Consumer<Player> getFunc() {
+    public Consumer<T> getFunc() {
         return func;
     }
 
-    private void setFunc(Consumer<Player> func) {
+    private void setFunc(Consumer<T> func) {
         this.func = func;
     }
 

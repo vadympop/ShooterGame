@@ -30,7 +30,7 @@ public class Player extends Entity {
     private int rotationDirection = 1;
     private float rotationAngle = 0f;
 
-    private final List<Timer> timers = new ArrayList<>();
+    private final List<Timer<Player>> timers = new ArrayList<>();
     private Effect activeEffect;
     private boolean hasShield = false;
     private ShootingStrategy shootingStrategy;
@@ -40,7 +40,7 @@ public class Player extends Entity {
 
         setBulletTile(bulletTile);
         setBounds(new CircleBounds(20));
-        timers.add(new Timer(getBulletsReloadDelay(), (x) -> {
+        timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 
             x.setBulletsCount(x.getBulletsCount() + 1);
@@ -66,7 +66,7 @@ public class Player extends Entity {
         setActiveEffect(effect);
         effect.apply(this);
 
-        timers.add(new Timer(effect.getDuration(), (x) -> {
+        timers.add(new Timer<>(effect.getDuration(), (x) -> {
             x.getActiveEffect().remove(x);
             x.setActiveEffect(null);
         }));
@@ -78,7 +78,7 @@ public class Player extends Entity {
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
             setDead(true);
-            timers.add(new Timer(5f, Player::respawn));
+            timers.add(new Timer<>(5f, Player::respawn));
         }
     }
 
@@ -88,7 +88,7 @@ public class Player extends Entity {
         // setPos
         setHasShield(true);
 
-        timers.add(new Timer(5f, (x) -> x.setHasShield(false)));
+        timers.add(new Timer<>(5f, (x) -> x.setHasShield(false)));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class Player extends Entity {
 
     @Override
     public void update(double deltaTime) {
-        for (Timer t: timers) {
+        for (Timer<Player> t: timers) {
             t.decreaseTime(deltaTime);
 
             if (t.getTimeLeft() <= 0) {
