@@ -191,7 +191,7 @@ public class Player extends Entity {
         return hasShield;
     }
 
-    private void setHasShield(boolean hasShield) {
+    public void setHasShield(boolean hasShield) {
         this.hasShield = hasShield;
     }
 

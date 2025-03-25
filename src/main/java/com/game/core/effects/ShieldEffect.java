@@ -7,12 +7,12 @@ public class ShieldEffect implements Effect {
 
     @Override
     public void apply(Player player) {
-
+        player.setHasShield(true);
     }
 
     @Override
     public void remove(Player player) {
-
+        player.setHasShield(false);
     }
 
     @Override
