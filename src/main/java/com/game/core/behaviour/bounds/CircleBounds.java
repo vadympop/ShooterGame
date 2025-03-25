@@ -1,6 +1,8 @@
 package com.game.core.behaviour.bounds;
 
-public class CircleBounds extends Bounds {
+import com.game.core.behaviour.interfaces.Positionable;
+
+public class CircleBounds implements Bounds {
     private float radius;
 
     public CircleBounds(float radius) {
@@ -8,7 +10,7 @@ public class CircleBounds extends Bounds {
     }
 
     @Override
-    public boolean intersects(Bounds other) {
+    public boolean intersects(Bounds checkedBounds, Positionable currentBoundsPos, Positionable checkedPos) {
         if (other instanceof CircleBounds circle) {
             float x = this.getX();
             float y = this.getY();
@@ -21,7 +23,7 @@ public class CircleBounds extends Bounds {
     }
 
     @Override
-    public boolean contains(float x, float y) {
+    public boolean contains(Positionable currentBoundsPos, Positionable checkedPos) {
         return false;
     }
 

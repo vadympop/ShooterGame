@@ -1,18 +1,17 @@
 package com.game.core.scene.areas;
 
-import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.behaviour.base.CollidableGameObject;
+import com.game.core.behaviour.base.GameObject;
+import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.effects.Effect;
 import com.game.core.effects.TakeDamageEffect;
 import com.game.core.entities.Player;
-import com.game.core.managers.CollisionVisitor;
 
-public class KillableArea extends CollidableGameObject implements Area  {
-    private Effect effect = new TakeDamageEffect();
+public class KillableArea extends GameObject implements Area  {
+    private final Effect effect = new TakeDamageEffect();
+    private Bounds bounds;
 
-    @Override
-    public void onCollision(CollisionVisitor visitor, Collidable other) {
-
+    public KillableArea(Bounds bounds) {
+        setBounds(bounds);
     }
 
     @Override
@@ -23,5 +22,14 @@ public class KillableArea extends CollidableGameObject implements Area  {
     @Override
     public boolean contains(Player player) {
         return false;
+    }
+
+    @Override
+    public Bounds getBounds() {
+        return bounds;
+    }
+
+    private void setBounds(Bounds bounds) {
+        this.bounds = bounds;
     }
 }

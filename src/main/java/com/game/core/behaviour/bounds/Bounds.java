@@ -1,5 +1,9 @@
 package com.game.core.behaviour.bounds;
 
-import com.game.core.behaviour.base.Coordinates;
 
-public abstract class Bounds extends Coordinates implements Shape { }
+import com.game.core.behaviour.interfaces.Positionable;
+
+public interface Bounds {
+    boolean intersects(Bounds checkedBounds, Positionable currentBoundsPos, Positionable checkedPos);
+    boolean contains(Positionable currentBoundsPos, Positionable checkedPos);
+}

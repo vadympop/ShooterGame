@@ -1,7 +1,9 @@
 package com.game.core.behaviour.bounds;
 
 
-public class RectangleBounds extends Bounds {
+import com.game.core.behaviour.interfaces.Positionable;
+
+public class RectangleBounds implements Bounds {
     private float height;
     private float width;
 
@@ -11,7 +13,7 @@ public class RectangleBounds extends Bounds {
     }
 
     @Override
-    public boolean intersects(Bounds other) {
+    public boolean intersects(Bounds checkedBounds, Positionable currentBoundsPos, Positionable checkedPos) {
         float x = this.getX();
         float y = this.getY();
 
@@ -28,7 +30,7 @@ public class RectangleBounds extends Bounds {
     }
 
     @Override
-    public boolean contains(float x, float y) {
+    public boolean contains(Positionable currentBoundsPos, Positionable checkedPos) {
         return false;
     }
 

@@ -2,6 +2,7 @@ package com.game.core.entities;
 
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.managers.CollisionVisitor;
+import com.game.core.scene.graphics.Tile;
 
 public class Bullet extends Entity {
     private final Player owner;
@@ -9,7 +10,8 @@ public class Bullet extends Entity {
     private final float rotationAngle;
     private float timeToDestroy;
 
-    private Bullet(Player owner, int damage, float speed, float rotationAngle, float x, float y) {
+    private Bullet(Player owner, Tile tile, int damage, float speed, float rotationAngle, float x, float y) {
+        super(tile);
         this.owner = owner;
         this.damage = damage;
         this.setSpeed(speed);
@@ -54,6 +56,7 @@ public class Bullet extends Entity {
         private float x;
         private float y;
         private float rotationAngle;
+        private Tile tile = new Tile();
 
 
         public builder owner(Player owner) {
@@ -83,8 +86,13 @@ public class Bullet extends Entity {
             return this;
         }
 
+        public builder tile(Tile tile) {
+            this.tile = tile;
+            return this;
+        }
+
         public Bullet build() {
-            return new Bullet(owner, damage, speed, rotationAngle, x, y);
+            return new Bullet(owner, tile, damage, speed, rotationAngle, x, y);
         }
     }
 }

@@ -1,12 +1,13 @@
 package com.game.core.scene.spawners;
 
-import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.behaviour.base.CollidableGameObject;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.behaviour.base.GameObject;
+import com.game.core.scene.graphics.Tile;
+import javafx.scene.canvas.GraphicsContext;
 
-public class BonusSpawner extends CollidableGameObject implements Spawner {
+public class BonusSpawner extends GameObject implements Spawner {
     private float cooldown;
     private float timeToNext;
+    private Tile tile;
 
     @Override
     public void spawn() {
@@ -14,7 +15,12 @@ public class BonusSpawner extends CollidableGameObject implements Spawner {
     }
 
     @Override
-    public void onCollision(CollisionVisitor visitor, Collidable other) {
+    public void draw(GraphicsContext gc) {
+        getTile().draw(gc, getX(), getY());
+    }
+
+    @Override
+    public void update(double deltaTime) {
 
     }
 
@@ -32,5 +38,14 @@ public class BonusSpawner extends CollidableGameObject implements Spawner {
 
     public void setTimeToNext(float timeToNext) {
         this.timeToNext = timeToNext;
+    }
+
+    @Override
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 }

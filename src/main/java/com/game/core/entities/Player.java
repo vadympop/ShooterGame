@@ -5,6 +5,7 @@ import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
 import com.game.core.managers.CollisionVisitor;
+import com.game.core.scene.graphics.Tile;
 import com.game.core.strategies.ShootingStrategy;
 import com.game.core.utils.Timer;
 
@@ -32,7 +33,8 @@ public class Player extends Entity {
     private boolean hasShield = false;
     private ShootingStrategy shootingStrategy;
 
-    public Player() {
+    public Player(Tile tile) {
+        super(tile);
         setBounds(new CircleBounds(20));
         timers.add(new Timer(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;

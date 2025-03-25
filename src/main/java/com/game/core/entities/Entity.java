@@ -3,18 +3,20 @@ package com.game.core.entities;
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
+import com.game.core.scene.graphics.Tile;
+import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Entity extends CollidableGameObject implements Renderable, Updatable {
     private boolean isActive;
     private float speed;
+    private Tile tile;
 
-    @Override
-    public void draw() {
-
+    public Entity(Tile tile) {
+        setTile(tile);
     }
 
-    public void render() {
-        if (getState()) draw();
+    public void render(GraphicsContext gc) {
+        if (getState()) draw(gc);
     }
 
     public void setState(boolean active) {
@@ -31,5 +33,19 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+        getTile().draw(gc, getX(), getY());
+    }
+
+    @Override
+    public Tile getTile() {
+        return tile;
+    }
+
+    public void setTile(Tile tile) {
+        this.tile = tile;
     }
 }
