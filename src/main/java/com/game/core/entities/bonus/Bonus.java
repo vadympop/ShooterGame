@@ -4,7 +4,7 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.effects.Effect;
 import com.game.core.entities.Entity;
 import com.game.core.entities.Player;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.controllers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 
 public class Bonus extends Entity {

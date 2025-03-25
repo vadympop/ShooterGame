@@ -2,7 +2,7 @@ package com.game.core.scene.blocks;
 
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.base.CollidableGameObject;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.controllers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
 

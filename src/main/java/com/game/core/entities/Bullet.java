@@ -1,7 +1,7 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.controllers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 
 public class Bullet extends Entity {

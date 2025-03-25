@@ -1,7 +1,7 @@
 package com.game.core.behaviour.interfaces;
 
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.controllers.CollisionVisitor;
 
 public interface Collidable {
     void onCollision(CollisionVisitor visitor, Collidable other);
