@@ -4,6 +4,6 @@ package com.game.core.behaviour.bounds;
 import com.game.core.behaviour.interfaces.Positionable;
 
 public interface Bounds {
-    boolean intersects(Bounds checkedBounds, Positionable currentPos, Positionable checkedPos);
-    boolean contains(Positionable currentBoundsPos, Positionable checkedPos);
+    boolean intersects(Bounds otherBounds, Positionable curPos, Positionable otherPos);
+    boolean contains(Bounds otherBounds, Positionable curPos, Positionable otherPos);
 }

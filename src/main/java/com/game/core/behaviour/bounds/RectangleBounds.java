@@ -8,31 +8,51 @@ public class RectangleBounds implements Bounds {
     private float width;
 
     public RectangleBounds(float width, float height) {
-        this.setHeight(height);
-        this.setWidth(width);
+        setHeight(height);
+        setWidth(width);
     }
 
     @Override
-    public boolean intersects(Bounds checkedBounds, Positionable currentPos, Positionable checkedPos) {
-        float curX = currentPos.getX();
-        float curY = currentPos.getY();
-        float checkedX = checkedPos.getX();
-        float checkedY = checkedPos.getY();
+    public boolean intersects(Bounds otherBounds, Positionable curPos, Positionable otherPos) {
+        float curX = curPos.getX();
+        float curY = curPos.getY();
+        float otherX = otherPos.getX();
+        float otherY = otherPos.getY();
+        float curHWidth = getWidth() / 2;
+        float curHHeight = getHeight() / 2;
 
-        if (checkedBounds instanceof RectangleBounds rect) {
-            return Math.abs(curX - checkedX) < (this.getWidth() + rect.getWidth()) / 2 &&
-                    Math.abs(curY - checkedY) < (this.getHeight() + rect.getHeight()) / 2;
-        } else if (checkedBounds instanceof CircleBounds circle) {
-            float closestX = Math.max(curX - this.getWidth() / 2, Math.min(checkedX, curX + this.getWidth() / 2));
-            float closestY = Math.max(curY - this.getHeight() / 2, Math.min(checkedY, curY + this.getHeight() / 2));
-            return Math.sqrt(Math.pow(checkedX - closestX, 2) + Math.pow(checkedY - closestY, 2)) <= circle.getRadius();
+        if (otherBounds instanceof RectangleBounds rect) {
+            float otherHWidth = rect.getWidth() / 2;
+            float otherHHeight = rect.getHeight() / 2;
+
+            return Math.abs(curX - otherX) < (curHWidth + otherHWidth) &&
+                    Math.abs(curY - otherY) < (curHHeight + otherHHeight);
+        } else if (otherBounds instanceof CircleBounds circle) {
+            float closestX = Math.max(curX - curHWidth, Math.min(otherX, curX + curHWidth));
+            float closestY = Math.max(curY + curHHeight, Math.min(otherY, curY - curHHeight));
+            return Math.hypot(otherX - closestX, otherY - closestY) <= circle.getRadius();
         }
 
         return false;
     }
 
     @Override
-    public boolean contains(Positionable currentBoundsPos, Positionable checkedPos) {
+    public boolean contains(Bounds otherBounds, Positionable curPos, Positionable otherPos) {
+        float curX = curPos.getX();
+        float curY = curPos.getY();
+        float otherX = otherPos.getX();
+        float otherY = otherPos.getY();
+        float curHWidth = getWidth() / 2;
+        float curHHeight = getHeight() / 2;
+
+        if (otherBounds instanceof CircleBounds circle) {
+            return Math.abs(otherX - curX) + circle.getRadius() <= curHWidth &&
+                    Math.abs(otherY - curY) + circle.getRadius() <= curHHeight;
+        } else if (otherBounds instanceof RectangleBounds rect) {
+            return Math.abs(curX - otherX) + (rect.getWidth() / 2) <= curHWidth &&
+                    Math.abs(curY - otherY) + (rect.getHeight() / 2) <= curHHeight;
+        }
+
         return false;
     }
 

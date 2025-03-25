@@ -16,8 +16,8 @@ public abstract class CollidableGameObject extends GameObject implements Positio
         this.bounds = bounds;
     }
 
-    public boolean contains(Positionable checkedObj) {
-        return this.getBounds().contains(this, checkedObj);
+    public boolean contains(CollidableGameObject obj) {
+        return this.getBounds().contains(obj.getBounds(), this, obj);
     }
 
     public boolean intersects(CollidableGameObject obj) {
