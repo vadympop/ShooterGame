@@ -8,10 +8,19 @@ public class Tile {
     private Image sprite;
     private TileType type;
 
+    public Tile(String sourceTexture) {
+        this(sourceTexture, TileType.OBJECT);
+    }
+
+    public Tile(String sourceTexture, TileType type) {
+        setSprite(new Image(String.valueOf(getClass().getResource(sourceTexture))));
+        setType(type);
+    }
 
     public void draw(GraphicsContext gc, float x, float y) {
-        double displayX = getSprite().getWidth();
-        gc.drawImage(getSprite(), x, y);
+        double displayX = x - (getSprite().getWidth() / 2);
+        double displayY = y - (getSprite().getHeight() / 2);
+        gc.drawImage(getSprite(), displayX, displayY);
     }
 
     public Image getSprite() {
