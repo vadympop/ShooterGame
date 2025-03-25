@@ -12,8 +12,7 @@ public abstract class CollidableGameObject extends GameObject implements Positio
         return this.bounds;
     }
 
-    @Override
-    public void setBounds(Bounds bounds) {
+    protected void setBounds(Bounds bounds) {
         this.bounds = bounds;
     }
 
