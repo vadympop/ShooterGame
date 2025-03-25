@@ -9,8 +9,7 @@ public class Timer<T> {
     private Consumer<T> func;
 
     public Timer(double time, Consumer<T> func) {
-        setTimeLeft(time);
-        setFunc(func);
+        this(time, func, false);
     }
 
     public Timer(double time, Consumer<T> func, boolean isRepetitive) {
@@ -23,6 +22,20 @@ public class Timer<T> {
 
     public void decreaseTime(double value) {
         setTimeLeft(getTimeLeft() - value);
+    }
+
+    public void update(double deltaTime, T obj, Runnable func) {
+        decreaseTime(deltaTime);
+
+        if (getTimeLeft() <= 0) {
+            getFunc().accept(obj);
+
+            if (isRepetitive) {
+                setTimeLeft(getBaseTime());
+            } else {
+                if (func != null) func.run();
+            }
+        }
     }
 
     public double getTimeLeft() {
