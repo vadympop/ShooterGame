@@ -4,8 +4,14 @@ import com.game.core.behaviour.base.GameObject;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 public class PlayerSpawner extends GameObject implements Spawner {
     private Tile tile;
+
+    public PlayerSpawner(Tile tile) {
+        setTile(tile);
+    }
 
     @Override
     public void spawn() {
@@ -27,7 +33,7 @@ public class PlayerSpawner extends GameObject implements Spawner {
         return tile;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    private void setTile(Tile tile) {
+        this.tile = Objects.requireNonNull(tile);
     }
 }

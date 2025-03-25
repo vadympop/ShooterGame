@@ -10,13 +10,16 @@ public class CircleBounds implements Bounds {
     }
 
     @Override
-    public boolean intersects(Bounds checkedBounds, Positionable currentBoundsPos, Positionable checkedPos) {
-        if (other instanceof CircleBounds circle) {
-            float x = this.getX();
-            float y = this.getY();
-            return Math.sqrt(Math.pow(x - circle.getX(), 2) + Math.pow(y - circle.getY(), 2)) <= this.getRadius() + circle.getRadius();
-        } else if (other instanceof RectangleBounds) {
-            return other.intersects(this);
+    public boolean intersects(Bounds checkedBounds, Positionable currentPos, Positionable checkedPos) {
+        if (checkedBounds instanceof CircleBounds circle) {
+            float curX = currentPos.getX();
+            float curY = currentPos.getY();
+            float checkedX = checkedPos.getX();
+            float checkedY = checkedPos.getY();
+
+            return Math.sqrt(Math.pow(curX - checkedX, 2) + Math.pow(curY - checkedY, 2)) <= this.getRadius() + circle.getRadius();
+        } else if (checkedBounds instanceof RectangleBounds) {
+            return checkedBounds.intersects(this, checkedPos, currentPos);
         }
 
         return false;

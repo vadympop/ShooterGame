@@ -11,6 +11,7 @@ import com.game.core.utils.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Player extends Entity {
@@ -21,6 +22,7 @@ public class Player extends Entity {
     private int bulletsCount = maxBulletsCount;
     private int bulletDamage = 1;
     private float bulletsReloadDelay = 1;
+    private Tile bulletTile;
 
     private boolean isDead = false;
     private float defaultSpeed = 4f;
@@ -33,8 +35,10 @@ public class Player extends Entity {
     private boolean hasShield = false;
     private ShootingStrategy shootingStrategy;
 
-    public Player(Tile tile) {
+    public Player(Tile tile, Tile bulletTile) {
         super(tile);
+
+        setBulletTile(bulletTile);
         setBounds(new CircleBounds(20));
         timers.add(new Timer(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
@@ -207,5 +211,13 @@ public class Player extends Entity {
 
     public void setMaxBulletsCount(int maxBulletsCount) {
         this.maxBulletsCount = maxBulletsCount;
+    }
+
+    public Tile getBulletTile() {
+        return bulletTile;
+    }
+
+    public void setBulletTile(Tile bulletTile) {
+        this.bulletTile = Objects.requireNonNull(bulletTile);
     }
 }

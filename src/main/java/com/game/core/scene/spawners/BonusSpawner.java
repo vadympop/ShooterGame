@@ -4,10 +4,16 @@ import com.game.core.behaviour.base.GameObject;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 public class BonusSpawner extends GameObject implements Spawner {
     private float cooldown;
     private float timeToNext;
     private Tile tile;
+
+    public BonusSpawner(Tile tile) {
+        setTile(tile);
+    }
 
     @Override
     public void spawn() {
@@ -45,7 +51,7 @@ public class BonusSpawner extends GameObject implements Spawner {
         return tile;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    private void setTile(Tile tile) {
+        this.tile = Objects.requireNonNull(tile);
     }
 }

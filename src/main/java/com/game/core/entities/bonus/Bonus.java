@@ -10,8 +10,8 @@ import com.game.core.scene.graphics.Tile;
 public class Bonus extends Entity {
     private final Effect effect;
 
-    public Bonus(Effect effect) {
-        super(new Tile());
+    public Bonus(Effect effect, Tile tile) {
+        super(tile);
         this.effect = effect;
     }
 

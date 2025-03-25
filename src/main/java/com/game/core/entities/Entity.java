@@ -6,6 +6,8 @@ import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 public abstract class Entity extends CollidableGameObject implements Renderable, Updatable {
     private boolean isActive;
     private float speed;
@@ -45,7 +47,7 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         return tile;
     }
 
-    public void setTile(Tile tile) {
-        this.tile = tile;
+    private void setTile(Tile tile) {
+        this.tile = Objects.requireNonNull(tile);
     }
 }

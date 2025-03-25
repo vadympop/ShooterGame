@@ -6,6 +6,8 @@ import com.game.core.controllers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.Objects;
+
 public class SolidBlock extends CollidableGameObject implements Block {
     private Tile tile;
 
@@ -29,6 +31,6 @@ public class SolidBlock extends CollidableGameObject implements Block {
     }
 
     private void setTile(Tile tile) {
-        this.tile = tile;
+        this.tile = Objects.requireNonNull(tile);
     }
 }

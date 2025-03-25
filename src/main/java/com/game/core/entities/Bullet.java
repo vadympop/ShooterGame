@@ -12,10 +12,12 @@ public class Bullet extends Entity {
 
     private Bullet(Player owner, Tile tile, int damage, float speed, float rotationAngle, float x, float y) {
         super(tile);
+
         this.owner = owner;
         this.damage = damage;
-        this.setSpeed(speed);
         this.rotationAngle = rotationAngle;
+
+        this.setSpeed(speed);
         this.setPos(x, y);
     }
 
@@ -53,15 +55,15 @@ public class Bullet extends Entity {
         private Player owner;
         private int damage;
         private float speed = 7.0f;
-        private float x;
-        private float y;
+        private float x, y;
         private float rotationAngle;
-        private Tile tile = new Tile();
+        private Tile tile;
 
 
         public builder owner(Player owner) {
             this.owner = owner;
             this.damage = owner.getBulletDamage();
+            this.tile = owner.getBulletTile();
             return this;
         }
 

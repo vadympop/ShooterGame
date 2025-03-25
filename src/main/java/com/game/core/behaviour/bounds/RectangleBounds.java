@@ -13,17 +13,19 @@ public class RectangleBounds implements Bounds {
     }
 
     @Override
-    public boolean intersects(Bounds checkedBounds, Positionable currentBoundsPos, Positionable checkedPos) {
-        float x = this.getX();
-        float y = this.getY();
+    public boolean intersects(Bounds checkedBounds, Positionable currentPos, Positionable checkedPos) {
+        float curX = currentPos.getX();
+        float curY = currentPos.getY();
+        float checkedX = checkedPos.getX();
+        float checkedY = checkedPos.getY();
 
-        if (other instanceof RectangleBounds rect) {
-            return Math.abs(x - rect.getX()) < (this.getWidth() + rect.getWidth()) / 2 &&
-                    Math.abs(y - rect.getY()) < (this.getHeight() + rect.getHeight()) / 2;
-        } else if (other instanceof CircleBounds circle) {
-            float closestX = Math.max(x - this.getWidth() / 2, Math.min(circle.getX(), x + this.getWidth() / 2));
-            float closestY = Math.max(y - this.getHeight() / 2, Math.min(circle.getY(), y + this.getHeight() / 2));
-            return Math.sqrt(Math.pow(circle.getX() - closestX, 2) + Math.pow(circle.getY() - closestY, 2)) <= circle.getRadius();
+        if (checkedBounds instanceof RectangleBounds rect) {
+            return Math.abs(curX - checkedX) < (this.getWidth() + rect.getWidth()) / 2 &&
+                    Math.abs(curY - checkedY) < (this.getHeight() + rect.getHeight()) / 2;
+        } else if (checkedBounds instanceof CircleBounds circle) {
+            float closestX = Math.max(curX - this.getWidth() / 2, Math.min(checkedX, curX + this.getWidth() / 2));
+            float closestY = Math.max(curY - this.getHeight() / 2, Math.min(checkedY, curY + this.getHeight() / 2));
+            return Math.sqrt(Math.pow(checkedX - closestX, 2) + Math.pow(checkedY - closestY, 2)) <= circle.getRadius();
         }
 
         return false;
