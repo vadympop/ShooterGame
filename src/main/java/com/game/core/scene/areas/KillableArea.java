@@ -21,7 +21,7 @@ public class KillableArea extends GameObject implements Area  {
 
     @Override
     public boolean contains(Player player) {
-        return false;
+        return getBounds().contains(player.getBounds(), this, player);
     }
 
     @Override
