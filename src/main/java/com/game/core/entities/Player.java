@@ -117,7 +117,7 @@ public class Player extends Entity {
         return this.health;
     }
 
-    public void setHealth(int health) {
+    private void setHealth(int health) {
         this.health = health;
     }
 
@@ -133,7 +133,7 @@ public class Player extends Entity {
         return this.bulletsCount;
     }
 
-    public void setBulletsCount(int bulletsCount) {
+    private void setBulletsCount(int bulletsCount) {
         this.bulletsCount = bulletsCount;
     }
 
@@ -141,7 +141,7 @@ public class Player extends Entity {
         return this.isDead;
     }
 
-    public void setDead(boolean dead) {
+    private void setDead(boolean dead) {
         this.isDead = dead;
     }
 
@@ -161,7 +161,7 @@ public class Player extends Entity {
         return this.rotationAngle;
     }
 
-    public void setRotationAngle(float rotationAngle) {
+    private void setRotationAngle(float rotationAngle) {
         this.rotationAngle = rotationAngle;
     }
 
@@ -185,7 +185,7 @@ public class Player extends Entity {
         return defaultSpeed;
     }
 
-    public void setDefaultSpeed(float defaultSpeed) {
+    private void setDefaultSpeed(float defaultSpeed) {
         this.defaultSpeed = defaultSpeed;
     }
 
@@ -193,7 +193,7 @@ public class Player extends Entity {
         return maxHealth;
     }
 
-    public void setMaxHealth(int maxHealth) {
+    private void setMaxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
     }
 
@@ -201,7 +201,7 @@ public class Player extends Entity {
         return hasShield;
     }
 
-    public void setHasShield(boolean hasShield) {
+    private void setHasShield(boolean hasShield) {
         this.hasShield = hasShield;
     }
 
@@ -209,7 +209,7 @@ public class Player extends Entity {
         return maxBulletsCount;
     }
 
-    public void setMaxBulletsCount(int maxBulletsCount) {
+    private void setMaxBulletsCount(int maxBulletsCount) {
         this.maxBulletsCount = maxBulletsCount;
     }
 
@@ -217,7 +217,7 @@ public class Player extends Entity {
         return bulletTile;
     }
 
-    public void setBulletTile(Tile bulletTile) {
+    private void setBulletTile(Tile bulletTile) {
         this.bulletTile = Objects.requireNonNull(bulletTile);
     }
 }
