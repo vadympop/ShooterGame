@@ -3,12 +3,14 @@ package com.game.core.entities;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.controllers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
+import com.game.core.utils.Timer;
 
 public class Bullet extends Entity {
     private final Player owner;
     private final int damage;
     private final float rotationAngle;
-    private float timeToDestroy;
+    private final float timeToDestroy = 5f;
+    private Timer<Bullet> destroyTimer;
 
     private Bullet(Player owner, Tile tile, int damage, float speed, float rotationAngle, float x, float y) {
         super(tile);
@@ -17,8 +19,9 @@ public class Bullet extends Entity {
         this.damage = damage;
         this.rotationAngle = rotationAngle;
 
-        this.setSpeed(speed);
-        this.setPos(x, y);
+        setSpeed(speed);
+        setPos(x, y);
+        createDestroyTimer();
     }
 
     public void move() {
@@ -32,7 +35,7 @@ public class Bullet extends Entity {
 
     @Override
     public void update(double deltaTime) {
-
+        getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
     }
 
     public Player getOwner() {
@@ -49,6 +52,18 @@ public class Bullet extends Entity {
 
     public float getRotationAngle() {
         return this.rotationAngle;
+    }
+
+    public Timer<Bullet> getDestroyTimer() {
+        return destroyTimer;
+    }
+
+    private void setDestroyTimer(Timer<Bullet> timer) {
+        destroyTimer = timer;
+    }
+
+    private void createDestroyTimer() {
+        setDestroyTimer(new Timer<>(getTimeToDestroy(), (x) -> x.setState(false)));
     }
 
     public static class builder {
