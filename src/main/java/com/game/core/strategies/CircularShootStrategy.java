@@ -14,12 +14,11 @@ public class CircularShootStrategy implements ShootingStrategy {
         float startAngle = player.getRotationAngle();
         for (float i = startAngle; i < 360 + startAngle; i += 45) {
             bullets.add(
-                    new Bullet.builder()
-                            .owner(player)
-                            .pos(player.getX(), player.getY())
-                            .rotationAngle(i)
-                            .build()
-                    );
+                new Bullet.builder()
+                        .owner(player)
+                        .rotationAngle(i % 360)
+                        .build()
+                );
         }
 
         return bullets;

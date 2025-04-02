@@ -9,12 +9,6 @@ import java.util.List;
 public class SingleShootStrategy implements ShootingStrategy {
     @Override
     public List<Bullet> shoot(Player player) {
-        return Collections.singletonList(
-                new Bullet.builder()
-                        .owner(player)
-                        .pos(player.getX(), player.getY())
-                        .rotationAngle(player.getRotationAngle())
-                        .build()
-        );
+        return List.of(new Bullet.builder().owner(player).build());
     }
 }
