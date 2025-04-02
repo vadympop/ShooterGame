@@ -41,20 +41,9 @@ public class BonusSpawner extends GameObject implements Spawner {
         this.spawnTimer = new Timer<>(getCooldown(), BonusSpawner::spawn, true);
     }
 
-    public float getCooldown() {
-        return cooldown;
-    }
+    public float getCooldown() { return cooldown; }
+    private void setCooldown(float cooldown) { this.cooldown = cooldown; }
 
-    private void setCooldown(float cooldown) {
-        this.cooldown = cooldown;
-    }
-
-    @Override
-    public Tile getTile() {
-        return tile;
-    }
-
-    private void setTile(Tile tile) {
-        this.tile = Objects.requireNonNull(tile);
-    }
+    @Override public Tile getTile() { return tile; }
+    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 }

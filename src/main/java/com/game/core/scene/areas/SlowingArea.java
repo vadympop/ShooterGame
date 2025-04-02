@@ -24,12 +24,6 @@ public class SlowingArea extends GameObject implements Area  {
         return getBounds().contains(player.getBounds(), this, player);
     }
 
-    @Override
-    public Bounds getBounds() {
-        return bounds;
-    }
-
-    private void setBounds(Bounds bounds) {
-        this.bounds = bounds;
-    }
+    @Override public Bounds getBounds() { return bounds; }
+    private void setBounds(Bounds bounds) { this.bounds = bounds; }
 }

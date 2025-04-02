@@ -7,14 +7,10 @@ public abstract class GameObject implements Positionable {
     private float y = 0;
 
     @Override
-    public float getX() {
-        return this.x;
-    }
+    public float getX() { return this.x; }
 
     @Override
-    public float getY() {
-        return this.y;
-    }
+    public float getY() { return this.y; }
 
     @Override
     public void setPos(float x, float y) {

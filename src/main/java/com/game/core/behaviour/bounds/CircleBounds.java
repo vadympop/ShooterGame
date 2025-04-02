@@ -45,11 +45,6 @@ public class CircleBounds implements Bounds {
         return false;
     }
 
-    public float getRadius() {
-        return this.radius;
-    }
-
-    private void setRadius(float radius) {
-        this.radius = radius;
-    }
+    public float getRadius() { return this.radius; }
+    private void setRadius(float radius) { this.radius = radius; }
 }

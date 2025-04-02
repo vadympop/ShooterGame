@@ -56,10 +56,6 @@ public class Player extends Entity {
         List<Bullet> bullets = getShootingStrategy().shoot(this);
     }
 
-    public void changeRotationDirection() {
-        rotationDirection *= -1;
-    }
-
     public boolean applyEffect(Effect effect) {
         if (getActiveEffect() != null || getActiveEffect() instanceof NoEffect) return false;
 
@@ -91,10 +87,7 @@ public class Player extends Entity {
         timers.add(new Timer<>(5f, (x) -> x.setHasShield(false)));
     }
 
-    @Override
-    public void onCollision(CollisionVisitor visitor, Collidable other) {
-        visitor.visit(this, other);
-    }
+    public void changeRotationDirection() { rotationDirection *= -1; }
 
     @Override
     public void update(double deltaTime) {
@@ -103,111 +96,47 @@ public class Player extends Entity {
         }
     }
 
-    public int getHealth() {
-        return this.health;
-    }
+    @Override
+    public void onCollision(CollisionVisitor visitor, Collidable other) { visitor.visit(this, other); }
 
-    private void setHealth(int health) {
-        this.health = health;
-    }
+    public int getHealth() { return this.health; }
+    private void setHealth(int health) { this.health = health; }
 
-    public Effect getActiveEffect() {
-        return this.activeEffect;
-    }
+    public Effect getActiveEffect() { return this.activeEffect; }
+    private void setActiveEffect(Effect effect) { activeEffect = effect; }
 
-    private void setActiveEffect(Effect effect) {
-        activeEffect = effect;
-    }
+    public int getBulletsCount() { return this.bulletsCount; }
+    private void setBulletsCount(int bulletsCount) { this.bulletsCount = bulletsCount; }
 
-    public int getBulletsCount() {
-        return this.bulletsCount;
-    }
+    public boolean isDead() { return this.isDead; }
+    private void setDead(boolean dead) { this.isDead = dead; }
 
-    private void setBulletsCount(int bulletsCount) {
-        this.bulletsCount = bulletsCount;
-    }
+    public int getRotationDirection() { return this.rotationDirection; }
 
-    public boolean isDead() {
-        return this.isDead;
-    }
+    public float getBulletsReloadDelay() { return this.bulletsReloadDelay; }
+    public void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
 
-    private void setDead(boolean dead) {
-        this.isDead = dead;
-    }
+    public float getRotationAngle() { return this.rotationAngle; }
+    private void setRotationAngle(float rotationAngle) { this.rotationAngle = rotationAngle; }
 
-    public int getRotationDirection() {
-        return this.rotationDirection;
-    }
+    public ShootingStrategy getShootingStrategy() { return this.shootingStrategy; }
+    public void setShootingStrategy(ShootingStrategy shootingStrategy) { this.shootingStrategy = shootingStrategy; }
 
-    public float getBulletsReloadDelay() {
-        return this.bulletsReloadDelay;
-    }
+    public int getBulletDamage() { return bulletDamage; }
+    public void setBulletDamage(int bulletDamage) { this.bulletDamage = bulletDamage; }
 
-    public void setBulletsReloadDelay(float bulletsReloadDelay) {
-        this.bulletsReloadDelay = bulletsReloadDelay;
-    }
+    public float getDefaultSpeed() { return defaultSpeed; }
+    private void setDefaultSpeed(float defaultSpeed) { this.defaultSpeed = defaultSpeed; }
 
-    public float getRotationAngle() {
-        return this.rotationAngle;
-    }
+    public int getMaxHealth() { return maxHealth; }
+    private void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
 
-    private void setRotationAngle(float rotationAngle) {
-        this.rotationAngle = rotationAngle;
-    }
+    public boolean isHasShield() { return hasShield; }
+    public void setHasShield(boolean hasShield) { this.hasShield = hasShield; }
 
-    public ShootingStrategy getShootingStrategy() {
-        return this.shootingStrategy;
-    }
+    public int getMaxBulletsCount() { return maxBulletsCount; }
+    private void setMaxBulletsCount(int maxBulletsCount) { this.maxBulletsCount = maxBulletsCount; }
 
-    public void setShootingStrategy(ShootingStrategy shootingStrategy) {
-        this.shootingStrategy = shootingStrategy;
-    }
-
-    public int getBulletDamage() {
-        return bulletDamage;
-    }
-
-    public void setBulletDamage(int bulletDamage) {
-        this.bulletDamage = bulletDamage;
-    }
-
-    public float getDefaultSpeed() {
-        return defaultSpeed;
-    }
-
-    private void setDefaultSpeed(float defaultSpeed) {
-        this.defaultSpeed = defaultSpeed;
-    }
-
-    public int getMaxHealth() {
-        return maxHealth;
-    }
-
-    private void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
-    }
-
-    public boolean isHasShield() {
-        return hasShield;
-    }
-
-    public void setHasShield(boolean hasShield) {
-        this.hasShield = hasShield;
-    }
-
-    public int getMaxBulletsCount() {
-        return maxBulletsCount;
-    }
-
-    private void setMaxBulletsCount(int maxBulletsCount) {
-        this.maxBulletsCount = maxBulletsCount;
-    }
-
-    public Tile getBulletTile() {
-        return bulletTile;
-    }
-
-    private void setBulletTile(Tile bulletTile) {
-        this.bulletTile = Objects.requireNonNull(bulletTile);
-    }
+    public Tile getBulletTile() { return bulletTile; }
+    private void setBulletTile(Tile bulletTile) { this.bulletTile = Objects.requireNonNull(bulletTile); }
 }

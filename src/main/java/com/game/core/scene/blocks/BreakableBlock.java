@@ -13,18 +13,14 @@ public class BreakableBlock extends Entity implements Block {
     }
 
     @Override
-    public void onCollision(CollisionVisitor visitor, Collidable other) {
-        visitor.visit(this, other);
-    }
+    public void onCollision(CollisionVisitor visitor, Collidable other) { visitor.visit(this, other); }
 
     @Override
     public void update(double deltaTime) {
 
     }
 
-    public float getDurability() {
-        return this.durability;
-    }
+    public float getDurability() { return this.durability; }
 
     public void takeDamage(int damage) {
         durability -= damage;

@@ -38,35 +38,16 @@ public class Timer<T> {
         }
     }
 
-    public double getTimeLeft() {
-        return timeLeft;
-    }
+    public double getTimeLeft() { return timeLeft; }
 
-    public void setTimeLeft(double timeLeft) {
-        this.timeLeft = timeLeft;
-    }
+    public void setTimeLeft(double timeLeft) { this.timeLeft = timeLeft; }
 
-    public Consumer<T> getFunc() {
-        return func;
-    }
+    public Consumer<T> getFunc() { return func; }
+    private void setFunc(Consumer<T> func) { this.func = func; }
 
-    private void setFunc(Consumer<T> func) {
-        this.func = func;
-    }
+    public double getBaseTime() { return baseTime; }
+    private void setBaseTime(double baseTime) { this.baseTime = baseTime; }
 
-    public double getBaseTime() {
-        return baseTime;
-    }
-
-    private void setBaseTime(double baseTime) {
-        this.baseTime = baseTime;
-    }
-
-    public boolean isRepetitive() {
-        return this.isRepetitive;
-    }
-
-    private void setRepetitive(boolean repetitive) {
-        isRepetitive = repetitive;
-    }
+    public boolean isRepetitive() { return this.isRepetitive; }
+    private void setRepetitive(boolean repetitive) { isRepetitive = repetitive; }
 }

@@ -15,9 +15,7 @@ public class Bonus extends Entity {
         this.effect = effect;
     }
 
-    public Effect getEffect() {
-        return this.effect;
-    }
+    public Effect getEffect() { return this.effect; }
 
     public void applyEffect(Player player) {
         boolean isApplied = player.applyEffect(this.getEffect());
@@ -25,12 +23,10 @@ public class Bonus extends Entity {
     }
 
     @Override
-    public void onCollision(CollisionVisitor visitor, Collidable other) {
-        visitor.visit(this, other);
-    }
-
-    @Override
     public void update(double deltaTime) {
 
     }
+
+    @Override
+    public void onCollision(CollisionVisitor visitor, Collidable other) { visitor.visit(this, other); }
 }

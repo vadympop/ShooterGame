@@ -38,33 +38,20 @@ public class Bullet extends Entity {
         getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
     }
 
-    public Player getOwner() {
-        return this.owner;
-    }
-
-    public int getDamage() {
-        return this.damage;
-    }
-
-    public float getTimeToDestroy() {
-        return this.timeToDestroy;
-    }
-
-    public float getRotationAngle() {
-        return this.rotationAngle;
-    }
-
-    public Timer<Bullet> getDestroyTimer() {
-        return destroyTimer;
-    }
-
-    private void setDestroyTimer(Timer<Bullet> timer) {
-        destroyTimer = timer;
-    }
-
     private void createDestroyTimer() {
         setDestroyTimer(new Timer<>(getTimeToDestroy(), (x) -> x.setState(false)));
     }
+
+    public Player getOwner() { return this.owner; }
+
+    public int getDamage() { return this.damage; }
+
+    public float getTimeToDestroy() { return this.timeToDestroy; }
+
+    public float getRotationAngle() { return this.rotationAngle; }
+
+    public Timer<Bullet> getDestroyTimer() { return destroyTimer; }
+    private void setDestroyTimer(Timer<Bullet> timer) { destroyTimer = timer; }
 
     public static class builder {
         private Player owner;

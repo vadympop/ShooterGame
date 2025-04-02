@@ -59,27 +59,12 @@ public class Scene {
         this.entities.add(obj);
     }
 
-    public void addArea(Area area) {
-        this.areas.add(area);
-    }
+    public void addArea(Area area) { this.areas.add(area); }
+    public void addTile(SceneTile tile) { this.tiles.add(tile); }
 
-    public void addTile(SceneTile tile) {
-        this.tiles.add(tile);
-    }
+    public String getSceneId() { return sceneId; }
+    private void setSceneId(String sceneId) { this.sceneId = sceneId; }
 
-    public String getSceneId() {
-        return sceneId;
-    }
-
-    private void setSceneId(String sceneId) {
-        this.sceneId = sceneId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    private void setName(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
+    private void setName(String name) { this.name = name; }
 }

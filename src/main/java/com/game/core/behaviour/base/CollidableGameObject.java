@@ -7,15 +7,6 @@ import com.game.core.behaviour.bounds.Bounds;
 public abstract class CollidableGameObject extends GameObject implements Positionable, Collidable {
     private Bounds bounds;
 
-    @Override
-    public Bounds getBounds() {
-        return this.bounds;
-    }
-
-    protected void setBounds(Bounds bounds) {
-        this.bounds = bounds;
-    }
-
     public boolean contains(CollidableGameObject obj) {
         return this.getBounds().contains(obj.getBounds(), this, obj);
     }
@@ -23,4 +14,7 @@ public abstract class CollidableGameObject extends GameObject implements Positio
     public boolean intersects(CollidableGameObject obj) {
         return this.getBounds().intersects(obj.getBounds(), this, obj);
     }
+
+    @Override public Bounds getBounds() { return bounds; }
+    private void setBounds(Bounds bounds) { this.bounds = bounds; }
 }

@@ -48,35 +48,15 @@ public class Tile {
         );
     }
 
-    public Image getSprite() {
-        return sprite;
-    }
+    public Image getSprite() { return sprite; }
+    private void setSprite(Image sprite) { this.sprite = sprite; }
 
-    private void setSprite(Image sprite) {
-        this.sprite = sprite;
-    }
+    public TileType getType() { return type; }
+    private void setType(TileType type) { this.type = type; }
 
-    public TileType getType() {
-        return type;
-    }
+    public float getScale() { return scale; }
+    private void setScale(float scale) { this.scale = scale; }
 
-    private void setType(TileType type) {
-        this.type = type;
-    }
-
-    public float getScale() {
-        return scale;
-    }
-
-    private void setScale(float scale) {
-        this.scale = scale;
-    }
-
-    public RectangleBounds getSize() {
-        return size;
-    }
-
-    private void setSize(RectangleBounds size) {
-        this.size = size;
-    }
+    public RectangleBounds getSize() { return size; }
+    private void setSize(RectangleBounds size) { this.size = size; }
 }

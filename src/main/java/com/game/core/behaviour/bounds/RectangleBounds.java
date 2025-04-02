@@ -56,19 +56,9 @@ public class RectangleBounds implements Bounds {
         return false;
     }
 
-    public float getHeight() {
-        return this.height;
-    }
+    public float getHeight() { return this.height; }
+    private void setHeight(float height) { this.height = height; }
 
-    private void setHeight(float height) {
-        this.height = height;
-    }
-
-    public float getWidth() {
-        return this.width;
-    }
-
-    private void setWidth(float width) {
-        this.width = width;
-    }
+    public float getWidth() { return this.width; }
+    private void setWidth(float width) { this.width = width; }
 }

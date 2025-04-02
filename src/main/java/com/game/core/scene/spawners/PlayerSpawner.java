@@ -28,12 +28,6 @@ public class PlayerSpawner extends GameObject implements Spawner {
 
     }
 
-    @Override
-    public Tile getTile() {
-        return tile;
-    }
-
-    private void setTile(Tile tile) {
-        this.tile = Objects.requireNonNull(tile);
-    }
+    @Override public Tile getTile() { return tile; }
+    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 }

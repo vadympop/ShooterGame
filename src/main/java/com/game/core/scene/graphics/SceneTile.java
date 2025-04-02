@@ -20,11 +20,6 @@ public class SceneTile extends GameObject implements Renderable {
     }
 
     @Override
-    public Tile getTile() {
-        return tile;
-    }
-
-    private void setTile(Tile tile) {
-        this.tile = Objects.requireNonNull(tile);
-    }
+    public Tile getTile() { return tile; }
+    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 }
