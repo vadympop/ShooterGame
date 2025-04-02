@@ -27,6 +27,7 @@ public class Player extends Entity {
     private boolean isDead = false;
     private float defaultSpeed = 4f;
 
+    private float rotationSpeed = 2f;
     private int rotationDirection = 1;
 
     private final List<Timer<Player>> timers = new ArrayList<>();
@@ -86,6 +87,10 @@ public class Player extends Entity {
 
     @Override
     public void update(double deltaTime) {
+        setRotationAngle(
+                (getRotationAngle() + (getRotationSpeed() * getRotationDirection())) % 360
+        );
+
         for (Timer<Player> t: timers) {
             t.update(deltaTime, this, () -> timers.remove(t));
         }
@@ -131,4 +136,7 @@ public class Player extends Entity {
 
     public Tile getBulletTile() { return bulletTile; }
     private void setBulletTile(Tile bulletTile) { this.bulletTile = Objects.requireNonNull(bulletTile); }
+
+    public float getRotationSpeed() { return rotationSpeed; }
+    private void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
 }

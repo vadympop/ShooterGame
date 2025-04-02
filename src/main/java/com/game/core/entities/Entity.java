@@ -19,9 +19,9 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     }
 
     protected void move() {
-        float rad = (float) Math.toRadians(getRotationAngle());
-        float dx = (float) Math.cos(rad);
-        float dy = (float) Math.sin(rad);
+        float angleInRads = (float) Math.toRadians(getRotationAngle());
+        float dx = (float) Math.cos(angleInRads);
+        float dy = (float) Math.sin(angleInRads);
         float newX = getX() + getSpeed() * dx;
         float newY = getY() + getSpeed() * dy;
         setPos(newX, newY);
