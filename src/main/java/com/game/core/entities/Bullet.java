@@ -57,9 +57,10 @@ public class Bullet extends Entity {
 
         public builder owner(Player owner) {
             this.owner = owner;
-            this.damage = owner.getBulletDamage();
-            this.tile = owner.getBulletTile();
-            this.rotationAngle = owner.getRotationAngle();
+            damage(owner.getBulletDamage())
+                    .tile(owner.getBulletTile())
+                    .rotationAngle(owner.getRotationAngle())
+                    .pos(owner.getX(), owner.getY());
             return this;
         }
 
