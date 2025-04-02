@@ -1,6 +1,9 @@
 {
   "id": "001",
   "name": "Scene 1",
+  "scale": 3,
+  "tileWidth": 32,
+  "tileHeight": 32,
   "areas": [
     {
       "type": "KillableArea",
