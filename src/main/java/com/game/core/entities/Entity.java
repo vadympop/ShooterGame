@@ -17,37 +17,22 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         setTile(tile);
     }
 
-    public void render(GraphicsContext gc) {
-        if (getState()) draw(gc);
-    }
-
-    public void setState(boolean active) {
-        this.isActive = active;
-    }
-
-    public boolean getState() {
-        return this.isActive;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
     @Override
     public void draw(GraphicsContext gc) {
+        if (getState()) render(gc);
+    }
+
+    public void render(GraphicsContext gc) {
         getTile().draw(gc, getX(), getY());
     }
 
     @Override
-    public Tile getTile() {
-        return tile;
-    }
+    public Tile getTile() { return tile; }
+    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 
-    private void setTile(Tile tile) {
-        this.tile = Objects.requireNonNull(tile);
-    }
+    public void setState(boolean active) { this.isActive = active; }
+    public boolean getState() { return this.isActive; }
+
+    public float getSpeed() { return speed; }
+    public void setSpeed(float speed) { this.speed = speed; }
 }
