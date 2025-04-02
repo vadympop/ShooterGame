@@ -8,7 +8,6 @@ import com.game.core.utils.Timer;
 public class Bullet extends Entity {
     private final Player owner;
     private final int damage;
-    private final float rotationAngle;
     private final float timeToDestroy = 5f;
     private Timer<Bullet> destroyTimer;
 
@@ -17,15 +16,11 @@ public class Bullet extends Entity {
 
         this.owner = owner;
         this.damage = damage;
-        this.rotationAngle = rotationAngle;
 
+        setRotationAngle(rotationAngle);
         setSpeed(speed);
         setPos(x, y);
         createDestroyTimer();
-    }
-
-    public void move() {
-
     }
 
     @Override
@@ -35,6 +30,7 @@ public class Bullet extends Entity {
 
     @Override
     public void update(double deltaTime) {
+        move();
         getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
     }
 
@@ -48,8 +44,6 @@ public class Bullet extends Entity {
 
     public float getTimeToDestroy() { return this.timeToDestroy; }
 
-    public float getRotationAngle() { return this.rotationAngle; }
-
     public Timer<Bullet> getDestroyTimer() { return destroyTimer; }
     private void setDestroyTimer(Timer<Bullet> timer) { destroyTimer = timer; }
 
@@ -61,11 +55,11 @@ public class Bullet extends Entity {
         private float rotationAngle;
         private Tile tile;
 
-
         public builder owner(Player owner) {
             this.owner = owner;
             this.damage = owner.getBulletDamage();
             this.tile = owner.getBulletTile();
+            this.rotationAngle = owner.getRotationAngle();
             return this;
         }
 

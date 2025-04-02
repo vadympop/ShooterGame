@@ -28,7 +28,6 @@ public class Player extends Entity {
     private float defaultSpeed = 4f;
 
     private int rotationDirection = 1;
-    private float rotationAngle = 0f;
 
     private final List<Timer<Player>> timers = new ArrayList<>();
     private Effect activeEffect;
@@ -45,10 +44,6 @@ public class Player extends Entity {
 
             x.setBulletsCount(x.getBulletsCount() + 1);
         }, true));
-    }
-
-    public void move() {
-
     }
 
     public void shoot() {
@@ -115,9 +110,6 @@ public class Player extends Entity {
 
     public float getBulletsReloadDelay() { return this.bulletsReloadDelay; }
     public void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
-
-    public float getRotationAngle() { return this.rotationAngle; }
-    private void setRotationAngle(float rotationAngle) { this.rotationAngle = rotationAngle; }
 
     public ShootingStrategy getShootingStrategy() { return this.shootingStrategy; }
     public void setShootingStrategy(ShootingStrategy shootingStrategy) { this.shootingStrategy = shootingStrategy; }

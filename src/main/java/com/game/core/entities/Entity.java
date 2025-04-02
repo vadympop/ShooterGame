@@ -12,9 +12,19 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     private boolean isActive;
     private float speed;
     private Tile tile;
+    private float rotationAngle = 0f; // 0 angle is right
 
     public Entity(Tile tile) {
         setTile(tile);
+    }
+
+    protected void move() {
+        float rad = (float) Math.toRadians(getRotationAngle());
+        float dx = (float) Math.cos(rad);
+        float dy = (float) Math.sin(rad);
+        float newX = getX() + getSpeed() * dx;
+        float newY = getY() + getSpeed() * dy;
+        setPos(newX, newY);
     }
 
     @Override
@@ -26,8 +36,7 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         getTile().draw(gc, getX(), getY());
     }
 
-    @Override
-    public Tile getTile() { return tile; }
+    @Override public Tile getTile() { return tile; }
     private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 
     public void setState(boolean active) { this.isActive = active; }
@@ -35,4 +44,7 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
 
     public float getSpeed() { return speed; }
     public void setSpeed(float speed) { this.speed = speed; }
+
+    public float getRotationAngle() { return this.rotationAngle; }
+    protected void setRotationAngle(float rotationAngle) { this.rotationAngle = rotationAngle; }
 }
