@@ -1,4 +1,4 @@
-package com.game.core.controllers;
+package com.game.core.managers;
 
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.entities.Bullet;

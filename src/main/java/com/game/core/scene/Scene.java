@@ -2,6 +2,7 @@ package com.game.core.scene;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.entities.Entity;
+import com.game.core.managers.CollisionManager;
 import com.game.core.scene.areas.Area;
 import com.game.core.scene.blocks.Block;
 import com.game.core.scene.graphics.SceneTile;
@@ -20,6 +21,7 @@ public class Scene {
     private final List<Spawner> spawners = new ArrayList<>();
     private final List<SceneTile> tiles = new ArrayList<>();
     private final List<Block> blocks = new ArrayList<>();
+    private final CollisionManager collisionManager = new CollisionManager();
     private String sceneId;
     private String name;
 
@@ -44,6 +46,8 @@ public class Scene {
 
     public void update(double deltaTime) {
         entities.forEach(x -> x.update(deltaTime));
+
+        collisionManager.checkCollisions(this);
     }
 
     public void addCollidableGameObject(CollidableGameObject obj) {
@@ -59,6 +63,7 @@ public class Scene {
         this.entities.add(obj);
     }
 
+    public void addSpawner(Spawner spawner) { this.spawners.add(spawner); }
     public void addArea(Area area) { this.areas.add(area); }
     public void addTile(SceneTile tile) { this.tiles.add(tile); }
 

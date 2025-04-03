@@ -22,7 +22,7 @@ public class Tile {
     }
 
     public Tile(String sourceTexture, TileType type, float scale, RectangleBounds size) {
-        setSprite(new Image(String.valueOf(getClass().getResource(sourceTexture))));
+        setSprite(new Image(String.valueOf(getClass().getResource("textures/" + sourceTexture))));
         setType(type);
         setScale(scale);
 

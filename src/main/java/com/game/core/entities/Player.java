@@ -4,8 +4,9 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
-import com.game.core.controllers.CollisionVisitor;
+import com.game.core.managers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
+import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.strategies.ShootingStrategy;
 import com.game.core.utils.Timer;
 
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 
 public class Player extends Entity {
+    private PlayerSpawner spawner;
     private int maxHealth = 3;
     private int health = maxHealth;
 
@@ -35,9 +37,10 @@ public class Player extends Entity {
     private boolean hasShield = false;
     private ShootingStrategy shootingStrategy;
 
-    public Player(Tile tile, Tile bulletTile) {
+    public Player(PlayerSpawner spawner, Tile tile, Tile bulletTile) {
         super(tile);
 
+        setSpawner(spawner);
         setBulletTile(bulletTile);
         setBounds(new CircleBounds(20));
         timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
@@ -70,17 +73,17 @@ public class Player extends Entity {
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
             setDead(true);
-            timers.add(new Timer<>(5f, Player::respawn));
+            timers.add(new Timer<>(5f, (p) -> p.getSpawner().spawn()));
         }
     }
 
-    public void respawn() {
+    public void respawn(float x, float y) {
+        setPos(x, y);
         setHealth(getMaxHealth());
         setDead(false);
-        // setPos
         setHasShield(true);
 
-        timers.add(new Timer<>(5f, (x) -> x.setHasShield(false)));
+        timers.add(new Timer<>(5f, p -> p.setHasShield(false)));
     }
 
     public void changeRotationDirection() { rotationDirection *= -1; }
@@ -139,4 +142,7 @@ public class Player extends Entity {
 
     public float getRotationSpeed() { return rotationSpeed; }
     private void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
+
+    private PlayerSpawner getSpawner() { return spawner; }
+    private void setSpawner(PlayerSpawner spawner) { this.spawner = spawner; }
 }

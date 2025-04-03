@@ -1,11 +1,11 @@
-package com.game.core.controllers;
+package com.game.core.managers;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.scene.Scene;
 
 import java.util.List;
 
-public class CollisionController {
+public class CollisionManager {
     private final CollisionVisitor collisionHandler = new CollisionHandler();
 
     public void checkCollisions(Scene scene) {

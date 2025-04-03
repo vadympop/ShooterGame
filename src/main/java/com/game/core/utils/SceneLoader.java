@@ -1,11 +1,11 @@
-package com.game.core.scene;
+package com.game.core.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.game.core.scene.Scene;
 import com.game.core.scene.blocks.SolidBlock;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.graphics.TileType;
-import com.game.core.utils.QuatroConsumer;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,6 +83,7 @@ public class SceneLoader {
         private List<String> blocks;
         private List<String> overlayTiles;
         private Mappings mappings;
+        private Player player;
 
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
@@ -116,6 +117,13 @@ public class SceneLoader {
 
         public float getTileHeight() { return tileHeight; }
         public void setTileHeight(float tileHeight) { this.tileHeight = tileHeight; }
+    }
+
+    public static class Player {
+        private String texture;
+
+        public String getTexture() { return texture; }
+        public void setTexture(String texture) { this.texture = texture; }
     }
 
     public static class Area {

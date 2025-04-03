@@ -4,25 +4,28 @@
   "scale": 3,
   "tileWidth": 32,
   "tileHeight": 32,
+  "player": {
+    "texture": "player.png"
+  },
   "areas": [
     {
       "type": "KillableArea",
-      "col": "",
-      "row": "",
+      "col": "33",
+      "row": "17",
       "bounds": {
         "type": "Rectangle",
-        "width": "",
-        "height": ""
+        "width": "200",
+        "height": "200"
       }
     },
     {
       "type": "SlowingArea",
-      "col": "",
-      "row": "",
+      "col": "8",
+      "row": "6",
       "bounds": {
         "type": "Rectangle",
-        "width": "",
-        "height": ""
+        "width": "200",
+        "height": "200"
       }
     }
   ],
@@ -124,15 +127,15 @@
   ],
   "mappings": {
     "tiles": {
-      "0": "",
-      "z": ""
+      "0": "tile_0.png",
+      "z": "overlay_tile_z.png"
     },
     "blocks": {
-      "0": "",
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": ""
+      "0": "block_0.png",
+      "1": "block_1.png",
+      "2": "block_2.png",
+      "3": "block_3.png",
+      "4": "block_4.png"
     }
   }
 }
