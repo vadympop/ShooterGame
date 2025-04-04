@@ -114,9 +114,12 @@ public class Player extends Entity {
                 (getRotationAngle() + (getRotationSpeed() * getRotationDirection())) % 360
         );
 
+        List<Timer<Player>> toRemove = new ArrayList<>();
         for (Timer<Player> t: timers) {
-            t.update(deltaTime, this, () -> timers.remove(t));
+            t.update(deltaTime, this, () -> toRemove.add(t));
         }
+
+        timers.removeAll(toRemove);
     }
 
     @Override
