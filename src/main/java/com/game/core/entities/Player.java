@@ -8,6 +8,7 @@ import com.game.core.managers.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.strategies.ShootingStrategy;
+import com.game.core.strategies.SingleShootStrategy;
 import com.game.core.utils.Timer;
 
 import java.util.ArrayList;
@@ -17,32 +18,51 @@ import java.util.Objects;
 
 public class Player extends Entity {
     private PlayerSpawner spawner;
-    private int maxHealth = 3;
-    private int health = maxHealth;
+    private int maxHealth;
+    private int health;
 
-    private int maxBulletsCount = 5;
-    private int bulletsCount = maxBulletsCount;
-    private int bulletDamage = 1;
-    private float bulletsReloadDelay = 1;
+    private int maxBulletsCount;
+    private int bulletsCount;
+    private int bulletDamage;
+    private float bulletsReloadDelay;
     private Tile bulletTile;
 
     private boolean isDead = false;
-    private float defaultSpeed = 4f;
+    private float defaultSpeed;
 
-    private float rotationSpeed = 2f;
+    private float rotationSpeed;
     private int rotationDirection = 1;
 
     private final List<Timer<Player>> timers = new ArrayList<>();
     private Effect activeEffect;
     private boolean hasShield = false;
-    private ShootingStrategy shootingStrategy;
+    private ShootingStrategy shootingStrategy = new SingleShootStrategy();
 
-    public Player(PlayerSpawner spawner, Tile tile, Tile bulletTile) {
+    public Player(
+            PlayerSpawner spawner,
+            Tile tile,
+            Tile bulletTile,
+            float boundsRadius,
+            int maxHealth,
+            int maxBulletsCount,
+            int bulletDamage,
+            float bulletsReloadDelay,
+            float defaultSpeed,
+            float rotationSpeed
+    ) {
         super(tile);
 
+        setMaxHealth(maxHealth);
+        setHealth(getMaxHealth());
+        setMaxBulletsCount(maxBulletsCount);
+        setBulletsCount(getMaxBulletsCount());
+        setBulletDamage(bulletDamage);
+        setBulletsReloadDelay(bulletsReloadDelay);
+        setDefaultSpeed(defaultSpeed);
+        setRotationSpeed(rotationSpeed);
         setSpawner(spawner);
         setBulletTile(bulletTile);
-        setBounds(new CircleBounds(20));
+        setBounds(new CircleBounds(boundsRadius));
         timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 
