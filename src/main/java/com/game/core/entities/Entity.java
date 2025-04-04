@@ -9,7 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.Objects;
 
 public abstract class Entity extends CollidableGameObject implements Renderable, Updatable {
-    private boolean isActive;
+    private boolean isActive = true;
     private float speed;
     private Tile tile;
     private float rotationAngle = 0f; // 0 angle is right
@@ -33,7 +33,11 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     }
 
     public void render(GraphicsContext gc) {
-        getTile().draw(gc, getX(), getY());
+        gc.save();
+        gc.translate(getX(), getY());
+        gc.rotate(getRotationAngle());
+        getTile().draw(gc, 0, 0);
+        gc.restore();
     }
 
     @Override public Tile getTile() { return tile; }
