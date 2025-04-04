@@ -1,7 +1,9 @@
 package com.game.gui;
 
-public class GUIStarter {
-    public static void main(String[] args) {
+import com.game.gui.views.game.GameView;
 
+public class GUIStarter {
+    public static void main(final String[] args) {
+        GameView.main(args);
     }
 }
