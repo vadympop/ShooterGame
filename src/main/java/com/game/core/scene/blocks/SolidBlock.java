@@ -21,9 +21,7 @@ public class SolidBlock extends CollidableGameObject implements Block {
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
-        getTile().draw(gc, getX(), getY());
-    }
+    public void draw(GraphicsContext gc) { getTile().draw(gc, getX(), getY()); }
 
     @Override public Tile getTile() { return tile; }
     private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }

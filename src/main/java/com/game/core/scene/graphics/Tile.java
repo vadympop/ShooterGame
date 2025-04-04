@@ -4,6 +4,8 @@ import com.game.core.behaviour.bounds.RectangleBounds;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Objects;
 
 
@@ -22,7 +24,13 @@ public class Tile {
     }
 
     public Tile(String sourceTexture, TileType type, float scale, RectangleBounds size) {
-        setSprite(new Image(String.valueOf(getClass().getResource("textures/" + sourceTexture))));
+        URL tileURL = getClass().getResource("/textures/" + sourceTexture);
+        try {
+            setSprite(new Image(String.valueOf(tileURL.toURI())));
+        } catch (URISyntaxException | NullPointerException e) {
+            System.out.println(sourceTexture);
+        }
+
         setType(type);
         setScale(scale);
 
@@ -34,7 +42,6 @@ public class Tile {
                 )
         ));
     }
-
 
     public void draw(GraphicsContext gc, float x, float y) {
         double displayX = x - (getSprite().getWidth() / 2);
