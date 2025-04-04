@@ -1,14 +1,14 @@
 package com.game.core.managers;
 
 import com.game.core.behaviour.base.CollidableGameObject;
-import com.game.core.scene.Scene;
+import com.game.gui.views.game.GameScene;
 
 import java.util.List;
 
 public class CollisionManager {
     private final CollisionVisitor collisionHandler = new CollisionHandler();
 
-    public void checkCollisions(Scene scene) {
+    public void checkCollisions(GameScene scene) {
         List<CollidableGameObject> objs = scene.getCollidableGameObjects();
 
         for (int i = 0; i < objs.size(); i++) {

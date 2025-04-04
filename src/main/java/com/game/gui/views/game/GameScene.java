@@ -1,4 +1,4 @@
-package com.game.core.scene;
+package com.game.gui.views.game;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.entities.Entity;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Scene {
+public class GameScene {
     private final List<CollidableGameObject> collidableGameObjects = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<Area> areas = new ArrayList<>();
@@ -25,7 +25,7 @@ public class Scene {
     private String sceneId;
     private String name;
 
-    public Scene(String sceneId, String name) {
+    public GameScene(String sceneId, String name) {
         setSceneId(sceneId);
         setName(name);
     }
@@ -34,6 +34,10 @@ public class Scene {
         tiles.stream()
                 .filter(tile -> tile.getTile().getType() == type)
                 .forEach(tile -> tile.draw(gc));
+    }
+
+    public void start() {
+        spawners.forEach(Spawner::spawn);
     }
 
     public void render(GraphicsContext gc) {
@@ -56,6 +60,10 @@ public class Scene {
 
     public List<CollidableGameObject> getCollidableGameObjects() {
         return collidableGameObjects;
+    }
+
+    public void addBlock(Block block) {
+        this.blocks.add(block);
     }
 
     public void addEntity(Entity obj) {
