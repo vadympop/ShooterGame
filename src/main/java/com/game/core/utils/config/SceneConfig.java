@@ -165,17 +165,35 @@ public class SceneConfig {
     }
 
     public static class MappingsConfig {
-        private Map<String, String> tiles;
+        private Map<String, MappingTileConfig> tiles;
         private Map<String, String> spawners;
-        private Map<String, String> blocks;
+        private Map<String, MappingBlockConfig> blocks;
 
-        public Map<String, String> getTiles() { return tiles; }
-        public void setTiles(Map<String, String> tiles) { this.tiles = tiles; }
+        public Map<String, MappingTileConfig> getTiles() { return tiles; }
+        public void setTiles(Map<String, MappingTileConfig> tiles) { this.tiles = tiles; }
 
         public Map<String, String> getSpawners() { return spawners; }
         public void setSpawners(Map<String, String> spawners) { this.spawners = spawners; }
 
-        public Map<String, String> getBlocks() { return blocks; }
-        public void setBlocks(Map<String, String> blocks) { this.blocks = blocks; }
+        public Map<String, MappingBlockConfig> getBlocks() { return blocks; }
+        public void setBlocks(Map<String, MappingBlockConfig> blocks) { this.blocks = blocks; }
+    }
+
+    public static class MappingTileConfig {
+        private String texture;
+        private boolean defaultSize;
+
+        public String getTexture() { return texture; }
+        public void setTexture(String texture) { this.texture = texture; }
+
+        public boolean isDefaultSize() { return defaultSize; }
+        public void setDefaultSize(boolean defaultSize) { this.defaultSize = defaultSize; }
+    }
+
+    public static class MappingBlockConfig extends MappingTileConfig {
+        private boolean isBreakable;
+
+        public boolean isBreakable() { return isBreakable; }
+        public void setBreakable(boolean breakable) { isBreakable = breakable; }
     }
 }
