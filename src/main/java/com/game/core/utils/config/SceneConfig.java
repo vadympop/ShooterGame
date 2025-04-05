@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class SceneConfig {
     private String id;
-    private float scale;
     private float tileWidth;
     private float tileHeight;
     private String bonusTexture;
@@ -18,14 +17,6 @@ public class SceneConfig {
     private MappingsConfig mappings;
     private PlayerConfig player;
     private BulletConfig bullet;
-
-    public float getSceneWidth() {
-        return getBackgroundTiles().getFirst().length() * getTileWidth();
-    }
-
-    public float getSceneHeight() {
-        return getBackgroundTiles().size() * getTileHeight();
-    }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -50,9 +41,6 @@ public class SceneConfig {
 
     public MappingsConfig getMappings() { return mappings; }
     public void setMappings(MappingsConfig mappings) { this.mappings = mappings; }
-
-    public float getScale() { return scale; }
-    public void setScale(float scale) { this.scale = scale; }
 
     public float getTileWidth() { return tileWidth; }
     public void setTileWidth(float tileWidth) { this.tileWidth = tileWidth; }

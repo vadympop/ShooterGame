@@ -16,13 +16,17 @@ import java.util.Map;
 
 public class SceneLoader {
     private SceneConfig config;
+    private Scaler scaler;
 
-    public SceneLoader(SceneConfig config) {
+    public SceneLoader(SceneConfig config, Scaler scaler) {
         setConfig(config);
+        setScaler(scaler);
     }
 
     public GameScene loadScene() {
-        GameScene newScene = new GameScene(getConfig().getId(), config.getName());
+        SceneConfig config = getConfig();
+
+        GameScene newScene = new GameScene(config.getId(), config.getName());
         loadTiles(newScene, config.getBackgroundTiles(), TileType.BACKGROUND);
         loadTiles(newScene, config.getOverlayTiles(), TileType.OVERLAY);
         loadBlocks(newScene, config.getBlocks());
@@ -33,10 +37,10 @@ public class SceneLoader {
     }
 
     public float[] generatePos(int colsCount, int rowsCount) {
-        SceneConfig config = getConfig();
+        Scaler scaler = getScaler();
 
-        float xPos = colsCount * config.getTileWidth() * config.getScale() - (config.getTileWidth() / 2);
-        float yPos = rowsCount * config.getTileHeight() * config.getScale() - (config.getTileHeight() / 2);
+        float xPos = colsCount * scaler.getTileWidth() - (scaler.getTileWidth() / 2);
+        float yPos = rowsCount * scaler.getTileHeight() - (scaler.getTileHeight() / 2);
         return new float[]{xPos, yPos};
     }
 
@@ -50,10 +54,13 @@ public class SceneLoader {
         getConfig().getSpawners().forEach(x -> {
             Spawner spawner;
             if (x.getType() == 0) {
-                spawner = new PlayerSpawner(new Tile(x.getTexture(), getConfig().getScale()), new Tile(x.getPlayerTexture(), getConfig().getScale()));
+                spawner = new PlayerSpawner(
+                        new Tile(x.getTexture(), null),
+                        new Tile(x.getPlayerTexture(), null)
+                );
                 spawner.addEvent("onPlayerCreated", scene::addEntity);
             }
-            else if (x.getType() == 1) spawner = new BonusSpawner(new Tile(x.getTexture(), getConfig().getScale()), x.getCooldown());
+            else if (x.getType() == 1) spawner = new BonusSpawner(new Tile(x.getTexture(), null), x.getCooldown());
             else return;
 
             float[] pos = generatePos(x.getCol(), x.getRow());
@@ -97,7 +104,7 @@ public class SceneLoader {
                 Tile tile = new Tile(
                         texturesMapping.get(elementStr),
                         tileType,
-                        getConfig().getScale()
+                        null
                 );
                 float[] pos = generatePos(colsCount, rowsCount);
                 addFunction.accept(scene, tile, pos[0], pos[1]);
@@ -107,4 +114,7 @@ public class SceneLoader {
 
     public SceneConfig getConfig() { return config; }
     private void setConfig(SceneConfig config) { this.config = config; }
+
+    public Scaler getScaler() { return scaler; }
+    private void setScaler(Scaler scaler) { this.scaler = scaler; }
 }

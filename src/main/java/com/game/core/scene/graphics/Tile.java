@@ -1,6 +1,7 @@
 package com.game.core.scene.graphics;
 
 import com.game.core.behaviour.bounds.RectangleBounds;
+import com.game.core.utils.Scaler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -15,15 +16,15 @@ public class Tile {
     private float scale;
     private RectangleBounds size;
 
-    public Tile(String sourceTexture, float scale) {
+    public Tile(String sourceTexture, Float scale) {
         this(sourceTexture, TileType.OBJECT, scale);
     }
 
-    public Tile(String sourceTexture, TileType type, float scale) {
+    public Tile(String sourceTexture, TileType type, Float scale) {
         this(sourceTexture, type, scale, null);
     }
 
-    public Tile(String sourceTexture, TileType type, float scale, RectangleBounds size) {
+    public Tile(String sourceTexture, TileType type, Float scale, RectangleBounds size) {
         URL tileURL = getClass().getResource("/textures/" + sourceTexture);
         try {
             setSprite(new Image(String.valueOf(tileURL.toURI())));
@@ -31,27 +32,29 @@ public class Tile {
             System.out.println(sourceTexture);
         }
 
+        Scaler scaler = Scaler.getInstance();
+
         setType(type);
-        setScale(scale);
+        setScale(scale != null ? scale : scaler.getScale());
 
         setSize(Objects.requireNonNullElseGet(
                 size,
                 () -> new RectangleBounds(
-                        (float) getSprite().getWidth(),
-                        (float) getSprite().getHeight()
+                        (float) getSprite().getWidth() * getScale(),
+                        (float) getSprite().getHeight() * getScale()
                 )
         ));
     }
 
     public void draw(GraphicsContext gc, float x, float y) {
-        double displayX = x - (getSprite().getWidth() / 2);
-        double displayY = y - (getSprite().getHeight() / 2);
+        double displayX = x - (getSize().getWidth() / 2);
+        double displayY = y - (getSize().getHeight() / 2);
         gc.drawImage(
                 getSprite(),
                 displayX,
                 displayY,
-                getSize().getWidth() * getScale(),
-                getSize().getHeight() * getScale()
+                getSize().getWidth(),
+                getSize().getHeight()
         );
     }
 

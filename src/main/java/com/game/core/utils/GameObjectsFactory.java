@@ -12,7 +12,7 @@ import com.game.core.utils.config.SceneConfig;
 public class GameObjectsFactory {
     public static Player createPlayer(PlayerSpawner spawner) {
         SceneConfig config = ConfigLoader.getInstance().getConfig();
-        Tile bulletTile = new Tile(config.getBullet().getTexture(), 1);
+        Tile bulletTile = new Tile(config.getBullet().getTexture(), null);
         return new Player(
                 spawner,
                 spawner.getPlayerTile(),
@@ -29,7 +29,7 @@ public class GameObjectsFactory {
 
     public static Bonus createBonus(BonusType type) {
         SceneConfig config = ConfigLoader.getInstance().getConfig();
-        Tile tile = new Tile(config.getBonusTexture(), 1);
+        Tile tile = new Tile(config.getBonusTexture(), null);
         return switch (type) {
             case SHIELD -> new Bonus(new ShieldEffect(), tile);
             case SPEED_BOOST -> new Bonus(new SpeedBoostEffect(), tile);
