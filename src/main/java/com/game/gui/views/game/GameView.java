@@ -1,14 +1,18 @@
 package com.game.gui.views.game;
 
+import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.utils.Scaler;
 import com.game.core.utils.SceneLoader;
 import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -49,6 +53,28 @@ public class GameView extends Application {
 
         SceneLoader loader = new SceneLoader(config, scaler);
         gameScene = loader.loadScene();
+
+        String[] keys = {"W", "UP", "SPACE", "BACK_SPACE"};
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode() == KeyCode.W) {
+                    PlayerSpawner s = (PlayerSpawner) gameScene.spawners.getFirst();
+                    s.getPlayer().onKeyPressed();
+                }
+            }
+        });
+        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode() == KeyCode.W) {
+                    PlayerSpawner s = (PlayerSpawner) gameScene.spawners.getFirst();
+                    s.getPlayer().onKeyReleased();
+                }
+            }
+        });
+
+
         gameScene.start();
 
         startGameLoop();

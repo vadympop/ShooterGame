@@ -15,8 +15,8 @@
     "maxBulletsCount": 5,
     "bulletDamage": 1,
     "bulletsReloadDelay": 1.0,
-    "speed": 4.0,
-    "rotationSpeed": 2.0
+    "speed": 3.5,
+    "rotationSpeed": 3.0
   },
   "areas": [
     {

@@ -18,7 +18,8 @@ public class GameScene {
     private final List<CollidableGameObject> collidableGameObjects = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<Area> areas = new ArrayList<>();
-    private final List<Spawner> spawners = new ArrayList<>();
+    // Need to be reverted to private
+    public final List<Spawner> spawners = new ArrayList<>();
     private final List<SceneTile> tiles = new ArrayList<>();
     private final List<Block> blocks = new ArrayList<>();
     private final CollisionManager collisionManager = new CollisionManager();

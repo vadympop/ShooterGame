@@ -27,6 +27,7 @@ public class Player extends Entity {
     private float bulletsReloadDelay;
     private Tile bulletTile;
 
+    private boolean isMoving = false;
     private boolean isDead = false;
     private float defaultSpeed;
 
@@ -59,6 +60,7 @@ public class Player extends Entity {
         setBulletDamage(bulletDamage);
         setBulletsReloadDelay(bulletsReloadDelay);
         setDefaultSpeed(defaultSpeed);
+        setSpeed(defaultSpeed);
         setRotationSpeed(rotationSpeed);
         setSpawner(spawner);
         setBulletTile(bulletTile);
@@ -108,11 +110,23 @@ public class Player extends Entity {
 
     public void changeRotationDirection() { rotationDirection *= -1; }
 
+    public void onKeyPressed() {
+        setMoving(true);
+        changeRotationDirection();
+    }
+
+    public void onKeyReleased() {
+        setMoving(false);
+    }
+
     @Override
     public void update(double deltaTime) {
-        setRotationAngle(
-                (getRotationAngle() + (getRotationSpeed() * getRotationDirection())) % 360
-        );
+        if (isMoving()) move();
+        else {
+            setRotationAngle(
+                    (getRotationAngle() + (getRotationSpeed() * getRotationDirection())) % 360
+            );
+        }
 
         List<Timer<Player>> toRemove = new ArrayList<>();
         for (Timer<Player> t: timers) {
@@ -168,4 +182,7 @@ public class Player extends Entity {
 
     private PlayerSpawner getSpawner() { return spawner; }
     private void setSpawner(PlayerSpawner spawner) { this.spawner = spawner; }
+
+    public boolean isMoving() { return isMoving; }
+    public void setMoving(boolean moving) { isMoving = moving; }
 }
