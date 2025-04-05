@@ -1,6 +1,8 @@
 package com.game.core.utils;
 
 import com.game.core.behaviour.bounds.RectangleBounds;
+import com.game.core.scene.blocks.Block;
+import com.game.core.scene.blocks.BreakableBlock;
 import com.game.core.scene.spawners.BonusSpawner;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
@@ -70,28 +72,37 @@ public class SceneLoader {
     }
 
     public void loadTiles(GameScene scene, List<String> tiles, TileType tileType) {
-        loadObjectsFromStrings(scene, getConfig().getMappings().getTiles(), tiles, tileType, (s, t, x, y) -> {
-            SceneTile sceneTile = new SceneTile(t);
-            sceneTile.setPos(x, y);
-            s.addTile(sceneTile);
-        });
+        loadObjectsFromStrings(
+                scene, getConfig().getMappings().getTiles(), tiles, tileType,
+                (s, c, t, pos) -> {
+                    SceneTile sceneTile = new SceneTile(t);
+                    sceneTile.setPos(pos[0], pos[1]);
+                    s.addTile(sceneTile);
+                }
+        );
     }
 
     public void loadBlocks(GameScene scene, List<String> blocks) {
-        loadObjectsFromStrings(scene, getConfig().getMappings().getBlocks(), blocks, null, (s, t, x, y) -> {
-            SolidBlock block = new SolidBlock(t);
-            block.setPos(x, y);
-            block.setBounds(new RectangleBounds(32, 32));
-            s.addBlock(block);
-        });
+        loadObjectsFromStrings(
+                scene, getConfig().getMappings().getBlocks(), blocks, null,
+                (s, c, t, pos) -> {
+                    Block block;
+                    if (c.isBreakable()) block = new BreakableBlock(t);
+                    else block = new SolidBlock(t);
+
+                    block.setPos(pos[0], pos[1]);
+                    block.setBounds(new RectangleBounds(32, 32));
+                    s.addBlock(block);
+                }
+        );
     }
 
-    public void loadObjectsFromStrings(
+    public <T extends SceneConfig.MappingTileConfig> void loadObjectsFromStrings(
             GameScene scene,
-            Map<String, String> texturesMapping,
+            Map<String, T> texturesMapping,
             List<String> elements,
             TileType tileType,
-            QuatroConsumer<GameScene, Tile, Float, Float> addFunction
+            QuatroConsumer<GameScene, T, Tile, float[]> addFunction
     ) {
         int rowsCount = 0;
         for (String row : elements) {
@@ -101,13 +112,16 @@ public class SceneLoader {
                 colsCount++;
                 if (x == '-') continue;
                 String elementStr = String.valueOf(x);
+                T mappingElement = texturesMapping.get(elementStr);
+
                 Tile tile = new Tile(
-                        texturesMapping.get(elementStr),
+                        mappingElement.getTexture(),
                         tileType,
-                        null
+                        null,
+                        mappingElement.isDefaultSize()
                 );
                 float[] pos = generatePos(colsCount, rowsCount);
-                addFunction.accept(scene, tile, pos[0], pos[1]);
+                addFunction.accept(scene, mappingElement, tile, pos);
             }
         }
     }
