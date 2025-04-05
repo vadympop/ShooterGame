@@ -7,7 +7,6 @@ import javafx.scene.image.Image;
 
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Objects;
 
 
 public class Tile {
@@ -21,10 +20,10 @@ public class Tile {
     }
 
     public Tile(String sourceTexture, TileType type, Float scale) {
-        this(sourceTexture, type, scale, null);
+        this(sourceTexture, type, scale, true);
     }
 
-    public Tile(String sourceTexture, TileType type, Float scale, RectangleBounds size) {
+    public Tile(String sourceTexture, TileType type, Float scale, boolean hasDefaultSize) {
         URL tileURL = getClass().getResource("/textures/" + sourceTexture);
         try {
             setSprite(new Image(String.valueOf(tileURL.toURI())));
@@ -37,13 +36,14 @@ public class Tile {
         setType(type);
         setScale(scale != null ? scale : scaler.getScale());
 
-        setSize(Objects.requireNonNullElseGet(
-                size,
-                () -> new RectangleBounds(
-                        (float) getSprite().getWidth() * getScale(),
-                        (float) getSprite().getHeight() * getScale()
-                )
-        ));
+        if (hasDefaultSize) {
+            setSize(new RectangleBounds(scaler.getTileWidth(), scaler.getTileHeight()));
+        } else {
+            setSize(new RectangleBounds(
+                    (float) getSprite().getWidth() * getScale(),
+                    (float) getSprite().getHeight() * getScale()
+            ));
+        }
     }
 
     public void draw(GraphicsContext gc, float x, float y) {
