@@ -6,4 +6,5 @@ import com.game.core.managers.CollisionVisitor;
 public interface Collidable {
     void onCollision(CollisionVisitor visitor, Collidable other);
     Bounds getBounds();
+    void setBounds(Bounds bounds);
 }
