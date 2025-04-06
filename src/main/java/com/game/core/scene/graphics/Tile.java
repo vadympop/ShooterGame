@@ -10,7 +10,9 @@ import java.net.URL;
 
 
 public class Tile {
+    private static final String UNDEFINED_TEXTURE = "undefined.png";
     private Image sprite;
+    private boolean isTextureUndefined = false;
     private TileType type;
     private float scale;
     private RectangleBounds size;
@@ -24,19 +26,13 @@ public class Tile {
     }
 
     public Tile(String sourceTexture, TileType type, Float scale, boolean hasDefaultSize) {
-        URL tileURL = getClass().getResource("/textures/" + sourceTexture);
-        try {
-            setSprite(new Image(String.valueOf(tileURL.toURI())));
-        } catch (URISyntaxException | NullPointerException e) {
-            System.out.println(sourceTexture);
-        }
-
         Scaler scaler = Scaler.getInstance();
 
         setType(type);
         setScale(scale != null ? scale : scaler.getScale());
+        loadImage(sourceTexture);
 
-        if (hasDefaultSize) {
+        if (hasDefaultSize || isTextureUndefined()) {
             setSize(new RectangleBounds(scaler.getTileWidth(), scaler.getTileHeight()));
         } else {
             setSize(new RectangleBounds(
@@ -46,16 +42,43 @@ public class Tile {
         }
     }
 
+    private void loadImage(String texture) {
+        boolean isUndefinedTexture = texture.equals(UNDEFINED_TEXTURE);
+        boolean isError = false;
+
+        URL tileURL = getClass().getResource("/textures/" + texture);
+        if (tileURL == null) {
+            // logging
+            isError = true;
+        } else {
+            try {
+                setSprite(new Image(String.valueOf(tileURL.toURI())));
+            } catch (URISyntaxException e) {
+                // logging
+                isError = true;
+            }
+        }
+
+        if (isError) {
+            if (isUndefinedTexture) setTextureIsUndefined(true);
+            else loadImage(UNDEFINED_TEXTURE);
+        }
+    }
+
     public void draw(GraphicsContext gc, float x, float y) {
         double displayX = x - (getSize().getWidth() / 2);
         double displayY = y - (getSize().getHeight() / 2);
-        gc.drawImage(
-                getSprite(),
-                displayX,
-                displayY,
-                getSize().getWidth(),
-                getSize().getHeight()
-        );
+        if (isTextureUndefined()) {
+            gc.fillRect(displayX, displayY, getSize().getWidth(), getSize().getHeight());
+        } else {
+            gc.drawImage(
+                    getSprite(),
+                    displayX,
+                    displayY,
+                    getSize().getWidth(),
+                    getSize().getHeight()
+            );
+        }
     }
 
     public Image getSprite() { return sprite; }
@@ -69,4 +92,7 @@ public class Tile {
 
     public RectangleBounds getSize() { return size; }
     private void setSize(RectangleBounds size) { this.size = size; }
+
+    public boolean isTextureUndefined() { return isTextureUndefined; }
+    public void setTextureIsUndefined(boolean isTextureUndefined) { this.isTextureUndefined = isTextureUndefined; }
 }
