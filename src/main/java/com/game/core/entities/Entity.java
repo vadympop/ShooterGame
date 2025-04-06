@@ -1,11 +1,13 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.base.CollidableGameObject;
+import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.Objects;
 
@@ -33,13 +35,25 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         float newX = getX() + (getSpeed() * dx);
         float newY = getY() + (getSpeed() * dy);
 
-        getCm().checkCollisionsFor(this, newX, newY);
-        setPos(newX, newY);
+        boolean[] resetStates = getCm().checkCollisionsFor(this, newX, newY);
+        if (resetStates[0] || resetStates[1]) System.out.println("dx: " + dx + " | " + "dy: " + dy + " - reset x:" + resetStates[0] + ", y: " + resetStates[1]);
+        setPos(!resetStates[0] ? newX : getX(), !resetStates[1] ? newY : getY());
     }
 
     @Override
     public void draw(GraphicsContext gc) {
         if (getState()) render(gc);
+
+        // Just for debug
+        if (getHitbox() instanceof CircleBounds) {
+            float d = ((CircleBounds) getHitbox()).getRadius() * 2;
+            double displayX = getX() - (d / 2);
+            double displayY = getY() - (d / 2);
+
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(2);
+            gc.strokeOval(displayX, displayY, d, d);
+        }
     }
 
     public void render(GraphicsContext gc) {
