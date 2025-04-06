@@ -5,16 +5,23 @@ import com.game.core.behaviour.interfaces.Positionable;
 import com.game.core.behaviour.bounds.Bounds;
 
 public abstract class CollidableGameObject extends GameObject implements Positionable, Collidable {
-    private Bounds bounds;
+    private Bounds hitbox;
 
     public boolean contains(CollidableGameObject obj) {
-        return this.getBounds().contains(obj.getBounds(), this, obj);
+        return this.getHitbox().contains(obj.getHitbox());
     }
 
     public boolean intersects(CollidableGameObject obj) {
-        return this.getBounds().intersects(obj.getBounds(), this, obj);
+        return this.getHitbox().intersects(obj.getHitbox());
     }
 
-    @Override public Bounds getBounds() { return bounds; }
-    public void setBounds(Bounds bounds) { this.bounds = bounds; }
+    @Override
+    public void setPos(float x, float y) {
+        super.setPos(x, y);
+        Bounds b = getHitbox();
+        if (b != null) b.setPos(x, y);
+    }
+
+    @Override public Bounds getHitbox() { return hitbox; }
+    public void setHitbox(Bounds hitbox) { this.hitbox = hitbox; }
 }

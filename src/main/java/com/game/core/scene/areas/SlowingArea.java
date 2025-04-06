@@ -21,7 +21,7 @@ public class SlowingArea extends GameObject implements Area  {
 
     @Override
     public boolean contains(Player player) {
-        return getBounds().contains(player.getBounds(), this, player);
+        return getBounds().contains(player.getHitbox());
     }
 
     @Override public Bounds getBounds() { return bounds; }

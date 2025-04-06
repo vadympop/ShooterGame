@@ -91,7 +91,7 @@ public class SceneLoader {
                     else block = new SolidBlock(t);
 
                     block.setPos(pos[0], pos[1]);
-                    block.setBounds(new RectangleBounds(32, 32));
+                    block.setHitbox(new RectangleBounds(32, 32));
                     s.addBlock(block);
                 }
         );

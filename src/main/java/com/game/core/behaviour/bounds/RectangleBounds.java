@@ -1,9 +1,9 @@
 package com.game.core.behaviour.bounds;
 
 
-import com.game.core.behaviour.interfaces.Positionable;
+import com.game.core.behaviour.base.Position;
 
-public class RectangleBounds implements Bounds {
+public class RectangleBounds extends Position implements Bounds {
     private float height;
     private float width;
 
@@ -13,11 +13,11 @@ public class RectangleBounds implements Bounds {
     }
 
     @Override
-    public boolean intersects(Bounds otherBounds, Positionable curPos, Positionable otherPos) {
-        float curX = curPos.getX();
-        float curY = curPos.getY();
-        float otherX = otherPos.getX();
-        float otherY = otherPos.getY();
+    public boolean intersects(Bounds otherBounds) {
+        float curX = getX();
+        float curY = getY();
+        float otherX = otherBounds.getX();
+        float otherY = otherBounds.getY();
         float curHWidth = getWidth() / 2;
         float curHHeight = getHeight() / 2;
 
@@ -37,11 +37,11 @@ public class RectangleBounds implements Bounds {
     }
 
     @Override
-    public boolean contains(Bounds otherBounds, Positionable curPos, Positionable otherPos) {
-        float curX = curPos.getX();
-        float curY = curPos.getY();
-        float otherX = otherPos.getX();
-        float otherY = otherPos.getY();
+    public boolean contains(Bounds otherBounds) {
+        float curX = getX();
+        float curY = getY();
+        float otherX = otherBounds.getX();
+        float otherY = otherBounds.getY();
         float curHWidth = getWidth() / 2;
         float curHHeight = getHeight() / 2;
 
@@ -55,6 +55,11 @@ public class RectangleBounds implements Bounds {
 
         return false;
     }
+
+    @Override public float getMaxX(float x) { return x + (getWidth() / 2); }
+    @Override public float getMaxY(float y) { return y + (getHeight() / 2); }
+    @Override public float getMinX(float x) { return x - (getWidth() / 2); }
+    @Override public float getMinY(float y) { return y - (getHeight() / 2); }
 
     public float getHeight() { return this.height; }
     private void setHeight(float height) { this.height = height; }

@@ -64,7 +64,7 @@ public class Player extends Entity {
         setRotationSpeed(rotationSpeed);
         setSpawner(spawner);
         setBulletTile(bulletTile);
-        setBounds(new CircleBounds(boundsRadius));
+        setHitbox(new CircleBounds(boundsRadius));
         timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 

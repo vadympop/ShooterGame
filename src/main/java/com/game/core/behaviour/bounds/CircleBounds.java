@@ -1,8 +1,8 @@
 package com.game.core.behaviour.bounds;
 
-import com.game.core.behaviour.interfaces.Positionable;
+import com.game.core.behaviour.base.Position;
 
-public class CircleBounds implements Bounds {
+public class CircleBounds extends Position implements Bounds {
     private float radius;
 
     public CircleBounds(float radius) {
@@ -10,27 +10,27 @@ public class CircleBounds implements Bounds {
     }
 
     @Override
-    public boolean intersects(Bounds otherBounds, Positionable curPos, Positionable otherPos) {
+    public boolean intersects(Bounds otherBounds) {
         if (otherBounds instanceof CircleBounds circle) {
-            float curX = curPos.getX();
-            float curY = curPos.getY();
-            float otherX = otherPos.getX();
-            float otherY = otherPos.getY();
+            float curX = getX();
+            float curY = getY();
+            float otherX = otherBounds.getX();
+            float otherY = otherBounds.getY();
 
             return Math.hypot(curX - otherX, curY - otherY) < getRadius() + circle.getRadius();
         } else if (otherBounds instanceof RectangleBounds) {
-            return otherBounds.intersects(this, otherPos, curPos);
+            return otherBounds.intersects(this);
         }
 
         return false;
     }
 
     @Override
-    public boolean contains(Bounds otherBounds, Positionable curPos, Positionable otherPos) {
-        float curX = curPos.getX();
-        float curY = curPos.getY();
-        float otherX = otherPos.getX();
-        float otherY = otherPos.getY();
+    public boolean contains(Bounds otherBounds) {
+        float curX = getX();
+        float curY = getY();
+        float otherX = otherBounds.getX();
+        float otherY = otherBounds.getY();
 
         if (otherBounds instanceof CircleBounds circle) {
             double distance = Math.hypot(otherX - curX, otherY - curY);
@@ -44,6 +44,11 @@ public class CircleBounds implements Bounds {
 
         return false;
     }
+
+    @Override public float getMaxX(float x) { return x + getRadius(); }
+    @Override public float getMaxY(float y) { return y + getRadius(); }
+    @Override public float getMinX(float x) { return x - getRadius(); }
+    @Override public float getMinY(float y) { return y - getRadius(); }
 
     public float getRadius() { return this.radius; }
     private void setRadius(float radius) { this.radius = radius; }
