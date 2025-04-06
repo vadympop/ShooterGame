@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class GameScene {
-    private final List<CollidableGameObject> collidableGameObjects = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<Area> areas = new ArrayList<>();
     private final List<Spawner> spawners = new ArrayList<>();
@@ -51,21 +50,17 @@ public class GameScene {
 
     public void update(double deltaTime) {
         entities.forEach(x -> x.update(deltaTime));
-
-        collisionManager.checkCollisions(this);
     }
 
-    public void addCollidableGameObject(CollidableGameObject obj) {
-        this.collidableGameObjects.add(obj);
-    }
 
     public void addBlock(Block block) {
-        addCollidableGameObject((CollidableGameObject) block);
+        collisionManager.addObject(block);
         this.blocks.add(block);
     }
 
     public void addEntity(Entity obj) {
-        addCollidableGameObject(obj);
+        obj.setCm(collisionManager);
+        collisionManager.addObject(obj);
         this.entities.add(obj);
     }
 
@@ -79,7 +74,6 @@ public class GameScene {
     public String getName() { return name; }
     private void setName(String name) { this.name = name; }
 
-    public List<CollidableGameObject> getCollidableGameObjects() { return Collections.unmodifiableList(collidableGameObjects); }
     public List<Entity> getEntities() { return Collections.unmodifiableList(entities); }
     public List<Area> getAreas() { return Collections.unmodifiableList(areas); }
     public List<Spawner> getSpawners() { return Collections.unmodifiableList(spawners); }

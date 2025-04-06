@@ -3,6 +3,7 @@ package com.game.core.entities;
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
+import com.game.core.collisions.CollisionManager;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -15,6 +16,7 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     private float rotationAngle = 0f; // 0 angle is right
     private float lastX;
     private float lastY;
+    private CollisionManager cm;
 
     public Entity(Tile tile) {
         setTile(tile);
@@ -30,6 +32,8 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
 
         float newX = getX() + (getSpeed() * dx);
         float newY = getY() + (getSpeed() * dy);
+
+        getCm().checkCollisionsFor(this, newX, newY);
         setPos(newX, newY);
     }
 
@@ -63,4 +67,8 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
 
     public float getLastY() { return lastY; }
     public void setLastY(float lastY) { this.lastY = lastY; }
+
+    // Setter and getter for collision manager
+    public CollisionManager getCm() { return cm; }
+    public void setCm(CollisionManager cm) { this.cm = cm; }
 }

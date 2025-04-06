@@ -90,8 +90,8 @@ public class SceneLoader {
                     if (c.isBreakable()) block = new BreakableBlock(t);
                     else block = new SolidBlock(t);
 
-                    block.setPos(pos[0], pos[1]);
                     block.setHitbox(new RectangleBounds(32, 32));
+                    block.setPos(pos[0], pos[1]);
                     s.addBlock(block);
                 }
         );
