@@ -2,14 +2,21 @@ package com.game.core.behaviour.bounds;
 
 
 import com.game.core.behaviour.base.PositionWrapper;
+import com.game.core.utils.Scaler;
 
 public class RectangleBounds extends PositionWrapper implements Bounds {
     private float height;
     private float width;
 
     public RectangleBounds(float width, float height) {
-        setHeight(height);
-        setWidth(width);
+        Scaler scaler = Scaler.getInstance();
+        setHeight(height * scaler.getScale());
+        setWidth(width * scaler.getScale());
+    }
+
+    public RectangleBounds(float width, float height, float scale) {
+        setHeight(height * scale);
+        setWidth(width * scale);
     }
 
     @Override

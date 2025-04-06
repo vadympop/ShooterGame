@@ -7,6 +7,10 @@ import com.game.core.behaviour.bounds.Bounds;
 public abstract class CollidableGameObject extends GameObject implements Positionable, Collidable {
     private Bounds hitbox;
 
+    public CollidableGameObject(Bounds hitbox) {
+        setHitbox(hitbox);
+    }
+
     public boolean contains(CollidableGameObject obj) {
         return this.getHitbox().contains(obj.getHitbox());
     }
