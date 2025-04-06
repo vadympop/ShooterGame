@@ -45,10 +45,10 @@ public class CircleBounds extends Position implements Bounds {
         return false;
     }
 
-    @Override public float getMaxX(float x) { return x + getRadius(); }
-    @Override public float getMaxY(float y) { return y + getRadius(); }
-    @Override public float getMinX(float x) { return x - getRadius(); }
-    @Override public float getMinY(float y) { return y - getRadius(); }
+    @Override public float getMaxX() { return getX() + getRadius(); }
+    @Override public float getMaxY() { return getY() + getRadius(); }
+    @Override public float getMinX() { return getX() - getRadius(); }
+    @Override public float getMinY() { return getY() - getRadius(); }
 
     public float getRadius() { return this.radius; }
     private void setRadius(float radius) { this.radius = radius; }

@@ -56,10 +56,10 @@ public class RectangleBounds extends Position implements Bounds {
         return false;
     }
 
-    @Override public float getMaxX(float x) { return x + (getWidth() / 2); }
-    @Override public float getMaxY(float y) { return y + (getHeight() / 2); }
-    @Override public float getMinX(float x) { return x - (getWidth() / 2); }
-    @Override public float getMinY(float y) { return y - (getHeight() / 2); }
+    @Override public float getMaxX() { return getX() + (getWidth() / 2); }
+    @Override public float getMaxY() { return getY() + (getHeight() / 2); }
+    @Override public float getMinX() { return getX() - (getWidth() / 2); }
+    @Override public float getMinY() { return getY() - (getHeight() / 2); }
 
     public float getHeight() { return this.height; }
     private void setHeight(float height) { this.height = height; }
