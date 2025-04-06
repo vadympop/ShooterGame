@@ -17,7 +17,7 @@
     "speed": 3.5,
     "rotationSpeed": 3.0,
     "hitbox": {
-      "radius": 15
+      "radius": 10
     }
   },
   "areas": [
