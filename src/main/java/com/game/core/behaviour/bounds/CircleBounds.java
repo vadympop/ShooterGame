@@ -1,8 +1,8 @@
 package com.game.core.behaviour.bounds;
 
-import com.game.core.behaviour.base.Position;
+import com.game.core.behaviour.base.PositionWrapper;
 
-public class CircleBounds extends Position implements Bounds {
+public class CircleBounds extends PositionWrapper implements Bounds {
     private float radius;
 
     public CircleBounds(float radius) {

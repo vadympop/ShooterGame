@@ -1,9 +1,9 @@
 package com.game.core.behaviour.bounds;
 
 
-import com.game.core.behaviour.base.Position;
+import com.game.core.behaviour.base.PositionWrapper;
 
-public class RectangleBounds extends Position implements Bounds {
+public class RectangleBounds extends PositionWrapper implements Bounds {
     private float height;
     private float width;
 

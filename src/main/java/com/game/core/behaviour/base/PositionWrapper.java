@@ -1,7 +1,7 @@
 package com.game.core.behaviour.base;
 
 
-public abstract class Position {
+public abstract class PositionWrapper {
     private float x = 0;
     private float y = 0;
 
