@@ -1,24 +1,27 @@
 package com.game.core.behaviour.base;
 
-import com.game.core.behaviour.Bounds;
 import com.game.core.behaviour.interfaces.Collidable;
+import com.game.core.behaviour.interfaces.Positionable;
+import com.game.core.behaviour.bounds.Bounds;
 
-public abstract class CollidableGameObject extends GameObject implements Collidable {
-    private Bounds bounds;
+public abstract class CollidableGameObject extends GameObject implements Positionable, Collidable {
+    private Bounds hitbox;
 
-    @Override
-    public Bounds getBounds() {
-        return this.bounds;
+    public boolean contains(CollidableGameObject obj) {
+        return this.getHitbox().contains(obj.getHitbox());
+    }
+
+    public boolean intersects(CollidableGameObject obj) {
+        return this.getHitbox().intersects(obj.getHitbox());
     }
 
     @Override
-    public void setBounds(Bounds bounds) {
-        this.bounds = bounds;
+    public void setPos(float x, float y) {
+        super.setPos(x, y);
+        Bounds b = getHitbox();
+        if (b != null) b.setPos(x, y);
     }
 
-    @Override
-    public boolean contains(float x, float y) {
-        return x >= getX() && x <= getX() + getBounds().getWidth() &&
-                y >= getY() && y <= getY() + getBounds().getHeight();
-    }
+    @Override public Bounds getHitbox() { return hitbox; }
+    public void setHitbox(Bounds hitbox) { this.hitbox = hitbox; }
 }

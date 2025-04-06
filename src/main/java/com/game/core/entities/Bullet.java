@@ -1,32 +1,97 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.collisions.CollisionVisitor;
+import com.game.core.scene.graphics.Tile;
+import com.game.core.utils.Timer;
 
 public class Bullet extends Entity {
-    private Player owner;
-    private int damage;
-    private float speed;
-    private float timeToDestroy;
+    private final Player owner;
+    private final int damage;
+    private final float timeToDestroy = 5f;
+    private Timer<Bullet> destroyTimer;
 
-    public void move() {
+    private Bullet(Player owner, Tile tile, int damage, float speed, float rotationAngle, float x, float y) {
+        super(tile);
 
+        this.owner = owner;
+        this.damage = damage;
+
+        setRotationAngle(rotationAngle);
+        setSpeed(speed);
+        setPos(x, y);
+        createDestroyTimer();
     }
 
     @Override
     public void onCollision(CollisionVisitor visitor, Collidable other) {
-
+        visitor.visit(this, other);
     }
 
     @Override
-    public void update() {
-
+    public void update(double deltaTime) {
+        move();
+        getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
     }
+
+    private void createDestroyTimer() {
+        setDestroyTimer(new Timer<>(getTimeToDestroy(), (x) -> x.setState(false)));
+    }
+
+    public Player getOwner() { return this.owner; }
+
+    public int getDamage() { return this.damage; }
+
+    public float getTimeToDestroy() { return this.timeToDestroy; }
+
+    public Timer<Bullet> getDestroyTimer() { return destroyTimer; }
+    private void setDestroyTimer(Timer<Bullet> timer) { destroyTimer = timer; }
 
     public static class builder {
         private Player owner;
         private int damage;
-        private float speed;
+        private float speed = 7.0f;
+        private float x, y;
+        private float rotationAngle;
+        private Tile tile;
 
+        public builder owner(Player owner) {
+            this.owner = owner;
+            damage(owner.getBulletDamage())
+                    .tile(owner.getBulletTile())
+                    .rotationAngle(owner.getRotationAngle())
+                    .pos(owner.getX(), owner.getY());
+            return this;
+        }
+
+        public builder damage(int damage) {
+            this.damage = damage;
+            return this;
+        }
+
+        public builder speed(float speed) {
+            this.speed = speed;
+            return this;
+        }
+
+        public builder pos(float x, float y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+
+        public builder rotationAngle(float rotationAngle) {
+            this.rotationAngle = rotationAngle;
+            return this;
+        }
+
+        public builder tile(Tile tile) {
+            this.tile = tile;
+            return this;
+        }
+
+        public Bullet build() {
+            return new Bullet(owner, tile, damage, speed, rotationAngle, x, y);
+        }
     }
 }

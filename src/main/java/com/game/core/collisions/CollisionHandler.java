@@ -1,4 +1,4 @@
-package com.game.core.managers;
+package com.game.core.collisions;
 
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.entities.Bullet;
@@ -18,7 +18,7 @@ public class CollisionHandler implements CollisionVisitor {
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
-
+                bullet.setState(false);
             }
 
             @Override
@@ -43,27 +43,20 @@ public class CollisionHandler implements CollisionVisitor {
         other.onCollision(new CollisionVisitor() {
             @Override
             public void visit(Player player, Collidable other) {
-
+                player.takeDamage(bullet.getDamage());
             }
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
-
+                bullet.setState(false);
             }
 
-            @Override
-            public void visit(Bonus bonus, Collidable other) {
-
-            }
-
-            @Override
-            public void visit(SolidBlock block, Collidable other) {
-
-            }
+            @Override public void visit(Bonus bonus, Collidable other) {}
+            @Override public void visit(SolidBlock block, Collidable other) {}
 
             @Override
             public void visit(BreakableBlock block, Collidable other) {
-
+                block.takeDamage(2);
             }
         }, bullet);
     }
@@ -73,12 +66,12 @@ public class CollisionHandler implements CollisionVisitor {
         other.onCollision(new CollisionVisitor() {
             @Override
             public void visit(Player player, Collidable other) {
-
+                bonus.applyEffect(player);
             }
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
-
+                bullet.setState(false);
             }
 
             @Override public void visit(Bonus bonus, Collidable other) {}
@@ -90,14 +83,11 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void visit(SolidBlock block, Collidable other) {
         other.onCollision(new CollisionVisitor() {
-            @Override
-            public void visit(Player player, Collidable other) {
-
-            }
+            @Override public void visit(Player player, Collidable other) {}
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
-
+                bullet.setState(false);
             }
 
             @Override public void visit(Bonus bonus, Collidable other) {}
@@ -109,14 +99,11 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void visit(BreakableBlock block, Collidable other) {
         other.onCollision(new CollisionVisitor() {
-            @Override
-            public void visit(Player player, Collidable other) {
-
-            }
+            @Override public void visit(Player player, Collidable other) {}
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
-
+                bullet.setState(false);
             }
 
             @Override public void visit(Bonus bonus, Collidable other) {}

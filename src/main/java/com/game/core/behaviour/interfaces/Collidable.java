@@ -1,11 +1,10 @@
 package com.game.core.behaviour.interfaces;
 
-import com.game.core.behaviour.Bounds;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.collisions.CollisionVisitor;
 
 public interface Collidable {
     void onCollision(CollisionVisitor visitor, Collidable other);
-    Bounds getBounds();
-    void setBounds(Bounds bounds);
-    boolean contains(float x, float y);
+    Bounds getHitbox();
+    void setHitbox(Bounds hitbox);
 }

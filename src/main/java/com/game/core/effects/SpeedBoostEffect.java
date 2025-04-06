@@ -1,16 +1,18 @@
 package com.game.core.effects;
 
+import com.game.core.entities.Player;
+
 public class SpeedBoostEffect implements Effect {
-    private float duration;
+    private final float duration = 30f;
 
     @Override
-    public void apply() {
-
+    public void apply(Player player) {
+        player.setSpeed(player.getSpeed() * 2);
     }
 
     @Override
-    public void remove() {
-
+    public void remove(Player player) {
+        player.setSpeed(player.getDefaultSpeed());
     }
 
     @Override
