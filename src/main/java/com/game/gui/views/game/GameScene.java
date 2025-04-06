@@ -11,6 +11,7 @@ import com.game.core.scene.spawners.Spawner;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -18,8 +19,7 @@ public class GameScene {
     private final List<CollidableGameObject> collidableGameObjects = new ArrayList<>();
     private final List<Entity> entities = new ArrayList<>();
     private final List<Area> areas = new ArrayList<>();
-    // Need to be reverted to private
-    public final List<Spawner> spawners = new ArrayList<>();
+    private final List<Spawner> spawners = new ArrayList<>();
     private final List<SceneTile> tiles = new ArrayList<>();
     private final List<Block> blocks = new ArrayList<>();
     private final CollisionManager collisionManager = new CollisionManager();
@@ -59,11 +59,8 @@ public class GameScene {
         this.collidableGameObjects.add(obj);
     }
 
-    public List<CollidableGameObject> getCollidableGameObjects() {
-        return collidableGameObjects;
-    }
-
     public void addBlock(Block block) {
+        addCollidableGameObject((CollidableGameObject) block);
         this.blocks.add(block);
     }
 
@@ -81,4 +78,11 @@ public class GameScene {
 
     public String getName() { return name; }
     private void setName(String name) { this.name = name; }
+
+    public List<CollidableGameObject> getCollidableGameObjects() { return Collections.unmodifiableList(collidableGameObjects); }
+    public List<Entity> getEntities() { return Collections.unmodifiableList(entities); }
+    public List<Area> getAreas() { return Collections.unmodifiableList(areas); }
+    public List<Spawner> getSpawners() { return Collections.unmodifiableList(spawners); }
+    public List<SceneTile> getTiles() { return Collections.unmodifiableList(tiles); }
+    public List<Block> getBlocks() { return Collections.unmodifiableList(blocks); }
 }

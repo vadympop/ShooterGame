@@ -59,7 +59,7 @@ public class GameView extends Application {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if(keyEvent.getCode() == KeyCode.W) {
-                    PlayerSpawner s = (PlayerSpawner) gameScene.spawners.getFirst();
+                    PlayerSpawner s = (PlayerSpawner) gameScene.getSpawners().getFirst();
                     s.getPlayer().onKeyPressed();
                 }
             }
@@ -68,7 +68,7 @@ public class GameView extends Application {
             @Override
             public void handle(KeyEvent keyEvent) {
                 if(keyEvent.getCode() == KeyCode.W) {
-                    PlayerSpawner s = (PlayerSpawner) gameScene.spawners.getFirst();
+                    PlayerSpawner s = (PlayerSpawner) gameScene.getSpawners().getFirst();
                     s.getPlayer().onKeyReleased();
                 }
             }
