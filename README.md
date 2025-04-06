@@ -60,4 +60,9 @@ Gameplay features:
 - Maven
 - Jackson(for configs)
 
+## GIF
+
+![GIF](https://i.imgur.com/JeUFA6A.gif)
+Lagging because a little bit compressed
+
 
