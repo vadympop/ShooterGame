@@ -29,7 +29,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
                     Math.abs(curY - otherY) < (curHHeight + otherHHeight);
         } else if (otherBounds instanceof CircleBounds circle) {
             float closestX = Math.max(curX - curHWidth, Math.min(otherX, curX + curHWidth));
-            float closestY = Math.max(curY + curHHeight, Math.min(otherY, curY - curHHeight));
+            float closestY = Math.max(curY - curHHeight, Math.min(otherY, curY + curHHeight));
             return Math.hypot(otherX - closestX, otherY - closestY) <= circle.getRadius();
         }
 
