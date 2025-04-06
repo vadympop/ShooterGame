@@ -41,27 +41,6 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     @Override
     public void draw(GraphicsContext gc) {
         if (getState()) render(gc);
-
-        // Just for debug
-        if (getHitbox() instanceof CircleBounds) {
-            float d = ((CircleBounds) getHitbox()).getRadius() * 2;
-            double displayX = getX() - (d / 2);
-            double displayY = getY() - (d / 2);
-
-            gc.setStroke(Color.RED);
-            gc.setLineWidth(2);
-            gc.strokeOval(displayX, displayY, d, d);
-        } else {
-            float width = ((RectangleBounds) getHitbox()).getWidth();
-            float height = ((RectangleBounds) getHitbox()).getHeight();
-            double displayX = getX() - (width / 2);
-            double displayY = getY() - (height / 2);
-
-            gc.setStroke(Color.RED);
-            gc.setLineWidth(2);
-            gc.strokeRect(displayX, displayY, width, height);
-
-        }
     }
 
     public void render(GraphicsContext gc) {

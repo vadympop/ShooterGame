@@ -27,15 +27,6 @@ public class SolidBlock extends CollidableGameObject implements Block {
     @Override
     public void draw(GraphicsContext gc) {
         getTile().draw(gc, getX(), getY());
-
-        float width = ((RectangleBounds) getHitbox()).getWidth();
-        float height = ((RectangleBounds) getHitbox()).getHeight();
-        double displayX = getX() - (width / 2);
-        double displayY = getY() - (height / 2);
-
-        gc.setStroke(Color.RED);
-        gc.setLineWidth(2);
-        gc.strokeRect(displayX, displayY, width, height);
     }
 
     @Override public Tile getTile() { return tile; }
