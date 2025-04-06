@@ -2,14 +2,21 @@ package com.game.core.behaviour.bounds;
 
 
 import com.game.core.behaviour.base.PositionWrapper;
+import com.game.core.utils.Scaler;
 
 public class RectangleBounds extends PositionWrapper implements Bounds {
     private float height;
     private float width;
 
     public RectangleBounds(float width, float height) {
-        setHeight(height);
-        setWidth(width);
+        Scaler scaler = Scaler.getInstance();
+        setHeight(height * scaler.getScale());
+        setWidth(width * scaler.getScale());
+    }
+
+    public RectangleBounds(float width, float height, float scale) {
+        setHeight(height * scale);
+        setWidth(width * scale);
     }
 
     @Override
@@ -29,7 +36,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
                     Math.abs(curY - otherY) < (curHHeight + otherHHeight);
         } else if (otherBounds instanceof CircleBounds circle) {
             float closestX = Math.max(curX - curHWidth, Math.min(otherX, curX + curHWidth));
-            float closestY = Math.max(curY + curHHeight, Math.min(otherY, curY - curHHeight));
+            float closestY = Math.max(curY - curHHeight, Math.min(otherY, curY + curHHeight));
             return Math.hypot(otherX - closestX, otherY - closestY) <= circle.getRadius();
         }
 

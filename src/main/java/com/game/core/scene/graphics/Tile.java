@@ -32,12 +32,14 @@ public class Tile {
         setScale(scale != null ? scale : scaler.getScale());
         loadImage(sourceTexture);
 
+        // RectangleBounds also scaled provided params, so in first if are putted 1 as scale
+        // and in the second if width and height should to be scaled already in RectangleBounds
         if (hasDefaultSize || isTextureUndefined()) {
-            setSize(new RectangleBounds(scaler.getTileWidth(), scaler.getTileHeight()));
+            setSize(new RectangleBounds(scaler.getTileWidth(), scaler.getTileHeight(), 1));
         } else {
             setSize(new RectangleBounds(
-                    (float) getSprite().getWidth() * getScale(),
-                    (float) getSprite().getHeight() * getScale()
+                    (float) getSprite().getWidth(),
+                    (float) getSprite().getHeight()
             ));
         }
     }

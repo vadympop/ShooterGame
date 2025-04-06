@@ -1,12 +1,18 @@
 package com.game.core.behaviour.bounds;
 
 import com.game.core.behaviour.base.PositionWrapper;
+import com.game.core.utils.Scaler;
 
 public class CircleBounds extends PositionWrapper implements Bounds {
     private float radius;
 
     public CircleBounds(float radius) {
-        setRadius(radius);
+        Scaler scaler = Scaler.getInstance();
+        setRadius(radius * scaler.getScale());
+    }
+
+    public CircleBounds(float radius, float scale) {
+        setRadius(radius * scale);
     }
 
     @Override

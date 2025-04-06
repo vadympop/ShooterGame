@@ -1,11 +1,15 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.base.CollidableGameObject;
+import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.bounds.CircleBounds;
+import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.Objects;
 
@@ -14,11 +18,10 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     private float speed;
     private Tile tile;
     private float rotationAngle = 0f; // 0 angle is right
-    private float lastX;
-    private float lastY;
     private CollisionManager cm;
 
-    public Entity(Tile tile) {
+    public Entity(Tile tile, Bounds hitbox) {
+        super(hitbox);
         setTile(tile);
     }
 
@@ -27,14 +30,12 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         float dx = (float) Math.cos(angleInRads);
         float dy = (float) Math.sin(angleInRads);
 
-        setLastX(getX());
-        setLastY(getY());
-
         float newX = getX() + (getSpeed() * dx);
         float newY = getY() + (getSpeed() * dy);
 
-        getCm().checkCollisionsFor(this, newX, newY);
-        setPos(newX, newY);
+        boolean[] resetStates = getCm().checkCollisionsFor(this, newX, newY);
+        if (resetStates[0] || resetStates[1]) System.out.println("dx: " + dx + " | " + "dy: " + dy + " - reset x:" + resetStates[0] + ", y: " + resetStates[1]);
+        setPos(!resetStates[0] ? newX : getX(), !resetStates[1] ? newY : getY());
     }
 
     @Override
@@ -61,12 +62,6 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
 
     public float getRotationAngle() { return this.rotationAngle; }
     protected void setRotationAngle(float rotationAngle) { this.rotationAngle = rotationAngle; }
-
-    public float getLastX() { return lastX; }
-    public void setLastX(float lastX) { this.lastX = lastX; }
-
-    public float getLastY() { return lastY; }
-    public void setLastY(float lastY) { this.lastY = lastY; }
 
     // Setter and getter for collision manager
     public CollisionManager getCm() { return cm; }
