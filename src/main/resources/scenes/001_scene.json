@@ -10,13 +10,15 @@
     "timeToDestroy": 5.0
   },
   "player": {
-    "boundsRadius": 20,
     "maxHealth": 3,
     "maxBulletsCount": 5,
     "bulletDamage": 1,
     "bulletsReloadDelay": 1.0,
     "speed": 3.5,
-    "rotationSpeed": 3.0
+    "rotationSpeed": 3.0,
+    "hitbox": {
+      "radius": 15
+    }
   },
   "areas": [
     {

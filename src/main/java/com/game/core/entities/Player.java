@@ -1,7 +1,7 @@
 package com.game.core.entities;
 
+import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
 import com.game.core.collisions.CollisionVisitor;
@@ -41,9 +41,9 @@ public class Player extends Entity {
 
     public Player(
             PlayerSpawner spawner,
+            Bounds hitbox,
             Tile tile,
             Tile bulletTile,
-            float boundsRadius,
             int maxHealth,
             int maxBulletsCount,
             int bulletDamage,
@@ -51,7 +51,7 @@ public class Player extends Entity {
             float defaultSpeed,
             float rotationSpeed
     ) {
-        super(tile);
+        super(tile, hitbox);
 
         setMaxHealth(maxHealth);
         setHealth(getMaxHealth());
@@ -64,7 +64,6 @@ public class Player extends Entity {
         setRotationSpeed(rotationSpeed);
         setSpawner(spawner);
         setBulletTile(bulletTile);
-        setHitbox(new CircleBounds(boundsRadius));
         timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 

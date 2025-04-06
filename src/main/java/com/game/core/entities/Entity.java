@@ -1,7 +1,9 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.base.CollidableGameObject;
+import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.behaviour.bounds.CircleBounds;
+import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
@@ -18,7 +20,8 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     private float rotationAngle = 0f; // 0 angle is right
     private CollisionManager cm;
 
-    public Entity(Tile tile) {
+    public Entity(Tile tile, Bounds hitbox) {
+        super(hitbox);
         setTile(tile);
     }
 
@@ -48,6 +51,16 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
             gc.setStroke(Color.RED);
             gc.setLineWidth(2);
             gc.strokeOval(displayX, displayY, d, d);
+        } else {
+            float width = ((RectangleBounds) getHitbox()).getWidth();
+            float height = ((RectangleBounds) getHitbox()).getHeight();
+            double displayX = getX() - (width / 2);
+            double displayY = getY() - (height / 2);
+
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(2);
+            gc.strokeRect(displayX, displayY, width, height);
+
         }
     }
 

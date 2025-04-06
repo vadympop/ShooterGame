@@ -1,5 +1,6 @@
 package com.game.core.entities;
 
+import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.collisions.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
@@ -12,7 +13,7 @@ public class Bullet extends Entity {
     private Timer<Bullet> destroyTimer;
 
     private Bullet(Player owner, Tile tile, int damage, float speed, float rotationAngle, float x, float y) {
-        super(tile);
+        super(tile, new CircleBounds(5)); // CHANGE LATER BOUNDS CREATION
 
         this.owner = owner;
         this.damage = damage;

@@ -1,14 +1,11 @@
 package com.game.core.utils;
 
-import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.scene.blocks.Block;
-import com.game.core.scene.blocks.BreakableBlock;
 import com.game.core.scene.spawners.BonusSpawner;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.config.SceneConfig;
 import com.game.gui.views.game.GameScene;
-import com.game.core.scene.blocks.SolidBlock;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.graphics.TileType;
@@ -86,11 +83,8 @@ public class SceneLoader {
         loadObjectsFromStrings(
                 scene, getConfig().getMappings().getBlocks(), blocks, null,
                 (s, c, t, pos) -> {
-                    Block block;
-                    if (c.isBreakable()) block = new BreakableBlock(t);
-                    else block = new SolidBlock(t);
+                    Block block = GameObjectsFactory.createBlock(c, t);
 
-                    block.setHitbox(new RectangleBounds(32, 32));
                     block.setPos(pos[0], pos[1]);
                     s.addBlock(block);
                 }

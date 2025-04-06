@@ -73,16 +73,16 @@ public class SceneConfig {
     }
 
     public static class PlayerConfig {
-        private float boundsRadius;
         private int maxHealth;
         private int maxBulletsCount;
         private int bulletDamage;
         private float bulletsReloadDelay;
         private float speed;
         private float rotationSpeed;
+        private CircleBoundsConfig hitbox;
 
-        public float getBoundsRadius() { return boundsRadius; }
-        public void setBoundsRadius(float boundsRadius) { this.boundsRadius = boundsRadius; }
+        public CircleBoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(CircleBoundsConfig hitbox) { this.hitbox = hitbox; }
 
         public int getMaxHealth() { return maxHealth; }
         public void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
@@ -192,8 +192,30 @@ public class SceneConfig {
 
     public static class MappingBlockConfig extends MappingTileConfig {
         private boolean isBreakable;
+        private RectangleBoundsConfig hitbox;
 
         public boolean isBreakable() { return isBreakable; }
         public void setBreakable(boolean breakable) { isBreakable = breakable; }
+
+        public RectangleBoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(RectangleBoundsConfig hitbox) { this.hitbox = hitbox; }
+    }
+
+    public static class CircleBoundsConfig {
+        private float radius;
+
+        public float getRadius() { return radius; }
+        public void setRadius(float radius) { this.radius = radius; }
+    }
+
+    public static class RectangleBoundsConfig {
+        private float width;
+        private float height;
+
+        public float getWidth() { return width; }
+        public void setWidth(float width) { this.width = width; }
+
+        public float getHeight() { return height; }
+        public void setHeight(float height) { this.height = height; }
     }
 }
