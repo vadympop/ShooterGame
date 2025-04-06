@@ -1,4 +1,4 @@
-package com.game.core.managers;
+package com.game.core.collisions;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.gui.views.game.GameScene;

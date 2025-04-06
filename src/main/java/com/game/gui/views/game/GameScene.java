@@ -2,7 +2,7 @@ package com.game.gui.views.game;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.entities.Entity;
-import com.game.core.managers.CollisionManager;
+import com.game.core.collisions.CollisionManager;
 import com.game.core.scene.areas.Area;
 import com.game.core.scene.blocks.Block;
 import com.game.core.scene.graphics.SceneTile;

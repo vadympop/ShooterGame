@@ -1,7 +1,7 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.managers.CollisionVisitor;
+import com.game.core.collisions.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.Timer;
 
