@@ -1,8 +1,6 @@
 package com.game.core.collisions;
 
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.behaviour.bounds.CircleBounds;
-import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.behaviour.interfaces.Collidable;
 
 import java.util.ArrayList;
@@ -25,16 +23,10 @@ public class CollisionManager {
     }
 
     private Bounds createTempBounds(Bounds original, float newX, float newY) {
-        if (original instanceof CircleBounds circle) {
-            CircleBounds temp = new CircleBounds(circle.getRadius());
-            temp.setPos(newX, newY);
-            return temp;
-        } else if (original instanceof RectangleBounds rect) {
-            RectangleBounds temp = new RectangleBounds(rect.getWidth(), rect.getHeight());
-            temp.setPos(newX, newY);
-            return temp;
-        }
-        throw new IllegalArgumentException("Unknown Bounds type");
+        Bounds bounds = original.copy();
+        bounds.setPos(newX, newY);
+
+        return bounds;
     }
 
     public void addObject(Collidable obj) {

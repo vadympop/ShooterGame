@@ -61,6 +61,11 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
     @Override public float getMinX() { return getX() - (getWidth() / 2); }
     @Override public float getMinY() { return getY() - (getHeight() / 2); }
 
+    @Override
+    public Bounds copy() {
+        return new RectangleBounds(getWidth(), getHeight());
+    }
+
     public float getHeight() { return this.height; }
     private void setHeight(float height) { this.height = height; }
 

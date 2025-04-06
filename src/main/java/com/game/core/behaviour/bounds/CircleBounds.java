@@ -50,6 +50,11 @@ public class CircleBounds extends PositionWrapper implements Bounds {
     @Override public float getMinX() { return getX() - getRadius(); }
     @Override public float getMinY() { return getY() - getRadius(); }
 
+    @Override
+    public Bounds copy() {
+        return new CircleBounds(getRadius());
+    }
+
     public float getRadius() { return this.radius; }
     private void setRadius(float radius) { this.radius = radius; }
 }
