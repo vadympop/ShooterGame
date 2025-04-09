@@ -11,7 +11,6 @@ public class SceneConfig {
     private String id;
     private float tileWidth;
     private float tileHeight;
-    private String bonusTexture;
     private String name;
     private List<AreaConfig> areas;
     private List<SpawnerConfig> spawners;
@@ -21,6 +20,7 @@ public class SceneConfig {
     private MappingsConfig mappings;
     private PlayerConfig player;
     private BulletConfig bullet;
+    private BonusConfig bonus;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -58,8 +58,19 @@ public class SceneConfig {
     public BulletConfig getBullet() { return bullet; }
     public void setBullet(BulletConfig bullet) { this.bullet = bullet; }
 
-    public String getBonusTexture() { return bonusTexture; }
-    public void setBonusTexture(String bonusTexture) { this.bonusTexture = bonusTexture; }
+    public BonusConfig getBonus() { return bonus; }
+    public void setBonus(BonusConfig bonus) { this.bonus = bonus; }
+
+    public static class BonusConfig {
+        private String texture;
+        private BoundsConfig hitbox;
+
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
+
+        public String getTexture() { return texture; }
+        public void setTexture(String texture) { this.texture = texture; }
+    }
 
     public static class BulletConfig {
         private String texture;

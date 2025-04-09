@@ -11,8 +11,8 @@ import com.game.core.utils.config.SceneConfig;
 public class BonusFactory {
     public static Bonus create(BonusType type) {
         SceneConfig config = ConfigLoader.getInstance().getConfig();
-        Tile tile = new Tile(config.getBonusTexture(), null);
-        RectangleBounds hitbox = new RectangleBounds(32, 32); // CHANGE LATER
+        Tile tile = new Tile(config.getBonus().getTexture(), null);
+        RectangleBounds hitbox = BoundsFactory.createForBlock(config.getBonus().getHitbox());
 
         return switch (type) {
             case SHIELD -> new Bonus(new ShieldEffect(), tile, hitbox);

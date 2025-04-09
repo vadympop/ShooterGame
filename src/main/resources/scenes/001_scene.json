@@ -3,7 +3,9 @@
   "name": "Scene 1",
   "tileWidth": 32,
   "tileHeight": 32,
-  "bonusTexture": "bonus.png",
+  "bonus": {
+    "texture": "bonus.png"
+  },
   "bullet": {
     "texture": "",
     "speed": 7.0,
