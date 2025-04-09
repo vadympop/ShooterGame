@@ -104,19 +104,19 @@ public class SceneConfig {
     }
 
     public static class AreaConfig {
-        private String type;
-        private String col;
-        private String row;
+        private int type; // 0 - KillableArea, 1 - SlowingArea
+        private int col;
+        private int row;
         private BoundsConfig bounds;
 
-        public String getType() { return type; }
-        public void setType(String type) { this.type = type; }
+        public int getType() { return type; }
+        public void setType(int type) { this.type = type; }
 
-        public String getCol() { return col; }
-        public void setCol(String col) { this.col = col; }
+        public int getCol() { return col; }
+        public void setCol(int col) { this.col = col; }
 
-        public String getRow() { return row; }
-        public void setRow(String row) { this.row = row; }
+        public int getRow() { return row; }
+        public void setRow(int row) { this.row = row; }
 
         public BoundsConfig getBounds() { return bounds; }
         public void setBounds(BoundsConfig bounds) { this.bounds = bounds; }
@@ -124,21 +124,21 @@ public class SceneConfig {
 
     public static class BoundsConfig {
         private String type;
-        private String width;
-        private String height;
+        private float width;
+        private float height;
 
         public String getType() { return type; }
         public void setType(String type) { this.type = type; }
 
-        public String getWidth() { return width; }
-        public void setWidth(String width) { this.width = width; }
+        public float getWidth() { return width; }
+        public void setWidth(float width) { this.width = width; }
 
-        public String getHeight() { return height; }
-        public void setHeight(String height) { this.height = height; }
+        public float getHeight() { return height; }
+        public void setHeight(float height) { this.height = height; }
     }
 
     public static class SpawnerConfig {
-        private int type;
+        private int type; // 0 = PlayerSpawner, 1 = BonusSpawner
         private int col;
         private int row;
         private String texture;

@@ -1,5 +1,10 @@
 package com.game.core.utils;
 
+import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.bounds.RectangleBounds;
+import com.game.core.scene.areas.Area;
+import com.game.core.scene.areas.KillableArea;
+import com.game.core.scene.areas.SlowingArea;
 import com.game.core.scene.blocks.Block;
 import com.game.core.scene.spawners.BonusSpawner;
 import com.game.core.scene.spawners.PlayerSpawner;
@@ -45,7 +50,23 @@ public class SceneLoader {
 
     public void loadAreas(GameScene scene) {
         getConfig().getAreas().forEach(x -> {
+            Bounds bounds;
+            if (x.getBounds().getType().equals(RectangleBounds.class.getName())) {
+                bounds = new RectangleBounds(x.getBounds().getWidth(), x.getBounds().getHeight());
+            } else return;
 
+            Area area;
+            if (x.getType() == 0) {
+                area = new KillableArea(bounds);
+            }
+            else if (x.getType() == 1) {
+                area = new SlowingArea(bounds);
+            }
+            else return;
+
+            float[] pos = generatePos(x.getCol(), x.getRow());
+            area.setPos(pos[0], pos[1]);
+            scene.addArea(area);
         });
     }
 

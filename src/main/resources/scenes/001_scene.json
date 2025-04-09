@@ -22,21 +22,21 @@
   },
   "areas": [
     {
-      "type": "KillableArea",
+      "type": 0,
       "col": "33",
       "row": "17",
       "bounds": {
-        "type": "Rectangle",
+        "type": "RectangleBounds",
         "width": "200",
         "height": "200"
       }
     },
     {
-      "type": "SlowingArea",
+      "type": 1,
       "col": "8",
       "row": "6",
       "bounds": {
-        "type": "Rectangle",
+        "type": "RectangleBounds",
         "width": "200",
         "height": "200"
       }
