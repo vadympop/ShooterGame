@@ -1,13 +1,11 @@
 package com.game.core.scene.blocks;
 
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.collisions.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.Objects;
 

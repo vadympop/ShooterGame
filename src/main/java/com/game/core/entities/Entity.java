@@ -2,14 +2,11 @@ package com.game.core.entities;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.behaviour.bounds.CircleBounds;
-import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.Objects;
 
