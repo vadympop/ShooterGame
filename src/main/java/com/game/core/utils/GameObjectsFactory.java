@@ -36,7 +36,7 @@ public class GameObjectsFactory {
 
     public static Block createBlock(SceneConfig.MappingBlockConfig blockConfig, Tile tile) {
         SceneConfig config = ConfigLoader.getInstance().getConfig();
-        SceneConfig.RectangleBoundsConfig hitboxConfig = blockConfig.getHitbox();
+        SceneConfig.BoundsConfig hitboxConfig = blockConfig.getHitbox();
         float width = hitboxConfig != null ? hitboxConfig.getWidth() : config.getTileWidth();
         float height = hitboxConfig != null ? hitboxConfig.getHeight() : config.getTileHeight();
         RectangleBounds hitbox = new RectangleBounds(width, height);

@@ -1,5 +1,9 @@
 package com.game.core.utils.config;
 
+import com.game.core.utils.config.enums.AreaTypeEnum;
+import com.game.core.utils.config.enums.BoundsTypeEnum;
+import com.game.core.utils.config.enums.SpawnerTypeEnum;
+
 import java.util.List;
 import java.util.Map;
 
@@ -79,10 +83,10 @@ public class SceneConfig {
         private float bulletsReloadDelay;
         private float speed;
         private float rotationSpeed;
-        private CircleBoundsConfig hitbox;
+        private BoundsConfig hitbox;
 
-        public CircleBoundsConfig getHitbox() { return hitbox; }
-        public void setHitbox(CircleBoundsConfig hitbox) { this.hitbox = hitbox; }
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
 
         public int getMaxHealth() { return maxHealth; }
         public void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
@@ -104,13 +108,13 @@ public class SceneConfig {
     }
 
     public static class AreaConfig {
-        private int type; // 0 - KillableArea, 1 - SlowingArea
+        private AreaTypeEnum type;
         private int col;
         private int row;
         private BoundsConfig bounds;
 
-        public int getType() { return type; }
-        public void setType(int type) { this.type = type; }
+        public AreaTypeEnum getType() { return type; }
+        public void setType(AreaTypeEnum type) { this.type = type; }
 
         public int getCol() { return col; }
         public void setCol(int col) { this.col = col; }
@@ -123,12 +127,16 @@ public class SceneConfig {
     }
 
     public static class BoundsConfig {
-        private String type;
+        private BoundsTypeEnum type;
         private float width;
         private float height;
+        private float radius;
 
-        public String getType() { return type; }
-        public void setType(String type) { this.type = type; }
+        public BoundsTypeEnum getType() { return type; }
+        public void setType(BoundsTypeEnum type) { this.type = type; }
+
+        public float getRadius() { return radius; }
+        public void setRadius(float radius) { this.radius = radius; }
 
         public float getWidth() { return width; }
         public void setWidth(float width) { this.width = width; }
@@ -138,15 +146,15 @@ public class SceneConfig {
     }
 
     public static class SpawnerConfig {
-        private int type; // 0 = PlayerSpawner, 1 = BonusSpawner
+        private SpawnerTypeEnum type;
         private int col;
         private int row;
         private String texture;
         private float cooldown; // only for bonusspawner
         private String playerTexture; // only for playerspawner
 
-        public int getType() { return type; }
-        public void setType(int type) { this.type = type; }
+        public SpawnerTypeEnum getType() { return type; }
+        public void setType(SpawnerTypeEnum type) { this.type = type; }
 
         public int getCol() { return col; }
         public void setCol(int col) { this.col = col; }
@@ -192,30 +200,12 @@ public class SceneConfig {
 
     public static class MappingBlockConfig extends MappingTileConfig {
         private boolean isBreakable;
-        private RectangleBoundsConfig hitbox;
+        private BoundsConfig hitbox;
 
         public boolean isBreakable() { return isBreakable; }
         public void setBreakable(boolean breakable) { isBreakable = breakable; }
 
-        public RectangleBoundsConfig getHitbox() { return hitbox; }
-        public void setHitbox(RectangleBoundsConfig hitbox) { this.hitbox = hitbox; }
-    }
-
-    public static class CircleBoundsConfig {
-        private float radius;
-
-        public float getRadius() { return radius; }
-        public void setRadius(float radius) { this.radius = radius; }
-    }
-
-    public static class RectangleBoundsConfig {
-        private float width;
-        private float height;
-
-        public float getWidth() { return width; }
-        public void setWidth(float width) { this.width = width; }
-
-        public float getHeight() { return height; }
-        public void setHeight(float height) { this.height = height; }
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
     }
 }

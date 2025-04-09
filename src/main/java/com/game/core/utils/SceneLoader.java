@@ -1,6 +1,7 @@
 package com.game.core.utils;
 
 import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.scene.areas.Area;
 import com.game.core.scene.areas.KillableArea;
@@ -10,6 +11,9 @@ import com.game.core.scene.spawners.BonusSpawner;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.config.SceneConfig;
+import com.game.core.utils.config.enums.AreaTypeEnum;
+import com.game.core.utils.config.enums.BoundsTypeEnum;
+import com.game.core.utils.config.enums.SpawnerTypeEnum;
 import com.game.gui.views.game.GameScene;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
@@ -51,15 +55,18 @@ public class SceneLoader {
     public void loadAreas(GameScene scene) {
         getConfig().getAreas().forEach(x -> {
             Bounds bounds;
-            if (x.getBounds().getType().equals(RectangleBounds.class.getName())) {
+            if (x.getBounds().getType() == BoundsTypeEnum.RECTANGLE) {
                 bounds = new RectangleBounds(x.getBounds().getWidth(), x.getBounds().getHeight());
+            }
+            else if (x.getBounds().getType() == BoundsTypeEnum.CIRCLE) {
+                bounds = new CircleBounds(x.getBounds().getRadius(), x.getBounds().getRadius());
             } else return;
 
             Area area;
-            if (x.getType() == 0) {
+            if (x.getType() == AreaTypeEnum.KILLABLE) {
                 area = new KillableArea(bounds);
             }
-            else if (x.getType() == 1) {
+            else if (x.getType() == AreaTypeEnum.SLOWING) {
                 area = new SlowingArea(bounds);
             }
             else return;
@@ -73,14 +80,16 @@ public class SceneLoader {
     public void loadSpawners(GameScene scene) {
         getConfig().getSpawners().forEach(x -> {
             Spawner spawner;
-            if (x.getType() == 0) {
+            if (x.getType() == SpawnerTypeEnum.PLAYER) {
                 spawner = new PlayerSpawner(
                         new Tile(x.getTexture(), null),
                         new Tile(x.getPlayerTexture(), null)
                 );
                 spawner.addEvent("onPlayerCreated", scene::addEntity);
             }
-            else if (x.getType() == 1) spawner = new BonusSpawner(new Tile(x.getTexture(), null), x.getCooldown());
+            else if (x.getType() == SpawnerTypeEnum.BONUS) {
+                spawner = new BonusSpawner(new Tile(x.getTexture(), null), x.getCooldown());
+            }
             else return;
 
             float[] pos = generatePos(x.getCol(), x.getRow());

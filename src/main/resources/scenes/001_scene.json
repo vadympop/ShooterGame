@@ -17,26 +17,27 @@
     "speed": 3.5,
     "rotationSpeed": 3.0,
     "hitbox": {
+      "type": "CIRCLE",
       "radius": 10
     }
   },
   "areas": [
     {
-      "type": 0,
+      "type": "KILLABLE",
       "col": "33",
       "row": "17",
       "bounds": {
-        "type": "RectangleBounds",
+        "type": "RECTANGLE",
         "width": "200",
         "height": "200"
       }
     },
     {
-      "type": 1,
+      "type": "SLOWING",
       "col": "8",
       "row": "6",
       "bounds": {
-        "type": "RectangleBounds",
+        "type": "RECTANGLE",
         "width": "200",
         "height": "200"
       }
@@ -44,21 +45,21 @@
   ],
   "spawners": [
     {
-      "type": 0,
+      "type": "PLAYER",
       "texture": "block_1.png",
       "playerTexture": "player.png",
       "col": "8",
       "row": "5"
     },
     {
-      "type": 0,
+      "type": "PLAYER",
       "texture": "block_1.png",
       "playerTexture": "player.png",
       "col": "8",
       "row": "15"
     },
     {
-      "type": 1,
+      "type": "BONUS",
       "texture": "",
       "col": "",
       "row": "",
