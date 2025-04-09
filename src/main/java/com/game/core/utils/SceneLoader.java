@@ -1,19 +1,12 @@
 package com.game.core.utils;
 
-import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.behaviour.bounds.CircleBounds;
-import com.game.core.behaviour.bounds.RectangleBounds;
+import com.game.core.factories.AreaFactory;
+import com.game.core.factories.BlockFactory;
+import com.game.core.factories.SpawnerFactory;
 import com.game.core.scene.areas.Area;
-import com.game.core.scene.areas.KillableArea;
-import com.game.core.scene.areas.SlowingArea;
 import com.game.core.scene.blocks.Block;
-import com.game.core.scene.spawners.BonusSpawner;
-import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.config.SceneConfig;
-import com.game.core.utils.config.enums.AreaTypeEnum;
-import com.game.core.utils.config.enums.BoundsTypeEnum;
-import com.game.core.utils.config.enums.SpawnerTypeEnum;
 import com.game.gui.views.game.GameScene;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
@@ -54,23 +47,7 @@ public class SceneLoader {
 
     public void loadAreas(GameScene scene) {
         getConfig().getAreas().forEach(x -> {
-            Bounds bounds;
-            if (x.getBounds().getType() == BoundsTypeEnum.RECTANGLE) {
-                bounds = new RectangleBounds(x.getBounds().getWidth(), x.getBounds().getHeight());
-            }
-            else if (x.getBounds().getType() == BoundsTypeEnum.CIRCLE) {
-                bounds = new CircleBounds(x.getBounds().getRadius(), x.getBounds().getRadius());
-            } else return;
-
-            Area area;
-            if (x.getType() == AreaTypeEnum.KILLABLE) {
-                area = new KillableArea(bounds);
-            }
-            else if (x.getType() == AreaTypeEnum.SLOWING) {
-                area = new SlowingArea(bounds);
-            }
-            else return;
-
+            Area area = AreaFactory.createFromConfig(x);
             float[] pos = generatePos(x.getCol(), x.getRow());
             area.setPos(pos[0], pos[1]);
             scene.addArea(area);
@@ -79,19 +56,7 @@ public class SceneLoader {
 
     public void loadSpawners(GameScene scene) {
         getConfig().getSpawners().forEach(x -> {
-            Spawner spawner;
-            if (x.getType() == SpawnerTypeEnum.PLAYER) {
-                spawner = new PlayerSpawner(
-                        new Tile(x.getTexture(), null),
-                        new Tile(x.getPlayerTexture(), null)
-                );
-                spawner.addEvent("onPlayerCreated", scene::addEntity);
-            }
-            else if (x.getType() == SpawnerTypeEnum.BONUS) {
-                spawner = new BonusSpawner(new Tile(x.getTexture(), null), x.getCooldown());
-            }
-            else return;
-
+            Spawner spawner = SpawnerFactory.createFromConfig(x, scene::addEntity);
             float[] pos = generatePos(x.getCol(), x.getRow());
             spawner.setPos(pos[0], pos[1]);
             scene.addSpawner(spawner);
@@ -113,7 +78,7 @@ public class SceneLoader {
         loadObjectsFromStrings(
                 scene, getConfig().getMappings().getBlocks(), blocks, null,
                 (s, c, t, pos) -> {
-                    Block block = GameObjectsFactory.createBlock(c, t);
+                    Block block = BlockFactory.createFromConfig(c, t);
 
                     block.setPos(pos[0], pos[1]);
                     s.addBlock(block);

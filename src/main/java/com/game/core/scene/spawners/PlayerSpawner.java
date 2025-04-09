@@ -3,8 +3,8 @@ package com.game.core.scene.spawners;
 import com.game.core.behaviour.base.GameObject;
 import com.game.core.entities.Entity;
 import com.game.core.entities.Player;
+import com.game.core.factories.PlayerFactory;
 import com.game.core.scene.graphics.Tile;
-import com.game.core.utils.GameObjectsFactory;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class PlayerSpawner extends GameObject implements Spawner {
     @Override
     public void spawn() {
         if (getPlayer() == null) {
-            setPlayer(GameObjectsFactory.createPlayer(this));
+            setPlayer(PlayerFactory.create(this));
 
             Consumer<Entity> event = getEvent("onPlayerCreated");
             if (event != null) event.accept(getPlayer());
