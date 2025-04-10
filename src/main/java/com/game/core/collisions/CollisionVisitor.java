@@ -1,7 +1,7 @@
 package com.game.core.collisions;
 
 import com.game.core.behaviour.interfaces.Collidable;
-import com.game.core.entities.Bullet;
+import com.game.core.entities.bullet.Bullet;
 import com.game.core.entities.Player;
 import com.game.core.entities.bonus.Bonus;
 import com.game.core.scene.blocks.BreakableBlock;

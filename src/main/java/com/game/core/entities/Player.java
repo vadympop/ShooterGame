@@ -5,15 +5,17 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
 import com.game.core.collisions.CollisionVisitor;
+import com.game.core.entities.bullet.Bullet;
+import com.game.core.entities.bullet.BulletType;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.strategies.ShootingStrategy;
 import com.game.core.strategies.SingleShootStrategy;
 import com.game.core.utils.Timer;
+import com.game.core.utils.config.SceneConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Player extends Entity {
@@ -23,9 +25,9 @@ public class Player extends Entity {
 
     private int maxBulletsCount;
     private int bulletsCount;
-    private int bulletDamage;
     private float bulletsReloadDelay;
-    private Tile bulletTile;
+    private BulletType bulletType = BulletType.STANDARD;
+    private SceneConfig.BulletConfig bulletConfig;
 
     private boolean isMoving = false;
     private boolean isDead = false;
@@ -37,33 +39,32 @@ public class Player extends Entity {
     private final List<Timer<Player>> timers = new ArrayList<>();
     private Effect activeEffect;
     private boolean hasShield = false;
-    private ShootingStrategy shootingStrategy = new SingleShootStrategy();
+    private ShootingStrategy shootingStrategy;
 
     public Player(
             PlayerSpawner spawner,
             Bounds hitbox,
             Tile tile,
-            Tile bulletTile,
+            SceneConfig.BulletConfig bulletConfig,
             int maxHealth,
             int maxBulletsCount,
-            int bulletDamage,
             float bulletsReloadDelay,
             float defaultSpeed,
             float rotationSpeed
     ) {
         super(tile, hitbox);
 
+        setBulletConfig(bulletConfig);
+        setShootingStrategy(new SingleShootStrategy());
         setMaxHealth(maxHealth);
         setHealth(getMaxHealth());
         setMaxBulletsCount(maxBulletsCount);
         setBulletsCount(getMaxBulletsCount());
-        setBulletDamage(bulletDamage);
         setBulletsReloadDelay(bulletsReloadDelay);
         setDefaultSpeed(defaultSpeed);
         setSpeed(defaultSpeed);
         setRotationSpeed(rotationSpeed);
         setSpawner(spawner);
-        setBulletTile(bulletTile);
         timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 
@@ -155,10 +156,10 @@ public class Player extends Entity {
     public void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
 
     public ShootingStrategy getShootingStrategy() { return this.shootingStrategy; }
-    public void setShootingStrategy(ShootingStrategy shootingStrategy) { this.shootingStrategy = shootingStrategy; }
-
-    public int getBulletDamage() { return bulletDamage; }
-    public void setBulletDamage(int bulletDamage) { this.bulletDamage = bulletDamage; }
+    public void setShootingStrategy(ShootingStrategy shootingStrategy) {
+        shootingStrategy.setBulletConfig(getBulletConfig());
+        this.shootingStrategy = shootingStrategy;
+    }
 
     public float getDefaultSpeed() { return defaultSpeed; }
     private void setDefaultSpeed(float defaultSpeed) { this.defaultSpeed = defaultSpeed; }
@@ -172,9 +173,6 @@ public class Player extends Entity {
     public int getMaxBulletsCount() { return maxBulletsCount; }
     private void setMaxBulletsCount(int maxBulletsCount) { this.maxBulletsCount = maxBulletsCount; }
 
-    public Tile getBulletTile() { return bulletTile; }
-    private void setBulletTile(Tile bulletTile) { this.bulletTile = Objects.requireNonNull(bulletTile); }
-
     public float getRotationSpeed() { return rotationSpeed; }
     private void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
 
@@ -183,4 +181,10 @@ public class Player extends Entity {
 
     public boolean isMoving() { return isMoving; }
     public void setMoving(boolean moving) { isMoving = moving; }
+
+    public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
+    public void setBulletConfig(SceneConfig.BulletConfig bulletConfig) { this.bulletConfig = bulletConfig; }
+
+    public BulletType getBulletType() { return bulletType; }
+    public void setBulletType(BulletType bulletType) { this.bulletType = bulletType; }
 }

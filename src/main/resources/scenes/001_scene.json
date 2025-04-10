@@ -8,17 +8,23 @@
     "texture": "bonus.png"
   },
   "bullet": {
-    "texture": "",
+    "textures": {
+      "STANDARD": "",
+      "DOUBLE_DAMAGED_STANDARD": ""
+    },
     "speed": 7.0,
-    "timeToDestroy": 5.0
+    "timeToDestroy": 5.0,
+    "hitbox": {
+      "type": "CIRCLE",
+      "radius": 5
+    }
   },
   "player": {
     "maxHealth": 3,
     "maxBulletsCount": 5,
-    "bulletDamage": 1,
     "bulletsReloadDelay": 1.0,
-    "speed": 240,
-    "rotationSpeed": 270,
+    "speed": 260,
+    "rotationSpeed": 290,
     "hitbox": {
       "type": "CIRCLE",
       "radius": 10

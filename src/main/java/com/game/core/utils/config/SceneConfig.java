@@ -1,5 +1,6 @@
 package com.game.core.utils.config;
 
+import com.game.core.entities.bullet.BulletType;
 import com.game.core.utils.config.enums.AreaTypeEnum;
 import com.game.core.utils.config.enums.BoundsTypeEnum;
 import com.game.core.utils.config.enums.SpawnerTypeEnum;
@@ -77,24 +78,31 @@ public class SceneConfig {
     }
 
     public static class BulletConfig {
-        private String texture;
+        private Map<BulletType, String> textures;
         private float speed;
         private float timeToDestroy;
+        private int damage;
+        private BoundsConfig hitbox;
 
-        public String getTexture() { return texture; }
-        public void setTexture(String texture) { this.texture = texture; }
+        public Map<BulletType, String> getTextures() { return textures; }
+        public void setTextures(Map<BulletType, String> textures) { this.textures = textures; }
 
         public float getSpeed() { return speed; }
         public void setSpeed(float speed) { this.speed = speed; }
 
         public float getTimeToDestroy() { return timeToDestroy; }
         public void setTimeToDestroy(float timeToDestroy) { this.timeToDestroy = timeToDestroy; }
+
+        public int getDamage() { return damage; }
+        public void setDamage(int damage) { this.damage = damage; }
+
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
     }
 
     public static class PlayerConfig {
         private int maxHealth;
         private int maxBulletsCount;
-        private int bulletDamage;
         private float bulletsReloadDelay;
         private float speed;
         private float rotationSpeed;
@@ -108,9 +116,6 @@ public class SceneConfig {
 
         public int getMaxBulletsCount() { return maxBulletsCount; }
         public void setMaxBulletsCount(int maxBulletsCount) { this.maxBulletsCount = maxBulletsCount; }
-
-        public int getBulletDamage() { return bulletDamage; }
-        public void setBulletDamage(int bulletDamage) { this.bulletDamage = bulletDamage; }
 
         public float getBulletsReloadDelay() { return bulletsReloadDelay; }
         public void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
