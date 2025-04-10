@@ -5,6 +5,7 @@ import com.game.core.utils.Scaler;
 import com.game.core.utils.SceneLoader;
 import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
+import com.game.gui.GameLoop;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -76,35 +77,7 @@ public class GameView extends Application {
 
 
         gameScene.start();
-
-        startGameLoop();
-    }
-
-    private void startGameLoop() {
-        new AnimationTimer() {
-            private long lastTime = System.nanoTime();
-            private long fpsTimer = System.nanoTime();
-            private int frames = 0;
-            private int fps = 0;
-
-            @Override
-            public void handle(long now) {
-                double deltaTime = (now - lastTime) / 1_000_000_000.0;
-                lastTime = now;
-
-                frames++;
-                if (now - fpsTimer >= 1_000_000_000) { // пройшла 1 секунда
-                    fps = frames;
-                    frames = 0;
-                    fpsTimer = now;
-
-                    System.out.println("FPS: " + fps);
-                }
-
-                update(deltaTime);
-                render();
-            }
-        }.start();
+        new GameLoop(this::render, this::update).start();
     }
 
     private void update(double deltaTime) {

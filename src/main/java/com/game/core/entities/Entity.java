@@ -22,10 +22,10 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         setTile(tile);
     }
 
-    protected void move() {
+    protected void move(double deltaTime) {
         float angleInRads = (float) Math.toRadians(getRotationAngle());
-        float dx = (float) Math.cos(angleInRads);
-        float dy = (float) Math.sin(angleInRads);
+        float dx = (float) (Math.cos(angleInRads) * deltaTime);
+        float dy = (float) (Math.sin(angleInRads) * deltaTime);
 
         float newX = getX() + (getSpeed() * dx);
         float newY = getY() + (getSpeed() * dy);

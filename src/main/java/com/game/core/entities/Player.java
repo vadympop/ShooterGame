@@ -120,11 +120,10 @@ public class Player extends Entity {
 
     @Override
     public void update(double deltaTime) {
-        if (isMoving()) move();
+        if (isMoving()) move(deltaTime);
         else {
-            setRotationAngle(
-                    (getRotationAngle() + (getRotationSpeed() * getRotationDirection())) % 360
-            );
+            float newAngle = (float) (getRotationAngle() + (getRotationSpeed() * getRotationDirection() * deltaTime));
+            setRotationAngle(newAngle % 360);
         }
 
         List<Timer<Player>> toRemove = new ArrayList<>();

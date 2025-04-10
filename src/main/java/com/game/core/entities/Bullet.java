@@ -31,7 +31,7 @@ public class Bullet extends Entity {
 
     @Override
     public void update(double deltaTime) {
-        move();
+        move(deltaTime);
         getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
     }
 

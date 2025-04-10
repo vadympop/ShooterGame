@@ -16,8 +16,8 @@
     "maxBulletsCount": 5,
     "bulletDamage": 1,
     "bulletsReloadDelay": 1.0,
-    "speed": 3.5,
-    "rotationSpeed": 3.0,
+    "speed": 240,
+    "rotationSpeed": 270,
     "hitbox": {
       "type": "CIRCLE",
       "radius": 10
