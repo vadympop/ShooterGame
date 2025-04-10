@@ -11,10 +11,7 @@ public class CollisionHandler implements CollisionVisitor {
     @Override
     public void visit(Player player, Collidable other) {
         other.onCollision(new CollisionVisitor() {
-            @Override
-            public void visit(Player player, Collidable other) {
-
-            }
+            @Override public void visit(Player player, Collidable other) {}
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
@@ -23,18 +20,11 @@ public class CollisionHandler implements CollisionVisitor {
 
             @Override
             public void visit(Bonus bonus, Collidable other) {
-
+                bonus.setState(false);
             }
 
-            @Override
-            public void visit(SolidBlock block, Collidable other) {
-
-            }
-
-            @Override
-            public void visit(BreakableBlock block, Collidable other) {
-
-            }
+            @Override public void visit(SolidBlock block, Collidable other) {}
+            @Override public void visit(BreakableBlock block, Collidable other) {}
         }, player);
     }
 
@@ -51,7 +41,10 @@ public class CollisionHandler implements CollisionVisitor {
                 bullet.setState(false);
             }
 
-            @Override public void visit(Bonus bonus, Collidable other) {}
+            @Override
+            public void visit(Bonus bonus, Collidable other) {
+                bonus.setState(false);
+            }
             @Override public void visit(SolidBlock block, Collidable other) {}
 
             @Override
