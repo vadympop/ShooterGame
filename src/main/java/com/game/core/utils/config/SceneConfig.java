@@ -11,6 +11,7 @@ public class SceneConfig {
     private String id;
     private float tileWidth;
     private float tileHeight;
+    private boolean isDebug;
     private String name;
     private List<AreaConfig> areas;
     private List<SpawnerConfig> spawners;
@@ -60,6 +61,9 @@ public class SceneConfig {
 
     public BonusConfig getBonus() { return bonus; }
     public void setBonus(BonusConfig bonus) { this.bonus = bonus; }
+
+    public boolean isDebug() { return isDebug; }
+    public void setDebug(boolean debug) { isDebug = debug; }
 
     public static class BonusConfig {
         private String texture;

@@ -6,6 +6,7 @@ import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
 import com.game.core.scene.graphics.Tile;
+import com.game.core.utils.DebugUtils;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Objects;
@@ -38,6 +39,7 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
     @Override
     public void draw(GraphicsContext gc) {
         if (getState()) render(gc);
+        DebugUtils.drawHitboxIfDebug(gc, getHitbox());
     }
 
     public void render(GraphicsContext gc) {

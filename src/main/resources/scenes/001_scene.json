@@ -3,6 +3,7 @@
   "name": "Scene 1",
   "tileWidth": 32,
   "tileHeight": 32,
+  "debug": false,
   "bonus": {
     "texture": "bonus.png"
   },

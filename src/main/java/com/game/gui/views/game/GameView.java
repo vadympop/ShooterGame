@@ -6,7 +6,6 @@ import com.game.core.utils.SceneLoader;
 import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
 import com.game.gui.GameLoop;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;

@@ -5,6 +5,7 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.collisions.CollisionVisitor;
 import com.game.core.scene.graphics.Tile;
+import com.game.core.utils.DebugUtils;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Objects;
@@ -25,6 +26,7 @@ public class SolidBlock extends CollidableGameObject implements Block {
     @Override
     public void draw(GraphicsContext gc) {
         getTile().draw(gc, getX(), getY());
+        DebugUtils.drawHitboxIfDebug(gc, getHitbox());
     }
 
     @Override public Tile getTile() { return tile; }
