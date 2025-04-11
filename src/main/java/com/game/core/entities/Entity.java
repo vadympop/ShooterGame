@@ -2,6 +2,7 @@ package com.game.core.entities;
 
 import com.game.core.behaviour.base.CollidableGameObject;
 import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
@@ -11,7 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 import java.util.Objects;
 
-public abstract class Entity extends CollidableGameObject implements Renderable, Updatable {
+public abstract class Entity extends CollidableGameObject implements Collidable, Renderable, Updatable {
     private boolean isActive = true;
     private float speed;
     private Tile tile;
@@ -23,16 +24,20 @@ public abstract class Entity extends CollidableGameObject implements Renderable,
         setTile(tile);
     }
 
-    protected void move(double deltaTime) {
+    public float[] getVelocity() {
         float angleInRads = (float) Math.toRadians(getRotationAngle());
-        float dx = (float) (Math.cos(angleInRads) * deltaTime);
-        float dy = (float) (Math.sin(angleInRads) * deltaTime);
+        return new float[]{(float) Math.cos(angleInRads), (float) Math.sin(angleInRads)};
+    }
+
+    protected void move(double deltaTime) {
+        float[] dirs = getVelocity();
+        float dx = dirs[0] * (float) deltaTime;
+        float dy = dirs[1] * (float) deltaTime;
 
         float newX = getX() + (getSpeed() * dx);
         float newY = getY() + (getSpeed() * dy);
 
         boolean[] resetStates = getCm().checkCollisionsFor(this, newX, newY);
-        if (resetStates[0] || resetStates[1]) System.out.println("dx: " + dx + " | " + "dy: " + dy + " - reset x:" + resetStates[0] + ", y: " + resetStates[1]);
         setPos(!resetStates[0] ? newX : getX(), !resetStates[1] ? newY : getY());
     }
 
