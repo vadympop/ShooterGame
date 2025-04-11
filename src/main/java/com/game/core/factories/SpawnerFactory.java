@@ -7,10 +7,11 @@ import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.config.SceneConfig;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class SpawnerFactory {
-    public static Spawner createFromConfig(SceneConfig.SpawnerConfig c, Consumer<Entity> onEvent) {
+    public static Spawner createFromConfig(SceneConfig.SpawnerConfig c, Map<String, Consumer<Entity>> events) {
         Tile tile = new Tile(c.getTexture(), null);
         return switch (c.getType()) {
             case PLAYER -> {
@@ -18,7 +19,7 @@ public class SpawnerFactory {
                         tile,
                         new Tile(c.getPlayerTexture(), null)
                 );
-                spawner.addEvent("onPlayerCreated", onEvent);
+                events.forEach(spawner::addEvent);
 
                 yield spawner;
             }

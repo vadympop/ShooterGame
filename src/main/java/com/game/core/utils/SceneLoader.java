@@ -1,5 +1,6 @@
 package com.game.core.utils;
 
+import com.game.core.entities.Entity;
 import com.game.core.factories.AreaFactory;
 import com.game.core.factories.BlockFactory;
 import com.game.core.factories.SpawnerFactory;
@@ -12,8 +13,10 @@ import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.graphics.TileType;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class SceneLoader {
     private SceneConfig config;
@@ -56,7 +59,11 @@ public class SceneLoader {
 
     public void loadSpawners(GameScene scene) {
         getConfig().getSpawners().forEach(x -> {
-            Spawner spawner = SpawnerFactory.createFromConfig(x, scene::addEntity);
+            Map<String, Consumer<Entity>> events = new HashMap<>();
+            events.put("onPlayerCreated", scene::addEntity);
+            events.put("onPlayerBulletCreated", scene::addEntity);
+
+            Spawner spawner = SpawnerFactory.createFromConfig(x, events);
             float[] pos = generatePos(x.getCol(), x.getRow());
             spawner.setPos(pos[0], pos[1]);
             scene.addSpawner(spawner);
