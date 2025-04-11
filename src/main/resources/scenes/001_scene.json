@@ -12,6 +12,7 @@
       "STANDARD": "bullet.png",
       "DOUBLE_DAMAGED_STANDARD": "s"
     },
+    "damage": 3,
     "speed": 160,
     "timeToDestroy": 5.0,
     "hitbox": {
@@ -24,7 +25,7 @@
     "maxBulletsCount": 20,
     "bulletsReloadDelay": 0.75,
     "speed": 260,
-    "rotationSpeed": 290,
+    "rotationSpeed": 250,
     "hitbox": {
       "type": "CIRCLE",
       "radius": 10

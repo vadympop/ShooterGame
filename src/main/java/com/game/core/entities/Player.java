@@ -12,6 +12,7 @@ import com.game.core.shooting.ShootingManager;
 import com.game.core.strategies.SingleShootStrategy;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public class Player extends Entity {
     private int rotationDirection = 1;
 
     private final List<Timer<Player>> timers = new ArrayList<>();
+    private final List<Timer<Player>> timersToAdd = new ArrayList<>();
+
     private Effect activeEffect;
     private boolean hasShield = false;
 
@@ -70,7 +73,7 @@ public class Player extends Entity {
         setActiveEffect(effect);
         effect.apply(this);
 
-        timers.add(new Timer<>(effect.getDuration(), (x) -> {
+        timersToAdd.add(new Timer<>(effect.getDuration(), (x) -> {
             x.getActiveEffect().remove(x);
             x.setActiveEffect(null);
         }));
@@ -82,7 +85,7 @@ public class Player extends Entity {
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
             setDead(true);
-            timers.add(new Timer<>(5f, (p) -> p.getSpawner().spawn()));
+            timersToAdd.add(new Timer<>(5f, (p) -> p.getSpawner().spawn()));
         }
     }
 
@@ -92,7 +95,7 @@ public class Player extends Entity {
         setDead(false);
         setHasShield(true);
 
-        timers.add(new Timer<>(5f, p -> p.setHasShield(false)));
+        timersToAdd.add(new Timer<>(5f, p -> p.setHasShield(false)));
     }
 
     public void changeRotationDirection() { rotationDirection *= -1; }
@@ -121,11 +124,10 @@ public class Player extends Entity {
         }
 
         List<Timer<Player>> toRemove = new ArrayList<>();
-        for (Timer<Player> t: timers) {
-            t.update(deltaTime, this, () -> toRemove.add(t));
-        }
-
+        timers.forEach(t -> t.update(deltaTime, this, () -> toRemove.add(t)));
         timers.removeAll(toRemove);
+        timers.addAll(timersToAdd);
+        timersToAdd.clear();
     }
 
     @Override

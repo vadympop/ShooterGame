@@ -16,6 +16,8 @@ import java.util.stream.Stream;
 
 public class GameScene {
     private final List<Entity> entities = new ArrayList<>();
+    private final List<Entity> entitiesToAdd = new ArrayList<>();
+
     private final List<Area> areas = new ArrayList<>();
     private final List<Spawner> spawners = new ArrayList<>();
     private final List<SceneTile> tiles = new ArrayList<>();
@@ -48,10 +50,14 @@ public class GameScene {
     }
 
     public void update(double deltaTime) {
+        entities.forEach(x -> x.update(deltaTime));
+
         List<Entity> toRemove = entities.stream().filter(x -> !x.getState()).toList();
         collisionManager.removeEntities(toRemove);
+
         entities.removeAll(toRemove);
-        entities.forEach(x -> x.update(deltaTime));
+        entities.addAll(entitiesToAdd);
+        entitiesToAdd.clear();
     }
 
 
@@ -63,7 +69,7 @@ public class GameScene {
     public void addEntity(Entity obj) {
         obj.setCm(collisionManager);
         collisionManager.addObject(obj);
-        this.entities.add(obj);
+        entitiesToAdd.add(obj);
     }
 
     public void addSpawner(Spawner spawner) { this.spawners.add(spawner); }
