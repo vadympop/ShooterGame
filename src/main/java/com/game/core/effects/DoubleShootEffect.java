@@ -9,12 +9,12 @@ public class DoubleShootEffect implements Effect {
 
     @Override
     public void apply(Player player) {
-        player.setShootingStrategy(new DoubleShootStrategy());
+        player.getSm().setShootingStrategy(new DoubleShootStrategy());
     }
 
     @Override
     public void remove(Player player) {
-        player.setShootingStrategy(new SingleShootStrategy());
+        player.getSm().setShootingStrategy(new SingleShootStrategy());
     }
 
     @Override

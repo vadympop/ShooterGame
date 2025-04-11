@@ -9,12 +9,12 @@ public class CircularShootEffect implements Effect {
 
     @Override
     public void apply(Player player) {
-        player.setShootingStrategy(new CircularShootStrategy());
+        player.getSm().setShootingStrategy(new CircularShootStrategy());
     }
 
     @Override
     public void remove(Player player) {
-        player.setShootingStrategy(new SingleShootStrategy());
+        player.getSm().setShootingStrategy(new SingleShootStrategy());
     }
 
     @Override

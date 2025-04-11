@@ -8,12 +8,12 @@ public class DoubleDamageEffect implements Effect {
 
     @Override
     public void apply(Player player) {
-        player.setBulletType(BulletType.DOUBLE_DAMAGED_STANDARD);
+        player.getSm().setBulletType(BulletType.DOUBLE_DAMAGED_STANDARD);
     }
 
     @Override
     public void remove(Player player) {
-        player.setBulletType(BulletType.STANDARD);
+        player.getSm().setBulletType(BulletType.STANDARD);
     }
 
     @Override

@@ -5,11 +5,10 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
 import com.game.core.collisions.CollisionVisitor;
-import com.game.core.entities.bullet.Bullet;
 import com.game.core.entities.bullet.BulletType;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
-import com.game.core.strategies.ShootingStrategy;
+import com.game.core.shooting.ShootingManager;
 import com.game.core.strategies.SingleShootStrategy;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
@@ -23,11 +22,7 @@ public class Player extends Entity {
     private int maxHealth;
     private int health;
 
-    private int maxBulletsCount;
-    private int bulletsCount;
-    private float bulletsReloadDelay;
-    private BulletType bulletType = BulletType.STANDARD;
-    private SceneConfig.BulletConfig bulletConfig;
+    private ShootingManager sm;
 
     private boolean isMoving = false;
     private boolean isDead = false;
@@ -39,7 +34,6 @@ public class Player extends Entity {
     private final List<Timer<Player>> timers = new ArrayList<>();
     private Effect activeEffect;
     private boolean hasShield = false;
-    private ShootingStrategy shootingStrategy;
 
     public Player(
             PlayerSpawner spawner,
@@ -54,27 +48,20 @@ public class Player extends Entity {
     ) {
         super(tile, hitbox);
 
-        setBulletConfig(bulletConfig);
-        setShootingStrategy(new SingleShootStrategy());
+        setSm(new ShootingManager(
+                this,
+                BulletType.STANDARD,
+                new SingleShootStrategy(),
+                bulletConfig,
+                maxBulletsCount,
+                bulletsReloadDelay
+        ));
         setMaxHealth(maxHealth);
         setHealth(getMaxHealth());
-        setMaxBulletsCount(maxBulletsCount);
-        setBulletsCount(getMaxBulletsCount());
-        setBulletsReloadDelay(bulletsReloadDelay);
         setDefaultSpeed(defaultSpeed);
         setSpeed(defaultSpeed);
         setRotationSpeed(rotationSpeed);
         setSpawner(spawner);
-        timers.add(new Timer<>(getBulletsReloadDelay(), (x) -> {
-            if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
-
-            x.setBulletsCount(x.getBulletsCount() + 1);
-        }, true));
-    }
-
-    public void shoot() {
-        setBulletsCount(getBulletsCount() - 1);
-        List<Bullet> bullets = getShootingStrategy().shoot(this);
     }
 
     public boolean applyEffect(Effect effect) {
@@ -121,10 +108,16 @@ public class Player extends Entity {
 
     @Override
     public void update(double deltaTime) {
-        if (isMoving()) move(deltaTime);
+        getSm().update(deltaTime);
+
+        if (isMoving()) {
+            move(deltaTime);
+            getSm().toggleShooting(true);
+        }
         else {
             float newAngle = (float) (getRotationAngle() + (getRotationSpeed() * getRotationDirection() * deltaTime));
             setRotationAngle(newAngle % 360);
+            getSm().toggleShooting(false);
         }
 
         List<Timer<Player>> toRemove = new ArrayList<>();
@@ -144,22 +137,10 @@ public class Player extends Entity {
     public Effect getActiveEffect() { return this.activeEffect; }
     private void setActiveEffect(Effect effect) { activeEffect = effect; }
 
-    public int getBulletsCount() { return this.bulletsCount; }
-    private void setBulletsCount(int bulletsCount) { this.bulletsCount = bulletsCount; }
-
     public boolean isDead() { return this.isDead; }
     private void setDead(boolean dead) { this.isDead = dead; }
 
     public int getRotationDirection() { return this.rotationDirection; }
-
-    public float getBulletsReloadDelay() { return this.bulletsReloadDelay; }
-    public void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
-
-    public ShootingStrategy getShootingStrategy() { return this.shootingStrategy; }
-    public void setShootingStrategy(ShootingStrategy shootingStrategy) {
-        shootingStrategy.setBulletConfig(getBulletConfig());
-        this.shootingStrategy = shootingStrategy;
-    }
 
     public float getDefaultSpeed() { return defaultSpeed; }
     private void setDefaultSpeed(float defaultSpeed) { this.defaultSpeed = defaultSpeed; }
@@ -170,9 +151,6 @@ public class Player extends Entity {
     public boolean isHasShield() { return hasShield; }
     public void setHasShield(boolean hasShield) { this.hasShield = hasShield; }
 
-    public int getMaxBulletsCount() { return maxBulletsCount; }
-    private void setMaxBulletsCount(int maxBulletsCount) { this.maxBulletsCount = maxBulletsCount; }
-
     public float getRotationSpeed() { return rotationSpeed; }
     private void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
 
@@ -182,9 +160,7 @@ public class Player extends Entity {
     public boolean isMoving() { return isMoving; }
     public void setMoving(boolean moving) { isMoving = moving; }
 
-    public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
-    public void setBulletConfig(SceneConfig.BulletConfig bulletConfig) { this.bulletConfig = bulletConfig; }
-
-    public BulletType getBulletType() { return bulletType; }
-    public void setBulletType(BulletType bulletType) { this.bulletType = bulletType; }
+    // Getter for ShootingManager
+    public ShootingManager getSm() { return sm; }
+    private void setSm(ShootingManager sm) { this.sm = sm; }
 }

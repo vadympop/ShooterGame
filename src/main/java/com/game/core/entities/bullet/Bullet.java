@@ -1,6 +1,8 @@
 package com.game.core.entities.bullet;
 
 import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.bounds.CircleBounds;
+import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.collisions.CollisionVisitor;
 import com.game.core.entities.Entity;
@@ -25,9 +27,7 @@ public class Bullet extends Entity {
             float timeToDestroy,
             int damage,
             float speed,
-            float rotationAngle,
-            float x,
-            float y
+            float rotationAngle
     ) {
         super(tile, hitbox);
 
@@ -38,7 +38,6 @@ public class Bullet extends Entity {
 
         setRotationAngle(rotationAngle);
         setSpeed(getOwner().getSpeed() + speed);
-        setPos(x, y);
         createDestroyTimer();
     }
 
@@ -50,7 +49,8 @@ public class Bullet extends Entity {
     @Override
     public void update(double deltaTime) {
         move(deltaTime);
-        getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
+        if (getDestroyTimer() != null)
+            getDestroyTimer().update(deltaTime, this, () -> setDestroyTimer(null));
     }
 
     private void createDestroyTimer() {
@@ -65,11 +65,24 @@ public class Bullet extends Entity {
     public Timer<Bullet> getDestroyTimer() { return destroyTimer; }
     private void setDestroyTimer(Timer<Bullet> timer) { destroyTimer = timer; }
 
+    public void setStartPosition() {
+        float x = owner.getX();
+        float y = owner.getY();
+        float[] dirs = getVelocity();
+        if (getOwner().getHitbox() instanceof CircleBounds circle) {
+            x += circle.getRadius() * 4.5f * dirs[0];
+            y += circle.getRadius() * 4.5f * dirs[1];
+        } else if (getOwner().getHitbox() instanceof RectangleBounds rect) {
+
+        }
+
+        setPos(x, y);
+    }
+
     public static class builder {
         private Player owner;
         private int damage;
         private float speed;
-        private float x, y;
         private float rotationAngle;
         private float timeToDestroy;
         private Tile tile;
@@ -82,7 +95,7 @@ public class Bullet extends Entity {
 
         public builder owner(Player owner) {
             this.owner = owner;
-            this.rotationAngle(owner.getRotationAngle()).pos(owner.getX(), owner.getY());
+            this.rotationAngle(owner.getRotationAngle());
             return this;
         }
 
@@ -116,19 +129,13 @@ public class Bullet extends Entity {
             return this;
         }
 
-        public builder pos(float x, float y) {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
-
         public builder rotationAngle(float rotationAngle) {
             this.rotationAngle = rotationAngle;
             return this;
         }
 
         public Bullet build() {
-            return new Bullet(owner, type, tile, hitbox, timeToDestroy, damage, speed, rotationAngle, x, y);
+            return new Bullet(owner, type, tile, hitbox, timeToDestroy, damage, speed, rotationAngle);
         }
     }
 }
