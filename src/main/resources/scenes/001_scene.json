@@ -3,13 +3,13 @@
   "name": "Scene 1",
   "tileWidth": 32,
   "tileHeight": 32,
-  "debug": true,
+  "debug": false,
   "bonus": {
     "texture": "bonus.png"
   },
   "bullet": {
     "textures": {
-      "STANDARD": "s",
+      "STANDARD": "bullet.png",
       "DOUBLE_DAMAGED_STANDARD": "s"
     },
     "speed": 160,
@@ -153,7 +153,7 @@
   "mappings": {
     "tiles": {
       "0": {
-        "texture": "block_4.png",
+        "texture": "tile_0.png",
         "defaultSize": true
       },
       "z": {
