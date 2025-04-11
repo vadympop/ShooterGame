@@ -2,6 +2,7 @@ package com.game.core.collisions;
 
 import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.behaviour.interfaces.Collidable;
+import com.game.core.entities.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.List;
 public class CollisionManager {
     private final CollisionVisitor collisionHandler = new CollisionHandler();
     private final List<Collidable> collidableObjects = new ArrayList<>();
+
+    public void removeEntities(List<Entity> toRemove) {
+        collidableObjects.removeAll(toRemove);
+    }
 
     public boolean[] checkCollisionsFor(Collidable entity, float newX, float newY) {
         Bounds originalHitbox = entity.getHitbox();

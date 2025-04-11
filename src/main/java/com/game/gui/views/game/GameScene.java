@@ -48,6 +48,9 @@ public class GameScene {
     }
 
     public void update(double deltaTime) {
+        List<Entity> toRemove = entities.stream().filter(x -> !x.getState()).toList();
+        collisionManager.removeEntities(toRemove);
+        entities.removeAll(toRemove);
         entities.forEach(x -> x.update(deltaTime));
     }
 
