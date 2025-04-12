@@ -88,7 +88,8 @@ public class SceneLoader {
                     Block block = BlockFactory.createFromConfig(c, t);
 
                     block.setPos(pos[0], pos[1]);
-                    s.addBlock(block);
+                    if (block instanceof Entity e) s.addEntity(e);
+                    else s.addBlock(block);
                 }
         );
     }
