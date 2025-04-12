@@ -15,6 +15,7 @@ public class CollisionHandler implements CollisionVisitor {
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
+                if(bullet.getOwner() == player) return;
                 bullet.setState(false);
             }
 
@@ -33,6 +34,8 @@ public class CollisionHandler implements CollisionVisitor {
         other.onCollision(new CollisionVisitor() {
             @Override
             public void visit(Player player, Collidable other) {
+                if(bullet.getOwner() == player) return;
+
                 bullet.setState(false);
                 player.takeDamage(bullet.getDamage());
             }
