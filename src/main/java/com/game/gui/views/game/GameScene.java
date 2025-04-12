@@ -50,16 +50,15 @@ public class GameScene {
     }
 
     public void update(double deltaTime) {
+        entities.addAll(entitiesToAdd);
+        entitiesToAdd.clear();
+
         entities.forEach(x -> x.update(deltaTime));
 
         List<Entity> toRemove = entities.stream().filter(x -> !x.getState()).toList();
         collisionManager.removeEntities(toRemove);
-
         entities.removeAll(toRemove);
-        entities.addAll(entitiesToAdd);
-        entitiesToAdd.clear();
     }
-
 
     public void addBlock(Block block) {
         collisionManager.addObject(block);
