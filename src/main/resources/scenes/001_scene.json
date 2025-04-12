@@ -3,7 +3,7 @@
   "name": "Scene 1",
   "tileWidth": 32,
   "tileHeight": 32,
-  "debug": false,
+  "debug": true,
   "bonus": {
     "texture": "bonus.png"
   },
@@ -13,8 +13,7 @@
       "DOUBLE_DAMAGED_STANDARD": "s"
     },
     "damage": 3,
-    "speed": 160,
-    "timeToDestroy": 5.0,
+    "timeToDestroy": 1.5,
     "hitbox": {
       "type": "CIRCLE",
       "radius": 5
@@ -24,7 +23,7 @@
     "maxHealth": 3,
     "maxBulletsCount": 20,
     "bulletsReloadDelay": 0.75,
-    "speed": 260,
+    "speed": 220,
     "rotationSpeed": 250,
     "hitbox": {
       "type": "CIRCLE",

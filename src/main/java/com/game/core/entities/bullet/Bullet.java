@@ -37,7 +37,7 @@ public class Bullet extends Entity {
         this.timeToDestroy = timeToDestroy;
 
         setRotationAngle(rotationAngle);
-        setSpeed(getOwner().getSpeed() + speed);
+        setSpeed(speed);
         createDestroyTimer();
     }
 
@@ -66,16 +66,17 @@ public class Bullet extends Entity {
     private void setDestroyTimer(Timer<Bullet> timer) { destroyTimer = timer; }
 
     public void setStartPosition() {
-        float x = owner.getX();
-        float y = owner.getY();
         float[] dirs = getVelocity();
+        float xOffset = 0, yOffset = 0;
         if (getOwner().getHitbox() instanceof CircleBounds circle) {
-            x += circle.getRadius() * 4.5f * dirs[0];
-            y += circle.getRadius() * 4.5f * dirs[1];
+            xOffset = yOffset = circle.getRadius();
         } else if (getOwner().getHitbox() instanceof RectangleBounds rect) {
-
+            xOffset = rect.getWidth() / 2f;
+            yOffset = rect.getHeight() / 2f;
         }
 
+        float x = owner.getX() + xOffset * 2f * dirs[0];
+        float y = owner.getY() + yOffset * 2f * dirs[1];
         setPos(x, y);
     }
 
@@ -95,14 +96,13 @@ public class Bullet extends Entity {
 
         public builder owner(Player owner) {
             this.owner = owner;
-            this.rotationAngle(owner.getRotationAngle());
+            this.rotationAngle(owner.getRotationAngle()).speed(owner.getSpeed());
             return this;
         }
 
         public builder config(SceneConfig.BulletConfig config) {
             this
                 .damage(config.getDamage())
-                .speed(config.getSpeed())
                 .timeToDestroy(config.getTimeToDestroy())
                 .hitbox(BoundsFactory.createFromConfig(config.getHitbox()));
             this.tile = new Tile(config.getTextures().get(this.type), null);
@@ -135,6 +135,8 @@ public class Bullet extends Entity {
         }
 
         public Bullet build() {
+            float coefficient = 1.5f + (float)Math.tanh(speed / 250.0f) * 0.5f;
+            this.speed *= coefficient;
             return new Bullet(owner, type, tile, hitbox, timeToDestroy, damage, speed, rotationAngle);
         }
     }

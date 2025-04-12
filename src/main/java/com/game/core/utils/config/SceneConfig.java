@@ -79,16 +79,12 @@ public class SceneConfig {
 
     public static class BulletConfig {
         private Map<BulletType, String> textures;
-        private float speed;
         private float timeToDestroy;
         private int damage;
         private BoundsConfig hitbox;
 
         public Map<BulletType, String> getTextures() { return textures; }
         public void setTextures(Map<BulletType, String> textures) { this.textures = textures; }
-
-        public float getSpeed() { return speed; }
-        public void setSpeed(float speed) { this.speed = speed; }
 
         public float getTimeToDestroy() { return timeToDestroy; }
         public void setTimeToDestroy(float timeToDestroy) { this.timeToDestroy = timeToDestroy; }
