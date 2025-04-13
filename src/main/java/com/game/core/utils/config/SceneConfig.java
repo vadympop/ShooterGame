@@ -99,6 +99,7 @@ public class SceneConfig {
     public static class PlayerConfig {
         private int maxHealth;
         private int maxBulletsCount;
+        private float bulletsCooldown;
         private float bulletsReloadDelay;
         private float speed;
         private float rotationSpeed;
@@ -121,6 +122,9 @@ public class SceneConfig {
 
         public float getRotationSpeed() { return rotationSpeed; }
         public void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
+
+        public float getBulletsCooldown() { return bulletsCooldown; }
+        public void setBulletsCooldown(float bulletsCooldown) { this.bulletsCooldown = bulletsCooldown; }
     }
 
     public static class AreaConfig {

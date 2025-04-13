@@ -22,6 +22,7 @@
   "player": {
     "maxHealth": 3,
     "maxBulletsCount": 20,
+    "bulletsCooldown": 0.15,
     "bulletsReloadDelay": 0.75,
     "speed": 220,
     "rotationSpeed": 250,

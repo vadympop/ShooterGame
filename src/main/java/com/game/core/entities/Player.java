@@ -47,6 +47,7 @@ public class Player extends Entity {
             int maxHealth,
             int maxBulletsCount,
             float bulletsReloadDelay,
+            float bulletsCooldown,
             float defaultSpeed,
             float rotationSpeed
     ) {
@@ -55,10 +56,11 @@ public class Player extends Entity {
         setSm(new ShootingManager(
                 this,
                 BulletType.STANDARD,
-                new CircularShootStrategy(),
+                new DoubleShootStrategy(),
                 bulletConfig,
                 maxBulletsCount,
-                bulletsReloadDelay
+                bulletsReloadDelay,
+                bulletsCooldown
         ));
         setMaxHealth(maxHealth);
         setHealth(getMaxHealth());

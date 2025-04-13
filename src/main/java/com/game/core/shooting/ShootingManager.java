@@ -11,7 +11,6 @@ import com.game.core.utils.config.SceneConfig;
 
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class ShootingManager implements Updatable {
     private final Queue<DelayedWrapper<Bullet>> bulletsQueue = new LinkedList<>();
@@ -22,6 +21,7 @@ public class ShootingManager implements Updatable {
     private int maxBulletsCount;
     private int bulletsCount;
     private float bulletsReloadDelay;
+    private float bulletsCooldown;
     private Consumer<Entity> onBulletCreated;
     private BulletType bulletType;
     private SceneConfig.BulletConfig bulletConfig;
@@ -33,7 +33,8 @@ public class ShootingManager implements Updatable {
             ShootingStrategy shootingStrategy,
             SceneConfig.BulletConfig bulletConfig,
             int maxBulletsCount,
-            float bulletsReloadDelay
+            float bulletsReloadDelay,
+            float bulletsCooldown
     ) {
         setPlayer(player);
         setBulletType(bulletType);
@@ -42,6 +43,7 @@ public class ShootingManager implements Updatable {
         setBulletsReloadDelay(bulletsReloadDelay);
         setMaxBulletsCount(maxBulletsCount);
         setBulletsCount(maxBulletsCount);
+        setBulletsCooldown(bulletsCooldown);
 
         reloadingTimer = new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
@@ -79,7 +81,7 @@ public class ShootingManager implements Updatable {
             bulletsCountByRotation.putIfAbsent(bulletRotation, 0);
             int count = bulletsCountByRotation.get(bulletRotation);
 
-            double delay = count * 0.2;
+            double delay = count * getBulletsCooldown();
             bulletsQueue.add(new DelayedWrapper<>(
                     delay,
                     bullet,
@@ -124,4 +126,7 @@ public class ShootingManager implements Updatable {
 
     public Consumer<Entity> getOnBulletCreated() { return onBulletCreated; }
     public void setOnBulletCreated(Consumer<Entity> onBulletCreated) { this.onBulletCreated = onBulletCreated; }
+
+    public float getBulletsCooldown() { return bulletsCooldown; }
+    private void setBulletsCooldown(float bulletsCooldown) { this.bulletsCooldown = bulletsCooldown; }
 }
