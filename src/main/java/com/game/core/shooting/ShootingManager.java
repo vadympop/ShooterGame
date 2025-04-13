@@ -74,10 +74,6 @@ public class ShootingManager implements Updatable {
         decrementBulletsCount();
 
         List<Bullet> bullets = getShootingStrategy().shoot(getPlayer(), getBulletType());
-        Map<Float, List<Bullet>> groupedByRotation = bullets.stream().collect(
-                Collectors.groupingBy(Bullet::getRotationAngle)
-        );
-
         for (Bullet bullet : bullets) {
             float bulletRotation = bullet.getRotationAngle();
             bulletsCountByRotation.putIfAbsent(bulletRotation, 0);
