@@ -9,10 +9,11 @@ import com.game.core.entities.bullet.BulletType;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.shooting.ShootingManager;
+import com.game.core.strategies.CircularShootStrategy;
+import com.game.core.strategies.DoubleShootStrategy;
 import com.game.core.strategies.SingleShootStrategy;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
-import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class Player extends Entity {
         setSm(new ShootingManager(
                 this,
                 BulletType.STANDARD,
-                new SingleShootStrategy(),
+                new CircularShootStrategy(),
                 bulletConfig,
                 maxBulletsCount,
                 bulletsReloadDelay

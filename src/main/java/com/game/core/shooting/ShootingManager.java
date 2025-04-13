@@ -9,13 +9,13 @@ import com.game.core.strategies.ShootingStrategy;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class ShootingManager implements Updatable {
     private final Queue<DelayedWrapper<Bullet>> bulletsQueue = new LinkedList<>();
+    private final Map<Float, Integer> bulletsCountByRotation = new HashMap<>();
     private final Timer<ShootingManager> reloadingTimer;
     private Player player;
     private boolean isShooting = false;
@@ -74,16 +74,30 @@ public class ShootingManager implements Updatable {
         decrementBulletsCount();
 
         List<Bullet> bullets = getShootingStrategy().shoot(getPlayer(), getBulletType());
+        Map<Float, List<Bullet>> groupedByRotation = bullets.stream().collect(
+                Collectors.groupingBy(Bullet::getRotationAngle)
+        );
+
         for (Bullet bullet : bullets) {
-            double delay = bulletsQueue.size() * 0.4;
+            float bulletRotation = bullet.getRotationAngle();
+            bulletsCountByRotation.putIfAbsent(bulletRotation, 0);
+            int count = bulletsCountByRotation.get(bulletRotation);
+
+            double delay = count * 0.2;
             bulletsQueue.add(new DelayedWrapper<>(
                     delay,
                     bullet,
                     b -> {
                         b.setStartPosition();
                         getOnBulletCreated().accept(b);
+                        bulletsCountByRotation.computeIfPresent(
+                                bulletRotation,
+                                (key, oldValue) -> Math.max(0, oldValue - 1)
+                        );
                     }
             ));
+
+            bulletsCountByRotation.computeIfPresent(bulletRotation, (key, oldValue) -> oldValue + 1);
         }
     }
 
