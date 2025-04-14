@@ -1,6 +1,7 @@
 package com.game.gui.views.game;
 
 import com.game.core.scene.spawners.PlayerSpawner;
+import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.Scaler;
 import com.game.core.utils.SceneLoader;
 import com.game.core.utils.config.ConfigLoader;
@@ -19,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class GameView extends Application {
     private GraphicsContext gc;
@@ -54,26 +56,28 @@ public class GameView extends Application {
         SceneLoader loader = new SceneLoader(config, scaler);
         gameScene = loader.loadScene();
 
-        String[] keys = {"W", "UP", "SPACE", "BACK_SPACE"};
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode() == KeyCode.W) {
-                    PlayerSpawner s = (PlayerSpawner) gameScene.getSpawners().getFirst();
-                    s.getPlayer().onKeyPressed();
-                }
-            }
-        });
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode() == KeyCode.W) {
-                    PlayerSpawner s = (PlayerSpawner) gameScene.getSpawners().getFirst();
-                    s.getPlayer().onKeyReleased();
+        String[] keys = {"W", "Up", "SPACE", "BACK_SPACE"};
+        List<Spawner> ss = gameScene.getSpawners();
+        List<PlayerSpawner> filteredSs = ss.stream()
+                .filter(x -> x instanceof PlayerSpawner)
+                .map(x -> (PlayerSpawner) x)
+                .toList();
+
+        scene.setOnKeyPressed(keyEvent -> {
+            for (int i = 0; i < filteredSs.size(); i++) {
+                if (keyEvent.getCode() == KeyCode.getKeyCode(keys[i])) {
+                    filteredSs.get(i).getPlayer().onKeyPressed();
                 }
             }
         });
 
+        scene.setOnKeyReleased(keyEvent -> {
+            for (int i = 0; i < filteredSs.size(); i++) {
+                if (keyEvent.getCode() == KeyCode.getKeyCode(keys[i])) {
+                    filteredSs.get(i).getPlayer().onKeyReleased();
+                }
+            }
+        });
 
         gameScene.start();
         new GameLoop(this::render, this::update).start();
