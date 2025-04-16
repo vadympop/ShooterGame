@@ -14,14 +14,16 @@ Configuration:
         PatternLayout:
           pattern: "%d [%t] %p %c - %m%n"
   Loggers:
+    Logger:
+      - name: "com.game"
+        level: "DEBUG"
+        AppenderRef:
+          - ref: "DEBUG_LOG"
+
     Root:
       level: "INFO"
       AppenderRef:
         - ref: "CONSOLE"
           level: "WARN"
         - ref: "MAIN"
-    Logger:
-      name: "com.game"
-      level: "DEBUG"
-      AppenderRef:
-        ref: "DEBUG_LOG"
+          level: "INFO"
