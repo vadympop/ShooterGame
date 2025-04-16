@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class SceneLoader {
+public class GameSceneLoader {
     private SceneConfig config;
     private Scaler scaler;
 
-    public SceneLoader(SceneConfig config, Scaler scaler) {
+    public GameSceneLoader(SceneConfig config, Scaler scaler) {
         setConfig(config);
         setScaler(scaler);
     }

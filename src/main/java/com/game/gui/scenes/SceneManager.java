@@ -1,7 +1,7 @@
 package com.game.gui.scenes;
 
 import com.game.core.utils.Scaler;
-import com.game.core.utils.SceneLoader;
+import com.game.core.utils.GameSceneLoader;
 import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
 import com.game.gui.scenes.game.GameModel;
@@ -31,7 +31,7 @@ public class SceneManager {
         Scaler scaler = Scaler.getInstance();
         scaler.setSettings(config);
 
-        SceneLoader loader = new SceneLoader(config, scaler);
+        GameSceneLoader loader = new GameSceneLoader(config, scaler);
         GameModel model = loader.loadScene();
 
         setCurrentScene(new GameScene(model, getPrimaryStage(), this));
