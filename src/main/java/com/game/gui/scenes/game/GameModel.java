@@ -1,4 +1,4 @@
-package com.game.gui.views.game;
+package com.game.gui.scenes.game;
 
 import com.game.core.entities.Entity;
 import com.game.core.collisions.CollisionManager;
@@ -6,15 +6,14 @@ import com.game.core.scene.areas.Area;
 import com.game.core.scene.blocks.Block;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.TileType;
+import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
-import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
-public class GameScene {
+public class GameModel {
     private final List<Entity> entities = new ArrayList<>();
     private final List<Entity> entitiesToAdd = new ArrayList<>();
 
@@ -26,27 +25,9 @@ public class GameScene {
     private String sceneId;
     private String name;
 
-    public GameScene(String sceneId, String name) {
+    public GameModel(String sceneId, String name) {
         setSceneId(sceneId);
         setName(name);
-    }
-
-    private void drawTilesByType(GraphicsContext gc, TileType type) {
-        tiles.stream()
-                .filter(tile -> tile.getTile().getType() == type)
-                .forEach(tile -> tile.draw(gc));
-    }
-
-    public void start() {
-        spawners.forEach(Spawner::spawn);
-    }
-
-    public void render(GraphicsContext gc) {
-        drawTilesByType(gc, TileType.BACKGROUND);
-
-        Stream.of(spawners, blocks, entities).forEach(list -> list.forEach(x -> x.draw(gc)));
-
-        drawTilesByType(gc, TileType.OVERLAY);
     }
 
     public void update(double deltaTime) {
@@ -58,6 +39,19 @@ public class GameScene {
         List<Entity> toRemove = entities.stream().filter(x -> !x.getState()).toList();
         collisionManager.removeEntities(toRemove);
         entities.removeAll(toRemove);
+    }
+
+    public List<SceneTile> getTilesByType(TileType type) {
+        return getTiles().stream()
+                .filter(tile -> tile.getTile().getType() == type)
+                .toList();
+    }
+
+    public List<PlayerSpawner> getPlayerSpawners() {
+        return getSpawners().stream()
+                .filter(x -> x instanceof PlayerSpawner)
+                .map(x -> (PlayerSpawner) x)
+                .toList();
     }
 
     public void addBlock(Block block) {

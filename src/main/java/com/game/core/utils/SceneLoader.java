@@ -8,7 +8,7 @@ import com.game.core.scene.areas.Area;
 import com.game.core.scene.blocks.Block;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.config.SceneConfig;
-import com.game.gui.views.game.GameScene;
+import com.game.gui.scenes.game.GameModel;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.graphics.TileType;
@@ -27,10 +27,10 @@ public class SceneLoader {
         setScaler(scaler);
     }
 
-    public GameScene loadScene() {
+    public GameModel loadScene() {
         SceneConfig config = getConfig();
 
-        GameScene newScene = new GameScene(config.getId(), config.getName());
+        GameModel newScene = new GameModel(config.getId(), config.getName());
         loadTiles(newScene, config.getBackgroundTiles(), TileType.BACKGROUND);
         loadTiles(newScene, config.getOverlayTiles(), TileType.OVERLAY);
         loadBlocks(newScene, config.getBlocks());
@@ -48,7 +48,7 @@ public class SceneLoader {
         return new float[]{xPos, yPos};
     }
 
-    public void loadAreas(GameScene scene) {
+    public void loadAreas(GameModel scene) {
         getConfig().getAreas().forEach(x -> {
             Area area = AreaFactory.createFromConfig(x);
             float[] pos = generatePos(x.getCol(), x.getRow());
@@ -57,7 +57,7 @@ public class SceneLoader {
         });
     }
 
-    public void loadSpawners(GameScene scene) {
+    public void loadSpawners(GameModel scene) {
         getConfig().getSpawners().forEach(x -> {
             Map<String, Consumer<Entity>> events = new HashMap<>();
             events.put("onPlayerCreated", scene::addEntity);
@@ -70,7 +70,7 @@ public class SceneLoader {
         });
     }
 
-    public void loadTiles(GameScene scene, List<String> tiles, TileType tileType) {
+    public void loadTiles(GameModel scene, List<String> tiles, TileType tileType) {
         loadObjectsFromStrings(
                 scene, getConfig().getMappings().getTiles(), tiles, tileType,
                 (s, c, t, pos) -> {
@@ -81,7 +81,7 @@ public class SceneLoader {
         );
     }
 
-    public void loadBlocks(GameScene scene, List<String> blocks) {
+    public void loadBlocks(GameModel scene, List<String> blocks) {
         loadObjectsFromStrings(
                 scene, getConfig().getMappings().getBlocks(), blocks, null,
                 (s, c, t, pos) -> {
@@ -95,11 +95,11 @@ public class SceneLoader {
     }
 
     public <T extends SceneConfig.MappingTileConfig> void loadObjectsFromStrings(
-            GameScene scene,
+            GameModel scene,
             Map<String, T> texturesMapping,
             List<String> elements,
             TileType tileType,
-            QuatroConsumer<GameScene, T, Tile, float[]> addFunction
+            QuatroConsumer<GameModel, T, Tile, float[]> addFunction
     ) {
         int rowsCount = 0;
         for (String row : elements) {
