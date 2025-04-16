@@ -7,6 +7,7 @@ import com.game.core.utils.Scaler;
 public class RectangleBounds extends PositionWrapper implements Bounds {
     private float height;
     private float width;
+    private float multiplier = 1f;
 
     public RectangleBounds(float width, float height) {
         Scaler scaler = Scaler.getInstance();
@@ -69,13 +70,18 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
     @Override public float getMinY() { return getY() - (getHeight() / 2); }
 
     @Override
+    public void multiply(float multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    @Override
     public Bounds copy() {
         return new RectangleBounds(getWidth(), getHeight());
     }
 
-    public float getHeight() { return this.height; }
+    public float getHeight() { return this.multiplier * this.height; }
     private void setHeight(float height) { this.height = height; }
 
-    public float getWidth() { return this.width; }
+    public float getWidth() { return this.multiplier * this.width; }
     private void setWidth(float width) { this.width = width; }
 }

@@ -5,6 +5,7 @@ import com.game.core.utils.Scaler;
 
 public class CircleBounds extends PositionWrapper implements Bounds {
     private float radius;
+    private float multiplier = 1f;
 
     public CircleBounds(float radius) {
         Scaler scaler = Scaler.getInstance();
@@ -57,10 +58,15 @@ public class CircleBounds extends PositionWrapper implements Bounds {
     @Override public float getMinY() { return getY() - getRadius(); }
 
     @Override
+    public void multiply(float multiplier) {
+        this.multiplier = multiplier;
+    }
+
+    @Override
     public Bounds copy() {
         return new CircleBounds(getRadius());
     }
 
-    public float getRadius() { return this.radius; }
+    public float getRadius() { return this.multiplier * this.radius; }
     private void setRadius(float radius) { this.radius = radius; }
 }
