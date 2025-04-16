@@ -1,6 +1,7 @@
 package com.game.core.scene.graphics;
 
 import com.game.core.behaviour.bounds.RectangleBounds;
+import com.game.core.utils.PositionUtils;
 import com.game.core.utils.Scaler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -68,15 +69,14 @@ public class Tile {
     }
 
     public void draw(GraphicsContext gc, float x, float y) {
-        double displayX = x - (getSize().getWidth() / 2);
-        double displayY = y - (getSize().getHeight() / 2);
+        double[] displayPos = PositionUtils.generateDisplayPos(x, y, getSize());
         if (isTextureUndefined()) {
-            gc.fillRect(displayX, displayY, getSize().getWidth(), getSize().getHeight());
+            gc.fillRect(displayPos[0], displayPos[1], getSize().getWidth(), getSize().getHeight());
         } else {
             gc.drawImage(
                     getSprite(),
-                    displayX,
-                    displayY,
+                    displayPos[0],
+                    displayPos[1],
                     getSize().getWidth(),
                     getSize().getHeight()
             );

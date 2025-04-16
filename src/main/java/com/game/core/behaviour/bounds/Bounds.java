@@ -10,6 +10,7 @@ public interface Bounds extends Positionable {
     float getMaxY();
     float getMinX();
     float getMinY();
+    float getMaxSize();
     void multiply(float multiplier);
     Bounds copy();
 }

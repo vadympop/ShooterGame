@@ -13,8 +13,11 @@ import com.game.core.shooting.ShootingManager;
 import com.game.core.strategies.CircularShootStrategy;
 import com.game.core.strategies.DoubleShootStrategy;
 import com.game.core.strategies.SingleShootStrategy;
+import com.game.core.utils.PositionUtils;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +148,21 @@ public class Player extends Entity {
 
     @Override
     public void onCollision(CollisionVisitor visitor, Collidable other) { visitor.visit(this, other); }
+
+    @Override
+    public void render(GraphicsContext gc) {
+        super.render(gc);
+
+        if (isHasShield()) drawEffectCircle(gc, Color.web("#949494", 0.5f));
+    }
+
+    public void drawEffectCircle(GraphicsContext gc, Color color) {
+        float maxSize = getHitbox().getMaxSize();
+        double[] displayPos = PositionUtils.generateDisplayPos(getX(), getY(), getHitbox());
+
+        gc.setFill(color);
+        gc.fillOval(displayPos[0], displayPos[1], maxSize, maxSize);
+    }
 
     public int getHealth() { return this.health; }
     private void setHealth(int health) { this.health = health; }
