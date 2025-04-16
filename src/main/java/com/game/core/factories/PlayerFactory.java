@@ -18,6 +18,7 @@ public class PlayerFactory {
                 config.getBullet(),
                 config.getPlayer().getMaxHealth(),
                 config.getPlayer().getMaxBulletsCount(),
+                config.getPlayer().getShieldHitboxMultiplier(),
                 config.getPlayer().getBulletsReloadDelay(),
                 config.getPlayer().getBulletsCooldown(),
                 config.getPlayer().getSpeed(),

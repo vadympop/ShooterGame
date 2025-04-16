@@ -3,7 +3,7 @@
   "name": "Scene 1",
   "tileWidth": 32,
   "tileHeight": 32,
-  "debug": false,
+  "debug": true,
   "bonus": {
     "texture": "bonus.png"
   },
@@ -12,7 +12,7 @@
       "STANDARD": "bullet.png",
       "DOUBLE_DAMAGED_STANDARD": "s"
     },
-    "damage": 3,
+    "damage": 1,
     "timeToDestroy": 1.5,
     "hitbox": {
       "type": "CIRCLE",
@@ -20,12 +20,13 @@
     }
   },
   "player": {
-    "maxHealth": 3,
+    "maxHealth": 2,
     "maxBulletsCount": 20,
     "bulletsCooldown": 0.15,
     "bulletsReloadDelay": 0.75,
     "speed": 220,
     "rotationSpeed": 250,
+    "shieldHitboxMultiplier": 2,
     "hitbox": {
       "type": "CIRCLE",
       "radius": 10

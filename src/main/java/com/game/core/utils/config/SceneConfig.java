@@ -103,6 +103,7 @@ public class SceneConfig {
         private float bulletsReloadDelay;
         private float speed;
         private float rotationSpeed;
+        private float shieldHitboxMultiplier;
         private BoundsConfig hitbox;
 
         public BoundsConfig getHitbox() { return hitbox; }
@@ -125,6 +126,9 @@ public class SceneConfig {
 
         public float getBulletsCooldown() { return bulletsCooldown; }
         public void setBulletsCooldown(float bulletsCooldown) { this.bulletsCooldown = bulletsCooldown; }
+
+        public float getShieldHitboxMultiplier() { return shieldHitboxMultiplier; }
+        public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) { this.shieldHitboxMultiplier = shieldHitboxMultiplier; }
     }
 
     public static class AreaConfig {

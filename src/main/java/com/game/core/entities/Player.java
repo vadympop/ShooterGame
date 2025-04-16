@@ -1,6 +1,7 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.bounds.Bounds;
+import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
@@ -38,6 +39,7 @@ public class Player extends Entity {
 
     private Effect activeEffect;
     private boolean hasShield = false;
+    private float shieldHitboxMultiplier;
 
     public Player(
             PlayerSpawner spawner,
@@ -46,6 +48,7 @@ public class Player extends Entity {
             SceneConfig.BulletConfig bulletConfig,
             int maxHealth,
             int maxBulletsCount,
+            float shieldHitboxMultiplier,
             float bulletsReloadDelay,
             float bulletsCooldown,
             float defaultSpeed,
@@ -56,7 +59,7 @@ public class Player extends Entity {
         setSm(new ShootingManager(
                 this,
                 BulletType.STANDARD,
-                new DoubleShootStrategy(),
+                new SingleShootStrategy(),
                 bulletConfig,
                 maxBulletsCount,
                 bulletsReloadDelay,
@@ -64,6 +67,7 @@ public class Player extends Entity {
         ));
         setMaxHealth(maxHealth);
         setHealth(getMaxHealth());
+        setShieldHitboxMultiplier(shieldHitboxMultiplier);
         setDefaultSpeed(defaultSpeed);
         setSpeed(defaultSpeed);
         setRotationSpeed(rotationSpeed);
@@ -85,6 +89,8 @@ public class Player extends Entity {
     }
 
     public void takeDamage(int damage) {
+        if (isHasShield()) return;
+
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
             setDead(true);
@@ -114,23 +120,27 @@ public class Player extends Entity {
 
     @Override
     public void update(double deltaTime) {
-        getSm().update(deltaTime);
-
-        if (isMoving()) {
-            move(deltaTime);
-            getSm().toggleShooting(true);
-        }
-        else {
-            float newAngle = (float) (getRotationAngle() + (getRotationSpeed() * getRotationDirection() * deltaTime));
-            setRotationAngle(newAngle % 360);
-            getSm().toggleShooting(false);
-        }
-
         List<Timer<Player>> toRemove = new ArrayList<>();
         timers.forEach(t -> t.update(deltaTime, this, () -> toRemove.add(t)));
         timers.removeAll(toRemove);
         timers.addAll(timersToAdd);
         timersToAdd.clear();
+
+        getSm().update(deltaTime);
+
+        // If player is dead it's not rotating and not moving
+        if(isDead()) return;
+
+        if (isMoving()) {
+            move(deltaTime);
+            getSm().toggleShooting(true);
+            return;
+        }
+
+        // Rotate while player is not moving
+        float newAngle = (float) (getRotationAngle() + (getRotationSpeed() * getRotationDirection() * deltaTime));
+        setRotationAngle(newAngle % 360);
+        getSm().toggleShooting(false);
     }
 
     @Override
@@ -154,7 +164,13 @@ public class Player extends Entity {
     private void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
 
     public boolean isHasShield() { return hasShield; }
-    public void setHasShield(boolean hasShield) { this.hasShield = hasShield; }
+    public void setHasShield(boolean hasShield) {
+        this.hasShield = hasShield;
+        float multiplier = 1f;
+        if (hasShield) multiplier = getShieldHitboxMultiplier();
+
+        getHitbox().multiply(multiplier);
+    }
 
     public float getRotationSpeed() { return rotationSpeed; }
     private void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
@@ -168,4 +184,7 @@ public class Player extends Entity {
     // Getter for ShootingManager
     public ShootingManager getSm() { return sm; }
     private void setSm(ShootingManager sm) { this.sm = sm; }
+
+    public float getShieldHitboxMultiplier() { return shieldHitboxMultiplier; }
+    public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) { this.shieldHitboxMultiplier = shieldHitboxMultiplier; }
 }
