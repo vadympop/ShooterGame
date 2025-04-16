@@ -1,10 +1,14 @@
 package com.game.gui;
 
 import javafx.animation.AnimationTimer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.function.Consumer;
 
 public class GameLoop extends AnimationTimer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameLoop.class);
+
     private long lastTime = System.nanoTime();
     private long fpsTimer = System.nanoTime();
     private int frames = 0;
@@ -28,7 +32,7 @@ public class GameLoop extends AnimationTimer {
             frames = 0;
             fpsTimer = now;
 
-            System.out.println("FPS: " + fps);
+            LOGGER.info("FPS: {}", fps);
         }
 
         updater.accept(deltaTime);

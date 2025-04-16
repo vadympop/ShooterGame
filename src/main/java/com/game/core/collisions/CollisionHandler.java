@@ -6,8 +6,12 @@ import com.game.core.entities.Player;
 import com.game.core.entities.bonus.Bonus;
 import com.game.core.scene.blocks.BreakableBlock;
 import com.game.core.scene.blocks.SolidBlock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CollisionHandler implements CollisionVisitor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CollisionHandler.class);
+
     @Override
     public void visit(Player player, Collidable other) {
         other.onCollision(new CollisionVisitor() {
@@ -15,7 +19,10 @@ public class CollisionHandler implements CollisionVisitor {
 
             @Override
             public void visit(Bullet bullet, Collidable other) {
-                if(bullet.getOwner() == player) return;
+                if(bullet.getOwner() == player) {
+                    LOGGER.debug("Bullet collides with its owner");
+                    return;
+                }
                 bullet.setState(false);
             }
 
@@ -34,7 +41,10 @@ public class CollisionHandler implements CollisionVisitor {
         other.onCollision(new CollisionVisitor() {
             @Override
             public void visit(Player player, Collidable other) {
-                if(bullet.getOwner() == player) return;
+                if(bullet.getOwner() == player) {
+                    LOGGER.debug("Bullet collides with its owner 2");
+                    return;
+                }
 
                 bullet.setState(false);
                 player.takeDamage(bullet.getDamage());

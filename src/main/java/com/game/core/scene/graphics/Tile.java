@@ -5,12 +5,16 @@ import com.game.core.utils.PositionUtils;
 import com.game.core.utils.Scaler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URISyntaxException;
 import java.net.URL;
 
 
 public class Tile {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Tile.class);
+
     private static final String UNDEFINED_TEXTURE = "undefined.png";
     private Image sprite;
     private boolean isTextureUndefined = false;
@@ -36,8 +40,11 @@ public class Tile {
         // RectangleBounds also scaled provided params, so in first if are putted 1 as scale
         // and in the second if width and height should to be scaled already in RectangleBounds
         if (hasDefaultSize || isTextureUndefined()) {
+            LOGGER.debug("Process scaling in Bounds -> pass scale argument as '1'");
+            // because scaler.getTileWidth/getTileHeight already scaled
             setSize(new RectangleBounds(scaler.getTileWidth(), scaler.getTileHeight(), 1));
         } else {
+            LOGGER.debug("Use custom sizes, so this sizes need to be scaled -> use constructor without scale arg");
             setSize(new RectangleBounds(
                     (float) getSprite().getWidth(),
                     (float) getSprite().getHeight()
@@ -51,19 +58,22 @@ public class Tile {
 
         URL tileURL = getClass().getResource("/textures/" + texture);
         if (tileURL == null) {
-            // logging
+            LOGGER.warn("Tile texture={} not found", texture);
             isError = true;
         } else {
             try {
                 setSprite(new Image(String.valueOf(tileURL.toURI())));
             } catch (URISyntaxException e) {
-                // logging
+                LOGGER.warn("Tile texture={} url is bad", tileURL);
                 isError = true;
             }
         }
 
         if (isError) {
-            if (isUndefinedTexture) setTextureIsUndefined(true);
+            if (isUndefinedTexture) {
+                LOGGER.warn("Dont find any texture");
+                setTextureIsUndefined(true);
+            }
             else loadImage(UNDEFINED_TEXTURE);
         }
     }

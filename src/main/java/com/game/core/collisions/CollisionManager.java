@@ -3,11 +3,15 @@ package com.game.core.collisions;
 import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.entities.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CollisionManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CollisionManager.class);
+
     private final CollisionVisitor collisionHandler = new CollisionHandler();
     private final List<Collidable> collidableObjects = new ArrayList<>();
 
@@ -27,6 +31,11 @@ public class CollisionManager {
             if (other != entity && (xIntersects || yIntersects)) {
                 if (xIntersects) resetStates[0] = true;
                 if (yIntersects) resetStates[1] = true;
+
+                LOGGER.debug(
+                        "{} collide with {}, reset states are x={}, y={}",
+                        entity, other, resetStates[0], resetStates[1]
+                );
                 entity.onCollision(collisionHandler, other);
             }
         }

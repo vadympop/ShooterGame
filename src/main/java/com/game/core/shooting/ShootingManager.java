@@ -8,11 +8,15 @@ import com.game.core.entities.bullet.BulletType;
 import com.game.core.strategies.ShootingStrategy;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Consumer;
 
 public class ShootingManager implements Updatable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ShootingManager.class);
+
     private final Queue<DelayedWrapper<Bullet>> bulletsQueue = new LinkedList<>();
     private final Map<Float, Integer> bulletsCountByRotation = new HashMap<>();
     private final Timer<ShootingManager> reloadingTimer;
@@ -49,15 +53,19 @@ public class ShootingManager implements Updatable {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 
             x.setBulletsCount(x.getBulletsCount() + 1);
+
+            LOGGER.debug("Reloaded bullets for {}", getPlayer());
         }, true);
     }
 
     public void toggleShooting(boolean state) {
         if (state == isShooting()) return;
+        LOGGER.debug("Toggled shooting for {}", getPlayer());
         isShooting = state;
 
         if (state) shoot();
     }
+
     public boolean isShooting() { return isShooting; }
 
     @Override
@@ -117,6 +125,7 @@ public class ShootingManager implements Updatable {
 
     public ShootingStrategy getShootingStrategy() { return shootingStrategy; }
     public void setShootingStrategy(ShootingStrategy shootingStrategy) {
+        LOGGER.info("Set shooting strategy={} for {}", shootingStrategy, getPlayer());
         shootingStrategy.setBulletConfig(getBulletConfig());
         this.shootingStrategy = shootingStrategy;
     }

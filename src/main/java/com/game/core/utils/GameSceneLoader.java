@@ -12,6 +12,8 @@ import com.game.gui.scenes.game.GameModel;
 import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.graphics.TileType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class GameSceneLoader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameSceneLoader.class);
+
     private SceneConfig config;
     private Scaler scaler;
 
@@ -28,6 +32,7 @@ public class GameSceneLoader {
     }
 
     public GameModel loadScene() {
+        LOGGER.debug("Load game scene from a config");
         SceneConfig config = getConfig();
 
         GameModel newScene = new GameModel(config.getId(), config.getName());
@@ -54,6 +59,8 @@ public class GameSceneLoader {
             float[] pos = generatePos(x.getCol(), x.getRow());
             area.setPos(pos[0], pos[1]);
             scene.addArea(area);
+
+            LOGGER.debug("Add area {} with coords x={}, y={}", area, pos[0], pos[1]);
         });
     }
 
@@ -67,6 +74,8 @@ public class GameSceneLoader {
             float[] pos = generatePos(x.getCol(), x.getRow());
             spawner.setPos(pos[0], pos[1]);
             scene.addSpawner(spawner);
+
+            LOGGER.debug("Add spawner {} with coords x={}, y={}", spawner, pos[0], pos[1]);
         });
     }
 

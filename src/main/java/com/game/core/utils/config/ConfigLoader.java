@@ -1,6 +1,8 @@
 package com.game.core.utils.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +10,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 public class ConfigLoader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigLoader.class);
+
     private final ObjectMapper mapper = new ObjectMapper();
     private SceneConfig config;
     private static ConfigLoader instance;
@@ -21,6 +25,8 @@ public class ConfigLoader {
     }
 
     public SceneConfig load(String sceneId) throws IOException, URISyntaxException {
+        LOGGER.debug("Loading config for {} scene", sceneId);
+
         URL fileURL = getClass().getResource("/scenes/" + sceneId + "_scene.json");
         File file = new File(fileURL.toURI());
 

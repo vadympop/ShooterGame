@@ -11,8 +11,12 @@ import com.game.core.factories.BoundsFactory;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Bullet extends Entity {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Bullet.class);
+
     private final Player owner;
     private final BulletType type;
     private final int damage;
@@ -77,6 +81,8 @@ public class Bullet extends Entity {
 
         float x = owner.getX() + xOffset * 2f * dirs[0];
         float y = owner.getY() + yOffset * 2f * dirs[1];
+        LOGGER.debug("Bullet's start position is x={}, y={}, owner={}", x, y, getOwner());
+
         setPos(x, y);
     }
 

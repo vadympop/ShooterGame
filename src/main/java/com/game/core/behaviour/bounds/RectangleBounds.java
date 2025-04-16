@@ -3,8 +3,12 @@ package com.game.core.behaviour.bounds;
 
 import com.game.core.behaviour.base.PositionWrapper;
 import com.game.core.utils.Scaler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RectangleBounds extends PositionWrapper implements Bounds {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RectangleBounds.class);
+
     private float height;
     private float width;
     private float multiplier = 1f;
@@ -76,6 +80,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     @Override
     public void multiply(float multiplier) {
+        LOGGER.debug("Rect bounds {} multiplied by {}", this, multiplier);
         this.multiplier = multiplier;
     }
 

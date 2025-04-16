@@ -6,6 +6,8 @@ import com.game.core.entities.Player;
 import com.game.core.factories.PlayerFactory;
 import com.game.core.scene.graphics.Tile;
 import javafx.scene.canvas.GraphicsContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +15,8 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class PlayerSpawner extends GameObject implements Spawner {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSpawner.class);
+
     private Tile tile;
     private Tile playerTile;
     private final Map<String, Consumer<Entity>> events = new HashMap<>();
@@ -26,6 +30,7 @@ public class PlayerSpawner extends GameObject implements Spawner {
     @Override
     public void spawn() {
         if (getPlayer() == null) {
+            LOGGER.info("PlayerSpawner's first player spawn");
             setPlayer(PlayerFactory.create(this));
             getPlayer().getSm().setOnBulletCreated(getEvent("onPlayerBulletCreated"));
 

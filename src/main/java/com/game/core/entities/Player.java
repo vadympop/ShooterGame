@@ -1,7 +1,6 @@
 package com.game.core.entities;
 
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
@@ -10,20 +9,22 @@ import com.game.core.entities.bullet.BulletType;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.shooting.ShootingManager;
-import com.game.core.strategies.CircularShootStrategy;
-import com.game.core.strategies.DoubleShootStrategy;
 import com.game.core.strategies.SingleShootStrategy;
 import com.game.core.utils.PositionUtils;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Player extends Entity {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
+
     private PlayerSpawner spawner;
     private int maxHealth;
     private int health;
@@ -78,16 +79,19 @@ public class Player extends Entity {
     }
 
     public boolean applyEffect(Effect effect) {
+        LOGGER.info("Apply effect {}", effect);
         if (getActiveEffect() != null || getActiveEffect() instanceof NoEffect) return false;
 
         setActiveEffect(effect);
         effect.apply(this);
 
         timersToAdd.add(new Timer<>(effect.getDuration(), (x) -> {
+            LOGGER.info("Effect removed");
             x.getActiveEffect().remove(x);
             x.setActiveEffect(null);
         }));
 
+        LOGGER.info("Effect applied = {}", effect);
         return true;
     }
 
@@ -96,12 +100,15 @@ public class Player extends Entity {
 
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
+            LOGGER.info("Took critical damage, player is dead");
             setDead(true);
             timersToAdd.add(new Timer<>(5f, (p) -> p.getSpawner().spawn()));
         }
     }
 
     public void respawn(float x, float y) {
+        LOGGER.info("Player respawned");
+
         setPos(x, y);
         setHealth(getMaxHealth());
         setDead(false);

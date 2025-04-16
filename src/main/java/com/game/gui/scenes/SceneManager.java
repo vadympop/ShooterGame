@@ -9,11 +9,15 @@ import com.game.gui.scenes.game.GameScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class SceneManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SceneManager.class);
+
     private Scene currentScene;
     private Stage primaryStage;
 
@@ -22,6 +26,8 @@ public class SceneManager {
     }
 
     public void loadGameScene(String sceneId) {
+        LOGGER.info("Loading game scene with id {}", sceneId);
+
         SceneConfig config;
         try {
             config = ConfigLoader.getInstance().load(sceneId);
@@ -39,6 +45,7 @@ public class SceneManager {
     }
 
     public void loadMenuScene() {
+        LOGGER.info("Loading menu scene");
     }
 
     public void throwError(String message) {
