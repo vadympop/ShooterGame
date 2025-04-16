@@ -89,7 +89,7 @@ public class Player extends Entity {
     }
 
     public void takeDamage(int damage) {
-        if (isHasShield()) return;
+        if (isHasShield() || isDead()) return;
 
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {

@@ -12,7 +12,7 @@
       "STANDARD": "bullet.png",
       "DOUBLE_DAMAGED_STANDARD": "s"
     },
-    "damage": 1,
+    "damage": 2,
     "timeToDestroy": 1.5,
     "hitbox": {
       "type": "CIRCLE",
