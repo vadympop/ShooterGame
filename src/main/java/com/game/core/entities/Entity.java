@@ -6,6 +6,7 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.interfaces.Renderable;
 import com.game.core.behaviour.interfaces.Updatable;
 import com.game.core.collisions.CollisionManager;
+import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.DebugUtils;
 import javafx.scene.canvas.GraphicsContext;
@@ -30,6 +31,8 @@ public abstract class Entity extends CollidableGameObject implements Collidable,
     }
 
     protected void move(double deltaTime) {
+        if (getCm() == null) throw new NotConfiguredException("Collision manager dont specified to " + this);
+
         float[] dirs = getVelocity();
         float dx = dirs[0] * (float) deltaTime;
         float dy = dirs[1] * (float) deltaTime;

@@ -1,5 +1,6 @@
 package com.game.core.utils;
 
+import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.utils.config.SceneConfig;
 
 import java.awt.*;
@@ -36,25 +37,25 @@ public class Scaler {
     }
 
     public float getSceneWidth() {
-        if (isNotConfigured()) throw new IllegalArgumentException();
+        if (isNotConfigured()) throw new NotConfiguredException("Scaler is not configured");
 
         return scale(getHorizontalTilesCount() * getDefaultTileWidth());
     }
 
     public float getSceneHeight() {
-        if (isNotConfigured()) throw new IllegalArgumentException();
+        if (isNotConfigured()) throw new NotConfiguredException("Scaler is not configured");
 
         return scale(getVerticalTilesCount() * getDefaultTileHeight());
     }
 
     public float getTileHeight() {
-        if (isNotConfigured()) throw new IllegalArgumentException();
+        if (isNotConfigured()) throw new NotConfiguredException("Scaler is not configured");
 
         return scale(getDefaultTileHeight());
     }
 
     public float getTileWidth() {
-        if (isNotConfigured()) throw new IllegalArgumentException();
+        if (isNotConfigured()) throw new NotConfiguredException("Scaler is not configured");
 
         return scale(getDefaultTileWidth());
     }

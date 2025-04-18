@@ -1,6 +1,7 @@
 package com.game.core.factories;
 
 import com.game.core.entities.Entity;
+import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.BonusSpawner;
 import com.game.core.scene.spawners.PlayerSpawner;
@@ -15,6 +16,8 @@ public class SpawnerFactory {
         Tile tile = new Tile(c.getTexture(), null);
         return switch (c.getType()) {
             case PLAYER -> {
+                if (events.isEmpty()) throw new NotConfiguredException("Not provided events for player's spawner");
+
                 Spawner spawner = new PlayerSpawner(
                         tile,
                         new Tile(c.getPlayerTexture(), null)
