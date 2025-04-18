@@ -8,10 +8,10 @@ import java.util.Objects;
 
 
 public class SceneTile extends GameObject implements Renderable {
-    private Tile tile;
+    private final Tile tile;
 
     public SceneTile(Tile tile) {
-        setTile(tile);
+        this.tile = Objects.requireNonNull(tile);
     }
 
     @Override
@@ -21,5 +21,4 @@ public class SceneTile extends GameObject implements Renderable {
 
     @Override
     public Tile getTile() { return tile; }
-    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 }
