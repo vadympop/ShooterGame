@@ -5,7 +5,6 @@ import com.game.core.effects.ReduceSpeedEffect;
 
 public class SlowingArea extends Area {
     public SlowingArea(Bounds bounds) {
-        super(new ReduceSpeedEffect());
-        setBounds(bounds);
+        super(new ReduceSpeedEffect(), bounds);
     }
 }

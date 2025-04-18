@@ -5,7 +5,6 @@ import com.game.core.effects.TakeDamageEffect;
 
 public class KillableArea extends Area {
     public KillableArea(Bounds bounds) {
-        super(new TakeDamageEffect());
-        setBounds(bounds);
+        super(new TakeDamageEffect(), bounds);
     }
 }

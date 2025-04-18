@@ -11,10 +11,11 @@ public abstract class Area extends GameObject {
     private static final Logger LOGGER = LoggerFactory.getLogger(Area.class);
 
     private final Effect effect;
-    private Bounds bounds;
+    private final Bounds bounds;
 
-    public Area(Effect effect) {
+    public Area(Effect effect, Bounds bounds) {
         this.effect = effect;
+        this.bounds = bounds;
     }
 
     public void applyEffect(Player player) {
@@ -31,5 +32,4 @@ public abstract class Area extends GameObject {
     }
 
     public Bounds getBounds() { return bounds; }
-    protected void setBounds(Bounds bounds) { this.bounds = bounds; }
 }
