@@ -11,11 +11,12 @@ import javafx.scene.canvas.GraphicsContext;
 import java.util.Objects;
 
 public class SolidBlock extends CollidableGameObject implements Block {
-    private Tile tile;
+    private final Tile tile;
 
     public SolidBlock(Tile tile, Bounds hitbox) {
         super(hitbox);
-        setTile(tile);
+
+        this.tile = Objects.requireNonNull(tile);
     }
 
     @Override
@@ -30,5 +31,4 @@ public class SolidBlock extends CollidableGameObject implements Block {
     }
 
     @Override public Tile getTile() { return tile; }
-    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 }
