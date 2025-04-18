@@ -30,7 +30,7 @@ public class Timer<T> {
         if (getTimeLeft() <= 0) {
             getFunc().accept(obj);
 
-            if (isRepetitive) {
+            if (isRepetitive()) {
                 setTimeLeft(getBaseTime());
             } else {
                 if (func != null) func.run();
@@ -39,7 +39,6 @@ public class Timer<T> {
     }
 
     public double getTimeLeft() { return timeLeft; }
-
     public void setTimeLeft(double timeLeft) { this.timeLeft = timeLeft; }
 
     public Consumer<T> getFunc() { return func; }

@@ -6,6 +6,7 @@ import com.game.core.effects.Effect;
 import com.game.core.effects.NoEffect;
 import com.game.core.collisions.CollisionVisitor;
 import com.game.core.entities.bullet.BulletType;
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.shooting.ShootingManager;
@@ -20,16 +21,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Player extends Entity {
     private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
 
-    private PlayerSpawner spawner;
+    private final PlayerSpawner spawner;
     private int maxHealth;
     private int health;
 
-    private ShootingManager sm;
+    private final ShootingManager sm;
 
     private boolean isMoving = false;
     private boolean isDead = false;
@@ -60,7 +62,7 @@ public class Player extends Entity {
     ) {
         super(tile, hitbox);
 
-        setSm(new ShootingManager(
+        this.sm = new ShootingManager(
                 this,
                 BulletType.STANDARD,
                 new SingleShootStrategy(),
@@ -68,14 +70,14 @@ public class Player extends Entity {
                 maxBulletsCount,
                 bulletsReloadDelay,
                 bulletsCooldown
-        ));
+        );
+        this.spawner = Objects.requireNonNull(spawner);
         setMaxHealth(maxHealth);
         setHealth(getMaxHealth());
         setShieldHitboxMultiplier(shieldHitboxMultiplier);
         setDefaultSpeed(defaultSpeed);
         setSpeed(defaultSpeed);
         setRotationSpeed(rotationSpeed);
-        setSpawner(spawner);
     }
 
     public boolean applyEffect(Effect effect) {
@@ -186,7 +188,11 @@ public class Player extends Entity {
     private void setDefaultSpeed(float defaultSpeed) { this.defaultSpeed = defaultSpeed; }
 
     public int getMaxHealth() { return maxHealth; }
-    private void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
+    private void setMaxHealth(int maxHealth) {
+        if (maxHealth <= 0) throw new InvalidParameterException("Player's max health must be higher than 0");
+
+        this.maxHealth = maxHealth;
+    }
 
     public boolean isHasShield() { return hasShield; }
     public void setHasShield(boolean hasShield) {
@@ -201,17 +207,20 @@ public class Player extends Entity {
     private void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
 
     private PlayerSpawner getSpawner() { return spawner; }
-    private void setSpawner(PlayerSpawner spawner) { this.spawner = spawner; }
 
     public boolean isMoving() { return isMoving; }
     public void setMoving(boolean moving) { isMoving = moving; }
 
     // Getter for ShootingManager
     public ShootingManager getSm() { return sm; }
-    private void setSm(ShootingManager sm) { this.sm = sm; }
 
     public float getShieldHitboxMultiplier() { return shieldHitboxMultiplier; }
-    public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) { this.shieldHitboxMultiplier = shieldHitboxMultiplier; }
+    public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) {
+        if (shieldHitboxMultiplier <= 0)
+            throw new InvalidParameterException("Player's shield hitbox multiplier must be higher than 0");
+
+        this.shieldHitboxMultiplier = shieldHitboxMultiplier;
+    }
 
     @Override
     public String toString() {

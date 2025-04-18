@@ -18,22 +18,20 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
-public class GameSceneLoader {
+public record GameSceneLoader(SceneConfig config, Scaler scaler) {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameSceneLoader.class);
 
-    private SceneConfig config;
-    private Scaler scaler;
-
     public GameSceneLoader(SceneConfig config, Scaler scaler) {
-        setConfig(config);
-        setScaler(scaler);
+        this.config = Objects.requireNonNull(config);
+        this.scaler = Objects.requireNonNull(scaler);
     }
 
     public GameModel loadScene() {
         LOGGER.debug("Load game scene from a config");
-        SceneConfig config = getConfig();
+        SceneConfig config = config();
 
         GameModel newScene = new GameModel(config.getId(), config.getName());
         loadTiles(newScene, config.getBackgroundTiles(), TileType.BACKGROUND);
@@ -46,7 +44,7 @@ public class GameSceneLoader {
     }
 
     public float[] generatePos(int colsCount, int rowsCount) {
-        Scaler scaler = getScaler();
+        Scaler scaler = scaler();
 
         float xPos = colsCount * scaler.getTileWidth() - (scaler.getTileWidth() / 2);
         float yPos = rowsCount * scaler.getTileHeight() - (scaler.getTileHeight() / 2);
@@ -54,7 +52,7 @@ public class GameSceneLoader {
     }
 
     public void loadAreas(GameModel scene) {
-        getConfig().getAreas().forEach(x -> {
+        config().getAreas().forEach(x -> {
             Area area = AreaFactory.createFromConfig(x);
             float[] pos = generatePos(x.getCol(), x.getRow());
             area.setPos(pos[0], pos[1]);
@@ -65,7 +63,7 @@ public class GameSceneLoader {
     }
 
     public void loadSpawners(GameModel scene) {
-        getConfig().getSpawners().forEach(x -> {
+        config().getSpawners().forEach(x -> {
             Map<String, Consumer<Entity>> events = new HashMap<>();
             events.put("onPlayerCreated", scene::addEntity);
             events.put("onPlayerBulletCreated", scene::addEntity);
@@ -81,7 +79,7 @@ public class GameSceneLoader {
 
     public void loadTiles(GameModel scene, List<String> tiles, TileType tileType) {
         loadObjectsFromStrings(
-                scene, getConfig().getMappings().getTiles(), tiles, tileType,
+                scene, config().getMappings().getTiles(), tiles, tileType,
                 (s, c, t, pos) -> {
                     SceneTile sceneTile = new SceneTile(t);
                     sceneTile.setPos(pos[0], pos[1]);
@@ -92,7 +90,7 @@ public class GameSceneLoader {
 
     public void loadBlocks(GameModel scene, List<String> blocks) {
         loadObjectsFromStrings(
-                scene, getConfig().getMappings().getBlocks(), blocks, null,
+                scene, config().getMappings().getBlocks(), blocks, null,
                 (s, c, t, pos) -> {
                     Block block = BlockFactory.createFromConfig(c, t);
 
@@ -131,10 +129,4 @@ public class GameSceneLoader {
             }
         }
     }
-
-    public SceneConfig getConfig() { return config; }
-    private void setConfig(SceneConfig config) { this.config = config; }
-
-    public Scaler getScaler() { return scaler; }
-    private void setScaler(Scaler scaler) { this.scaler = scaler; }
 }

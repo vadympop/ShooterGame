@@ -7,6 +7,8 @@ import com.game.core.entities.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public abstract class Area extends GameObject {
     private static final Logger LOGGER = LoggerFactory.getLogger(Area.class);
 
@@ -14,8 +16,8 @@ public abstract class Area extends GameObject {
     private final Bounds bounds;
 
     public Area(Effect effect, Bounds bounds) {
-        this.effect = effect;
-        this.bounds = bounds;
+        this.effect = Objects.requireNonNull(effect);
+        this.bounds = Objects.requireNonNull(bounds);
     }
 
     public void applyEffect(Player player) {

@@ -7,6 +7,7 @@ import com.game.core.utils.config.SceneConfig;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CircularShootStrategy implements ShootingStrategy {
     private SceneConfig.BulletConfig bulletConfig;
@@ -30,7 +31,9 @@ public class CircularShootStrategy implements ShootingStrategy {
     }
 
     @Override
-    public void setBulletConfig(SceneConfig.BulletConfig config) { this.bulletConfig = config; }
+    public void setBulletConfig(SceneConfig.BulletConfig config) {
+        this.bulletConfig = Objects.requireNonNull(config);
+    }
     @Override
     public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
 }

@@ -1,6 +1,7 @@
 package com.game.core.behaviour.bounds;
 
 import com.game.core.behaviour.base.PositionWrapper;
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.utils.Scaler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,8 @@ public class CircleBounds extends PositionWrapper implements Bounds {
 
     @Override
     public void multiply(float multiplier) {
+        if (multiplier <= 0) throw new InvalidParameterException("Multiplier must be higher than 0");
+
         LOGGER.debug("Circl Bounds {} multiplied by {}", this, multiplier);
         this.multiplier = multiplier;
     }
@@ -76,7 +79,10 @@ public class CircleBounds extends PositionWrapper implements Bounds {
     }
 
     public float getRadius() { return this.multiplier * this.radius; }
-    private void setRadius(float radius) { this.radius = radius; }
+    private void setRadius(float radius) {
+        if (radius <= 0) throw new InvalidParameterException("Circle bounds radius must be higher than 0");
+        this.radius = radius;
+    }
 
     @Override
     public String toString() {

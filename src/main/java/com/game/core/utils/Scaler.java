@@ -1,5 +1,6 @@
 package com.game.core.utils;
 
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.utils.config.SceneConfig;
 
@@ -70,6 +71,9 @@ public class Scaler {
     }
 
     public void setSettings(int horizontalTilesCount, int verticalTilesCount, float tileWidth, float tileHeight) {
+        if (horizontalTilesCount <= 0 || verticalTilesCount <= 0 || tileHeight <= 0 || tileWidth <= 0)
+            throw new InvalidParameterException("Invalid params was passed to Scaler.setSettings");
+
         this.horizontalTilesCount = horizontalTilesCount;
         this.verticalTilesCount = verticalTilesCount;
         this.defaultTileWidth = tileWidth;

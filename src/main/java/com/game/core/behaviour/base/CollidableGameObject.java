@@ -4,6 +4,8 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.behaviour.interfaces.Positionable;
 import com.game.core.behaviour.bounds.Bounds;
 
+import java.util.Objects;
+
 public abstract class CollidableGameObject extends GameObject implements Positionable, Collidable {
     private Bounds hitbox;
 
@@ -27,7 +29,7 @@ public abstract class CollidableGameObject extends GameObject implements Positio
     }
 
     @Override public Bounds getHitbox() { return hitbox; }
-    public void setHitbox(Bounds hitbox) { this.hitbox = hitbox; }
+    public void setHitbox(Bounds hitbox) { this.hitbox = Objects.requireNonNull(hitbox); }
 
     @Override
     public String toString() {

@@ -18,14 +18,13 @@ public class PlayerSpawner extends GameObject implements Spawner {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSpawner.class);
 
     private final Tile tile;
-    private Tile playerTile;
+    private final Tile playerTile;
     private final Map<String, Consumer<Entity>> events = new HashMap<>();
     private Player player = null;
 
     public PlayerSpawner(Tile tile, Tile playerTile) {
         this.tile = Objects.requireNonNull(tile);
-
-        setPlayerTile(playerTile);
+        this.playerTile = Objects.requireNonNull(playerTile);
     }
 
     @Override
@@ -63,10 +62,9 @@ public class PlayerSpawner extends GameObject implements Spawner {
     }
 
     @Override public Tile getTile() { return tile; }
+    public Tile getPlayerTile() { return playerTile; }
 
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
 
-    public Tile getPlayerTile() { return playerTile; }
-    public void setPlayerTile(Tile playerTile) { this.playerTile = playerTile; }
 }

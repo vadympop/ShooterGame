@@ -68,11 +68,11 @@ public abstract class Entity extends CollidableGameObject implements Collidable,
     public void setSpeed(float speed) { this.speed = speed; }
 
     public float getRotationAngle() { return this.rotationAngle; }
-    protected void setRotationAngle(float rotationAngle) { this.rotationAngle = rotationAngle; }
+    protected void setRotationAngle(float rotationAngle) { this.rotationAngle = rotationAngle % 360; }
 
     // Setter and getter for collision manager
     public CollisionManager getCm() { return cm; }
-    public void setCm(CollisionManager cm) { this.cm = cm; }
+    public void setCm(CollisionManager cm) { this.cm = Objects.requireNonNull(cm); }
 
     @Override
     public String toString() {

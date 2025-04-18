@@ -5,6 +5,7 @@ import com.game.core.entities.Entity;
 import com.game.core.entities.Player;
 import com.game.core.entities.bullet.Bullet;
 import com.game.core.entities.bullet.BulletType;
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.strategies.ShootingStrategy;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
@@ -20,15 +21,15 @@ public class ShootingManager implements Updatable {
     private final Queue<DelayedWrapper<Bullet>> bulletsQueue = new LinkedList<>();
     private final Map<Float, Integer> bulletsCountByRotation = new HashMap<>();
     private final Timer<ShootingManager> reloadingTimer;
-    private Player player;
+    private final Player player;
     private boolean isShooting = false;
     private int maxBulletsCount;
     private int bulletsCount;
-    private float bulletsReloadDelay;
-    private float bulletsCooldown;
+    private final float bulletsReloadDelay;
+    private final float bulletsCooldown;
     private Consumer<Entity> onBulletCreated;
     private BulletType bulletType;
-    private SceneConfig.BulletConfig bulletConfig;
+    private final SceneConfig.BulletConfig bulletConfig;
     private ShootingStrategy shootingStrategy;
 
     public ShootingManager(
@@ -40,14 +41,15 @@ public class ShootingManager implements Updatable {
             float bulletsReloadDelay,
             float bulletsCooldown
     ) {
-        setPlayer(player);
+        this.player = Objects.requireNonNull(player);
+        this.bulletsCooldown = bulletsCooldown;
+        this.bulletConfig = Objects.requireNonNull(bulletConfig);
+        this.bulletsReloadDelay = bulletsReloadDelay;
+
         setBulletType(bulletType);
-        setBulletConfig(bulletConfig);
         setShootingStrategy(shootingStrategy);
-        setBulletsReloadDelay(bulletsReloadDelay);
         setMaxBulletsCount(maxBulletsCount);
         setBulletsCount(maxBulletsCount);
-        setBulletsCooldown(bulletsCooldown);
 
         reloadingTimer = new Timer<>(getBulletsReloadDelay(), (x) -> {
             if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
@@ -108,20 +110,18 @@ public class ShootingManager implements Updatable {
     }
 
     public int getMaxBulletsCount() { return maxBulletsCount; }
-    private void setMaxBulletsCount(int maxBulletsCount) { this.maxBulletsCount = maxBulletsCount; }
+    private void setMaxBulletsCount(int maxBulletsCount) {
+        if (maxBulletsCount <= 0) throw new InvalidParameterException("Max bullets count must be higher than 0");
+
+        this.maxBulletsCount = maxBulletsCount;
+    }
 
     public int getBulletsCount() { return bulletsCount; }
     private void setBulletsCount(int bulletsCount) { this.bulletsCount = bulletsCount; }
     private void decrementBulletsCount() { setBulletsCount(getBulletsCount() - 1); }
 
-    public float getBulletsReloadDelay() { return bulletsReloadDelay; }
-    private void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
-
     public BulletType getBulletType() { return bulletType; }
     public void setBulletType(BulletType bulletType) { this.bulletType = bulletType; }
-
-    public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
-    public void setBulletConfig(SceneConfig.BulletConfig bulletConfig) { this.bulletConfig = bulletConfig; }
 
     public ShootingStrategy getShootingStrategy() { return shootingStrategy; }
     public void setShootingStrategy(ShootingStrategy shootingStrategy) {
@@ -130,12 +130,11 @@ public class ShootingManager implements Updatable {
         this.shootingStrategy = shootingStrategy;
     }
 
-    public Player getPlayer() { return player; }
-    private void setPlayer(Player player) { this.player = player; }
-
     public Consumer<Entity> getOnBulletCreated() { return onBulletCreated; }
     public void setOnBulletCreated(Consumer<Entity> onBulletCreated) { this.onBulletCreated = onBulletCreated; }
 
+    public Player getPlayer() { return player; }
+    public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
     public float getBulletsCooldown() { return bulletsCooldown; }
-    private void setBulletsCooldown(float bulletsCooldown) { this.bulletsCooldown = bulletsCooldown; }
+    public float getBulletsReloadDelay() { return bulletsReloadDelay; }
 }

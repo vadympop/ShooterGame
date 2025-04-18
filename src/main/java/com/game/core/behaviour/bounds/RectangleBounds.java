@@ -2,6 +2,7 @@ package com.game.core.behaviour.bounds;
 
 
 import com.game.core.behaviour.base.PositionWrapper;
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.utils.Scaler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,8 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     @Override
     public void multiply(float multiplier) {
+        if (multiplier <= 0) throw new InvalidParameterException("Multiplier must be higher than 0");
+
         LOGGER.debug("Rect bounds {} multiplied by {}", this, multiplier);
         this.multiplier = multiplier;
     }
@@ -90,10 +93,18 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
     }
 
     public float getHeight() { return this.multiplier * this.height; }
-    private void setHeight(float height) { this.height = height; }
+    private void setHeight(float height) {
+        if (height <= 0) throw new InvalidParameterException("Rect bounds height must be higher than 0");
+
+        this.height = height;
+    }
 
     public float getWidth() { return this.multiplier * this.width; }
-    private void setWidth(float width) { this.width = width; }
+    private void setWidth(float width) {
+        if (width <= 0) throw new InvalidParameterException("Rect bounds width must be higher than 0");
+
+        this.width = width;
+    }
 
     @Override
     public String toString() {

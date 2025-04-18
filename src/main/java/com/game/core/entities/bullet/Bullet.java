@@ -7,12 +7,15 @@ import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.collisions.CollisionVisitor;
 import com.game.core.entities.Entity;
 import com.game.core.entities.Player;
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.factories.BoundsFactory;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.Timer;
 import com.game.core.utils.config.SceneConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public class Bullet extends Entity {
     private static final Logger LOGGER = LoggerFactory.getLogger(Bullet.class);
@@ -101,12 +104,14 @@ public class Bullet extends Entity {
         }
 
         public builder owner(Player owner) {
-            this.owner = owner;
+            this.owner = Objects.requireNonNull(owner);
             this.rotationAngle(owner.getRotationAngle()).speed(owner.getSpeed());
             return this;
         }
 
         public builder config(SceneConfig.BulletConfig config) {
+            Objects.requireNonNull(config);
+
             this
                 .damage(config.getDamage())
                 .timeToDestroy(config.getTimeToDestroy())
@@ -116,12 +121,14 @@ public class Bullet extends Entity {
         }
 
         public builder timeToDestroy(float time) {
+            if (time <= 0) throw new InvalidParameterException("Bullet's time destroy must be higher than 0");
+
             this.timeToDestroy = time;
             return this;
         }
 
         public builder hitbox(Bounds hitbox) {
-            this.hitbox = hitbox;
+            this.hitbox = Objects.requireNonNull(hitbox);
             return this;
         }
 
@@ -136,7 +143,7 @@ public class Bullet extends Entity {
         }
 
         public builder rotationAngle(float rotationAngle) {
-            this.rotationAngle = rotationAngle;
+            this.rotationAngle = rotationAngle % 360;
             return this;
         }
 

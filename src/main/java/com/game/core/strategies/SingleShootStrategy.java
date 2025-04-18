@@ -6,6 +6,7 @@ import com.game.core.entities.bullet.BulletType;
 import com.game.core.utils.config.SceneConfig;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SingleShootStrategy implements ShootingStrategy {
     private SceneConfig.BulletConfig bulletConfig;
@@ -18,7 +19,9 @@ public class SingleShootStrategy implements ShootingStrategy {
     }
 
     @Override
-    public void setBulletConfig(SceneConfig.BulletConfig config) { this.bulletConfig = config; }
+    public void setBulletConfig(SceneConfig.BulletConfig config) {
+        this.bulletConfig = Objects.requireNonNull(config);
+    }
     @Override
     public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
 }

@@ -12,15 +12,15 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class BonusSpawner extends GameObject implements Spawner {
-    private float cooldown;
+    private final float cooldown;
     private final Map<String, Consumer<Entity>> events = new HashMap<>();
     private Timer<BonusSpawner> spawnTimer;
     private final Tile tile;
 
     public BonusSpawner(Tile tile, float cooldown) {
         this.tile = Objects.requireNonNull(tile);
+        this.cooldown = cooldown;
 
-        setCooldown(cooldown);
         createSpawnTimer();
     }
 
@@ -58,7 +58,6 @@ public class BonusSpawner extends GameObject implements Spawner {
     }
 
     public float getCooldown() { return cooldown; }
-    private void setCooldown(float cooldown) { this.cooldown = cooldown; }
 
     @Override public Tile getTile() { return tile; }
 }

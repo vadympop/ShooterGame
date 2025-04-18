@@ -14,8 +14,8 @@ import java.net.URL;
 
 public class Tile {
     private static final Logger LOGGER = LoggerFactory.getLogger(Tile.class);
-
     private static final String UNDEFINED_TEXTURE = "undefined.png";
+
     private Image sprite;
     private boolean isTextureUndefined = false;
     private TileType type;
