@@ -6,8 +6,12 @@ import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.utils.config.ConfigLoader;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DebugUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DebugUtils.class);
+
     private static final Color HITBOX_COLOR = Color.AQUAMARINE;
 
     public static void drawHitbox(GraphicsContext gc, Bounds hitbox) {
@@ -27,6 +31,8 @@ public class DebugUtils {
             double displayY = rectHitbox.getY() - (height / 2);
 
             gc.strokeRect(displayX, displayY, width, height);
+        } else {
+            LOGGER.debug("Not found drawing hitboxes logic for {}", hitbox.getClass().getSimpleName());
         }
     }
 
