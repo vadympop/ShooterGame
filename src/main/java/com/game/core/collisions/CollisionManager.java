@@ -3,6 +3,8 @@ package com.game.core.collisions;
 import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.behaviour.interfaces.Collidable;
 import com.game.core.entities.Entity;
+import com.game.core.entities.Player;
+import com.game.core.scene.areas.Area;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,7 @@ public class CollisionManager {
 
     private final CollisionVisitor collisionHandler = new CollisionHandler();
     private final List<Collidable> collidableObjects = new ArrayList<>();
+    private final List<Area> areas = new ArrayList<>();
 
     public void removeEntities(List<Entity> toRemove) {
         collidableObjects.removeAll(toRemove);
@@ -44,6 +47,13 @@ public class CollisionManager {
         }
 
         return resetStates;
+    }
+
+    public void applyAreas(Entity entity) {
+        if (entity instanceof Player player)
+            areas.stream()
+                    .filter(area -> area.contains(player))
+                    .forEach(area -> area.applyEffect(player));
     }
 
     private Bounds createTempBounds(Bounds original, float newX, float newY) {

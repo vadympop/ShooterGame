@@ -42,6 +42,8 @@ public abstract class Entity extends CollidableGameObject implements Collidable,
 
         boolean[] resetStates = getCm().checkCollisionsFor(this, newX, newY);
         setPos(!resetStates[0] ? newX : getX(), !resetStates[1] ? newY : getY());
+
+        getCm().applyAreas(this);
     }
 
     @Override
