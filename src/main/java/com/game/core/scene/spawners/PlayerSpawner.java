@@ -17,13 +17,14 @@ import java.util.function.Consumer;
 public class PlayerSpawner extends GameObject implements Spawner {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSpawner.class);
 
-    private Tile tile;
+    private final Tile tile;
     private Tile playerTile;
     private final Map<String, Consumer<Entity>> events = new HashMap<>();
     private Player player = null;
 
     public PlayerSpawner(Tile tile, Tile playerTile) {
-        setTile(tile);
+        this.tile = Objects.requireNonNull(tile);
+
         setPlayerTile(playerTile);
     }
 
@@ -62,7 +63,6 @@ public class PlayerSpawner extends GameObject implements Spawner {
     }
 
     @Override public Tile getTile() { return tile; }
-    private void setTile(Tile tile) { this.tile = Objects.requireNonNull(tile); }
 
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
