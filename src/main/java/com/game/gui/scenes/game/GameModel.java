@@ -17,7 +17,6 @@ public class GameModel {
     private final List<Entity> entities = new ArrayList<>();
     private final List<Entity> entitiesToAdd = new ArrayList<>();
 
-    private final List<Area> areas = new ArrayList<>();
     private final List<Spawner> spawners = new ArrayList<>();
     private final List<SceneTile> tiles = new ArrayList<>();
     private final List<Block> blocks = new ArrayList<>();
@@ -65,8 +64,8 @@ public class GameModel {
         entitiesToAdd.add(obj);
     }
 
+    public void addArea(Area area) { collisionManager.addArea(area); }
     public void addSpawner(Spawner spawner) { this.spawners.add(spawner); }
-    public void addArea(Area area) { this.areas.add(area); }
     public void addTile(SceneTile tile) { this.tiles.add(tile); }
 
     public String getSceneId() { return sceneId; }
@@ -76,7 +75,6 @@ public class GameModel {
     private void setName(String name) { this.name = name; }
 
     public List<Entity> getEntities() { return Collections.unmodifiableList(entities); }
-    public List<Area> getAreas() { return Collections.unmodifiableList(areas); }
     public List<Spawner> getSpawners() { return Collections.unmodifiableList(spawners); }
     public List<SceneTile> getTiles() { return Collections.unmodifiableList(tiles); }
     public List<Block> getBlocks() { return Collections.unmodifiableList(blocks); }

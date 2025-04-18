@@ -64,4 +64,5 @@ public class CollisionManager {
     }
 
     public void addObject(Collidable obj) { this.collidableObjects.add(obj); }
+    public void addArea(Area area) { this.areas.add(area); }
 }
