@@ -34,7 +34,10 @@ public class CollisionManager {
 
                 LOGGER.debug(
                         "{} collide with {}, reset states are x={}, y={}",
-                        entity, other, resetStates[0], resetStates[1]
+                        entity.getClass().getSimpleName(),
+                        other.getClass().getSimpleName(),
+                        resetStates[0],
+                        resetStates[1]
                 );
                 entity.onCollision(collisionHandler, other);
             }

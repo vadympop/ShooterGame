@@ -125,7 +125,7 @@ public class ShootingManager implements Updatable {
 
     public ShootingStrategy getShootingStrategy() { return shootingStrategy; }
     public void setShootingStrategy(ShootingStrategy shootingStrategy) {
-        LOGGER.info("Set shooting strategy={} for {}", shootingStrategy, getPlayer());
+        LOGGER.info("Set shooting strategy={} for {}", shootingStrategy.getClass().getSimpleName(), getPlayer());
         shootingStrategy.setBulletConfig(getBulletConfig());
         this.shootingStrategy = shootingStrategy;
     }

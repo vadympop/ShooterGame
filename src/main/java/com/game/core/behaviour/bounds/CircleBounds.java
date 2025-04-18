@@ -77,4 +77,12 @@ public class CircleBounds extends PositionWrapper implements Bounds {
 
     public float getRadius() { return this.multiplier * this.radius; }
     private void setRadius(float radius) { this.radius = radius; }
+
+    @Override
+    public String toString() {
+        return "CircleBounds{" +
+                "radius=" + radius +
+                ", multiplier=" + multiplier +
+                "}->" + super.toString();
+    }
 }

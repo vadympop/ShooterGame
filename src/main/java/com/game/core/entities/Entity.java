@@ -70,4 +70,13 @@ public abstract class Entity extends CollidableGameObject implements Collidable,
     // Setter and getter for collision manager
     public CollisionManager getCm() { return cm; }
     public void setCm(CollisionManager cm) { this.cm = cm; }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "isActive=" + isActive +
+                ", speed=" + speed +
+                ", rotationAngle=" + rotationAngle +
+                "}->" + super.toString();
+    }
 }

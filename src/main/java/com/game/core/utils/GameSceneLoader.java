@@ -60,7 +60,7 @@ public class GameSceneLoader {
             area.setPos(pos[0], pos[1]);
             scene.addArea(area);
 
-            LOGGER.debug("Add area {} with coords x={}, y={}", area, pos[0], pos[1]);
+            LOGGER.debug("Add area {} with coords x={}, y={}", area.getClass().getSimpleName(), pos[0], pos[1]);
         });
     }
 
@@ -75,7 +75,7 @@ public class GameSceneLoader {
             spawner.setPos(pos[0], pos[1]);
             scene.addSpawner(spawner);
 
-            LOGGER.debug("Add spawner {} with coords x={}, y={}", spawner, pos[0], pos[1]);
+            LOGGER.debug("Add spawner {} with coords x={}, y={}", spawner.getClass().getSimpleName(), pos[0], pos[1]);
         });
     }
 

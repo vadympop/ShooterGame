@@ -18,7 +18,7 @@ public abstract class Area extends GameObject {
     }
 
     public void applyEffect(Player player) {
-        LOGGER.info("Area is applying effect to player, area={}, player={}", this, player);
+        LOGGER.info("Area is applying effect to player, area={}, player={}", this.getClass().getSimpleName(), player);
         player.applyEffect(effect);
     }
     public boolean contains(Player player) { return getBounds().contains(player.getHitbox()); }

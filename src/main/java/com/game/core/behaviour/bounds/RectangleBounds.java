@@ -94,4 +94,13 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     public float getWidth() { return this.multiplier * this.width; }
     private void setWidth(float width) { this.width = width; }
+
+    @Override
+    public String toString() {
+        return "RectangleBounds{" +
+                "height=" + height +
+                ", width=" + width +
+                ", multiplier=" + multiplier +
+                "}->" + super.toString();
+    }
 }

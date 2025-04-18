@@ -12,4 +12,12 @@ public abstract class PositionWrapper {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "PositionWrapper{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

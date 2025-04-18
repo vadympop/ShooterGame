@@ -79,7 +79,7 @@ public class Player extends Entity {
     }
 
     public boolean applyEffect(Effect effect) {
-        LOGGER.info("Apply effect {}", effect);
+        LOGGER.info("Apply effect {}", effect.getClass().getSimpleName());
         if (getActiveEffect() != null || getActiveEffect() instanceof NoEffect) return false;
 
         setActiveEffect(effect);
@@ -91,7 +91,7 @@ public class Player extends Entity {
             x.setActiveEffect(null);
         }));
 
-        LOGGER.info("Effect applied = {}", effect);
+        LOGGER.info("Effect applied = {}", effect.getClass().getSimpleName());
         return true;
     }
 
@@ -212,4 +212,21 @@ public class Player extends Entity {
 
     public float getShieldHitboxMultiplier() { return shieldHitboxMultiplier; }
     public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) { this.shieldHitboxMultiplier = shieldHitboxMultiplier; }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "maxHealth=" + maxHealth +
+                ", health=" + health +
+                ", isMoving=" + isMoving +
+                ", isDead=" + isDead +
+                ", defaultSpeed=" + defaultSpeed +
+                ", rotationSpeed=" + rotationSpeed +
+                ", rotationDirection=" + rotationDirection +
+                ", timers=" + timers.size() +
+                ", activeEffect=" + (activeEffect != null ? activeEffect.getClass().getSimpleName() : "null") +
+                ", hasShield=" + hasShield +
+                ", shieldHitboxMultiplier=" + shieldHitboxMultiplier +
+                "}->" + super.toString();
+    }
 }

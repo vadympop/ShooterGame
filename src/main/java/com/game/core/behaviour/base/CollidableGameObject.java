@@ -28,4 +28,11 @@ public abstract class CollidableGameObject extends GameObject implements Positio
 
     @Override public Bounds getHitbox() { return hitbox; }
     public void setHitbox(Bounds hitbox) { this.hitbox = hitbox; }
+
+    @Override
+    public String toString() {
+        return "CollidableGameObject{" +
+                "hitbox=" + hitbox +
+                "}->" + super.toString();
+    }
 }
