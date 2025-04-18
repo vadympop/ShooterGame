@@ -71,9 +71,9 @@
     },
     {
       "type": "BONUS",
-      "texture": "",
-      "col": "",
-      "row": "",
+      "texture": "block_2.png",
+      "col": "10",
+      "row": "20",
       "cooldown": ""
     }
   ],

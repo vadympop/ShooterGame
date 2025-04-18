@@ -4,25 +4,27 @@ import com.game.core.entities.bullet.BulletType;
 import com.game.core.utils.config.enums.AreaTypeEnum;
 import com.game.core.utils.config.enums.BoundsTypeEnum;
 import com.game.core.utils.config.enums.SpawnerTypeEnum;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 
 import java.util.List;
 import java.util.Map;
 
 public class SceneConfig {
-    private String id;
-    private float tileWidth;
-    private float tileHeight;
+    @NotBlank private String id;
+    @NotNull @Positive private float tileWidth;
+    @NotNull @Positive private float tileHeight;
     private boolean isDebug;
-    private String name;
-    private List<AreaConfig> areas;
-    private List<SpawnerConfig> spawners;
-    private List<String> backgroundTiles;
-    private List<String> blocks;
-    private List<String> overlayTiles;
-    private MappingsConfig mappings;
-    private PlayerConfig player;
-    private BulletConfig bullet;
-    private BonusConfig bonus;
+    @NotBlank private String name;
+    @NotNull @Valid private List<@Valid AreaConfig> areas;
+    @NotEmpty @Valid private List<@Valid SpawnerConfig> spawners;
+    @NotEmpty private List<@NotBlank String> backgroundTiles;
+    @NotEmpty private List<@NotBlank String> blocks;
+    @NotEmpty private List<@NotBlank String> overlayTiles;
+    @NotNull @Valid private MappingsConfig mappings;
+    @NotNull @Valid private PlayerConfig player;
+    @NotNull @Valid private BulletConfig bullet;
+    @NotNull @Valid private BonusConfig bonus;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -67,8 +69,8 @@ public class SceneConfig {
     public void setDebug(boolean debug) { isDebug = debug; }
 
     public static class BonusConfig {
-        private String texture;
-        private BoundsConfig hitbox;
+        @NotBlank private String texture;
+        @Valid private BoundsConfig hitbox;
 
         public BoundsConfig getHitbox() { return hitbox; }
         public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
@@ -78,10 +80,10 @@ public class SceneConfig {
     }
 
     public static class BulletConfig {
-        private Map<BulletType, String> textures;
-        private float timeToDestroy;
-        private int damage;
-        private BoundsConfig hitbox;
+        @NotEmpty @Valid private Map<BulletType, @NotBlank String> textures;
+        @NotNull @Positive private float timeToDestroy;
+        @NotNull @Positive private int damage;
+        @NotNull @Valid private BoundsConfig hitbox;
 
         public Map<BulletType, String> getTextures() { return textures; }
         public void setTextures(Map<BulletType, String> textures) { this.textures = textures; }
@@ -97,14 +99,14 @@ public class SceneConfig {
     }
 
     public static class PlayerConfig {
-        private int maxHealth;
-        private int maxBulletsCount;
-        private float bulletsCooldown;
-        private float bulletsReloadDelay;
-        private float speed;
-        private float rotationSpeed;
-        private float shieldHitboxMultiplier;
-        private BoundsConfig hitbox;
+        @NotNull @Positive private int maxHealth;
+        @NotNull @Positive private int maxBulletsCount;
+        @NotNull @Positive private float bulletsCooldown;
+        @NotNull @Positive private float bulletsReloadDelay;
+        @NotNull @Positive private float speed;
+        @NotNull @Positive private float rotationSpeed;
+        @NotNull @Positive private float shieldHitboxMultiplier;
+        @NotNull @Valid private BoundsConfig hitbox;
 
         public BoundsConfig getHitbox() { return hitbox; }
         public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
@@ -132,10 +134,10 @@ public class SceneConfig {
     }
 
     public static class AreaConfig {
-        private AreaTypeEnum type;
-        private int col;
-        private int row;
-        private BoundsConfig bounds;
+        @NotNull private AreaTypeEnum type;
+        @NotNull @Positive private int col;
+        @NotNull @Positive private int row;
+        @NotNull @Valid private BoundsConfig bounds;
 
         public AreaTypeEnum getType() { return type; }
         public void setType(AreaTypeEnum type) { this.type = type; }
@@ -151,7 +153,7 @@ public class SceneConfig {
     }
 
     public static class BoundsConfig {
-        private BoundsTypeEnum type;
+        @NotNull private BoundsTypeEnum type;
         private float width;
         private float height;
         private float radius;
@@ -170,10 +172,10 @@ public class SceneConfig {
     }
 
     public static class SpawnerConfig {
-        private SpawnerTypeEnum type;
-        private int col;
-        private int row;
-        private String texture;
+        @NotNull private SpawnerTypeEnum type;
+        @NotNull @Positive private int col;
+        @NotNull @Positive private int row;
+        @NotBlank private String texture;
         private float cooldown; // only for bonusspawner
         private String playerTexture; // only for playerspawner
 
@@ -197,22 +199,18 @@ public class SceneConfig {
     }
 
     public static class MappingsConfig {
-        private Map<String, MappingTileConfig> tiles;
-        private Map<String, String> spawners;
-        private Map<String, MappingBlockConfig> blocks;
+        @NotEmpty @Valid private Map<String, @NotNull MappingTileConfig> tiles;
+        @NotEmpty @Valid private Map<String, @NotNull MappingBlockConfig> blocks;
 
         public Map<String, MappingTileConfig> getTiles() { return tiles; }
         public void setTiles(Map<String, MappingTileConfig> tiles) { this.tiles = tiles; }
-
-        public Map<String, String> getSpawners() { return spawners; }
-        public void setSpawners(Map<String, String> spawners) { this.spawners = spawners; }
 
         public Map<String, MappingBlockConfig> getBlocks() { return blocks; }
         public void setBlocks(Map<String, MappingBlockConfig> blocks) { this.blocks = blocks; }
     }
 
     public static class MappingTileConfig {
-        private String texture;
+        @NotBlank private String texture;
         private boolean defaultSize;
 
         public String getTexture() { return texture; }
