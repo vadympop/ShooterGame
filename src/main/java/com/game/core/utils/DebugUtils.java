@@ -11,29 +11,32 @@ import org.slf4j.LoggerFactory;
 
 public class DebugUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DebugUtils.class);
-
     private static final Color HITBOX_COLOR = Color.AQUAMARINE;
 
     public static void drawHitbox(GraphicsContext gc, Bounds hitbox) {
         gc.setStroke(HITBOX_COLOR);
         gc.setLineWidth(1.5);
 
-        if (hitbox instanceof CircleBounds circHitbox) {
-            float d = circHitbox.getRadius() * 2;
-            double displayX = circHitbox.getX() - (d / 2);
-            double displayY = circHitbox.getY() - (d / 2);
+        switch (hitbox) {
+            case null -> {}
+            case CircleBounds circHitbox -> {
+                float d = circHitbox.getRadius() * 2;
+                double displayX = circHitbox.getX() - (d / 2);
+                double displayY = circHitbox.getY() - (d / 2);
 
-            gc.strokeOval(displayX, displayY, d, d);
-        } else if (hitbox instanceof RectangleBounds rectHitbox) {
-            float width = rectHitbox.getWidth();
-            float height = rectHitbox.getHeight();
-            double displayX = rectHitbox.getX() - (width / 2);
-            double displayY = rectHitbox.getY() - (height / 2);
+                gc.strokeOval(displayX, displayY, d, d);
+            }
+            case RectangleBounds rectHitbox -> {
+                float width = rectHitbox.getWidth();
+                float height = rectHitbox.getHeight();
+                double displayX = rectHitbox.getX() - (width / 2);
+                double displayY = rectHitbox.getY() - (height / 2);
 
-            gc.strokeRect(displayX, displayY, width, height);
-        } else {
-            LOGGER.debug("Not found drawing hitboxes logic for {}", hitbox.getClass().getSimpleName());
+                gc.strokeRect(displayX, displayY, width, height);
+            }
+            default -> LOGGER.debug("Not found drawing hitboxes logic for {}", hitbox.getClass().getSimpleName());
         }
+
     }
 
     public static void drawHitboxIfDebug(GraphicsContext gc, Bounds hitbox) {

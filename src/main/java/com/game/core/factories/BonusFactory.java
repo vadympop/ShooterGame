@@ -20,7 +20,7 @@ public class BonusFactory {
             case DOUBLE_SHOOT -> new Bonus(new DoubleShootEffect(), tile, hitbox);
             case DOUBLE_DAMAGE -> new Bonus(new DoubleDamageEffect(), tile, hitbox);
             case CIRCULAR_SHOOT -> new Bonus(new CircularShootEffect(), tile, hitbox);
-            default -> new Bonus(new NoEffect(), tile, hitbox);
+            case null, default -> new Bonus(new NoEffect(), tile, hitbox);
         };
     }
 }

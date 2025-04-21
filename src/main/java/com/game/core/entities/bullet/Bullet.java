@@ -8,6 +8,7 @@ import com.game.core.collisions.CollisionVisitor;
 import com.game.core.entities.Entity;
 import com.game.core.entities.Player;
 import com.game.core.exceptions.InvalidParameterException;
+import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.factories.BoundsFactory;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.Timer;
@@ -96,6 +97,7 @@ public class Bullet extends Entity {
         private float rotationAngle;
         private float timeToDestroy;
         private Tile tile;
+        private String texture;
         private Bounds hitbox;
         private final BulletType type;
 
@@ -116,7 +118,7 @@ public class Bullet extends Entity {
                 .damage(config.getDamage())
                 .timeToDestroy(config.getTimeToDestroy())
                 .hitbox(BoundsFactory.createFromConfig(config.getHitbox()));
-            this.tile = new Tile(config.getTextures().get(this.type), null);
+            this.texture = config.getTextures().get(type);
             return this;
         }
 
@@ -147,9 +149,19 @@ public class Bullet extends Entity {
             return this;
         }
 
+        public builder tile(Tile tile) {
+            this.tile = tile;
+            return this;
+        }
+
         public Bullet build() {
+            if (texture == null) throw new NotConfiguredException("Not passed config");
+
             float coefficient = 1.5f + (float)Math.tanh(speed / 250.0f) * 0.5f;
             this.speed *= coefficient;
+            if (tile == null)
+                this.tile = new Tile(texture, null);
+
             return new Bullet(owner, type, tile, hitbox, timeToDestroy, damage, speed, rotationAngle);
         }
     }

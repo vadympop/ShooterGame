@@ -6,8 +6,12 @@ import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
 
+import java.util.Objects;
+
 public class PlayerFactory {
     public static Player create(PlayerSpawner spawner) {
+        Objects.requireNonNull(spawner);
+
         SceneConfig config = ConfigLoader.getInstance().getConfig();
         Bounds hitbox = BoundsFactory.createFromConfig(config.getPlayer().getHitbox());
 

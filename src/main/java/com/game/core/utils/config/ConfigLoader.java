@@ -1,8 +1,11 @@
 package com.game.core.utils.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.game.core.exceptions.InvalidConfigFileException;
 import com.game.core.exceptions.InvalidConfigurationException;
+import com.game.core.exceptions.InvalidParameterException;
 import com.game.core.exceptions.NotConfiguredException;
+import com.game.core.utils.ResourceUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -33,8 +36,13 @@ public class ConfigLoader {
 
     public SceneConfig load(String sceneId) throws IOException, URISyntaxException {
         LOGGER.debug("Loading config for {} scene", sceneId);
+        if (sceneId == null)
+            throw new InvalidParameterException("Scene id should not be null");
 
-        URL fileURL = getClass().getResource("/scenes/" + sceneId + "_scene.json");
+        URL fileURL = ResourceUtils.getResource("/scenes/" + sceneId + "_scene.json");
+        if (fileURL == null)
+            throw new InvalidConfigFileException("Config file for " + sceneId + " not found");
+
         File file = new File(fileURL.toURI());
 
         SceneConfig config = mapper.readValue(file, SceneConfig.class);

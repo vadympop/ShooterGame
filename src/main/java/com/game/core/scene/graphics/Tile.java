@@ -2,6 +2,7 @@ package com.game.core.scene.graphics;
 
 import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.utils.PositionUtils;
+import com.game.core.utils.ResourceUtils;
 import com.game.core.utils.Scaler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -56,7 +57,7 @@ public class Tile {
         boolean isUndefinedTexture = texture.equals(UNDEFINED_TEXTURE);
         boolean isError = false;
 
-        URL tileURL = getClass().getResource("/textures/" + texture);
+        URL tileURL = ResourceUtils.getResource("/textures/" + texture);
         if (tileURL == null) {
             LOGGER.warn("Tile texture={} not found", texture);
             isError = true;
@@ -66,6 +67,10 @@ public class Tile {
             } catch (URISyntaxException e) {
                 LOGGER.warn("Tile texture={} url is bad", tileURL);
                 isError = true;
+            } catch (RuntimeException e) {
+                // Main case for this exception is an exception when running tests and javafx not started
+                setTextureIsUndefined(true);
+                return;
             }
         }
 

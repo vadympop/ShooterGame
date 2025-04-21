@@ -28,8 +28,8 @@ public class Scaler {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         return (float) Math.min(
-                (double) screenSize.width / (getHorizontalTilesCount() * getDefaultTileWidth()),
-                (double) screenSize.height / (getVerticalTilesCount() * getDefaultTileHeight())
+                screenSize.getWidth() / (getHorizontalTilesCount() * getDefaultTileWidth()),
+                screenSize.getHeight() / (getVerticalTilesCount() * getDefaultTileHeight())
         );
     }
 

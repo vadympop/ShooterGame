@@ -22,4 +22,8 @@ public class InvalidConfigurationException extends RuntimeException {
                 .collect(Collectors.joining(",\n"));
         return "message=" + msg + ", " + "violations={" + violationsStr + "}";
     }
+
+    public Collection<ConstraintViolation<SceneConfig>> getViolations() {
+        return violations;
+    }
 }

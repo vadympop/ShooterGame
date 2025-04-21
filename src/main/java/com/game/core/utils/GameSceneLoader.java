@@ -118,8 +118,10 @@ public class GameSceneLoader {
             for (char x : row.toCharArray()) {
                 colsCount++;
                 if (x == '-') continue;
+
                 String elementStr = String.valueOf(x);
                 T mappingElement = texturesMapping.get(elementStr);
+                if (mappingElement == null) continue;
 
                 Tile tile = new Tile(
                         mappingElement.getTexture(),
