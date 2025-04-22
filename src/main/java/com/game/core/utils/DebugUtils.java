@@ -9,11 +9,15 @@ import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class DebugUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DebugUtils.class);
     private static final Color HITBOX_COLOR = Color.AQUAMARINE;
 
     public static void drawHitbox(GraphicsContext gc, Bounds hitbox) {
+        Objects.requireNonNull(gc);
+
         gc.setStroke(HITBOX_COLOR);
         gc.setLineWidth(1.5);
 
