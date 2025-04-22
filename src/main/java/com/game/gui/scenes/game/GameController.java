@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class GameController {
-    private static final String[] KEYS = {"W", "Up", "SPACE", "BACK_SPACE"};
+    private static final String[] KEYS = {"W", "Up", "Space", "Backspace"};
     private GameView view;
     private GameModel model;
     private GameLoop loop;
