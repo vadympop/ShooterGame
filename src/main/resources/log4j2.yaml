@@ -4,21 +4,28 @@ Configuration:
       name: "CONSOLE"
       PatternLayout:
         pattern: "%p - %m%n"
-    File:
+
+    RollingFile:
       - name: "MAIN"
-        fileName: "logs/main.log"
+        filePattern: "logs/main-%d{yyyy-MM-dd-HH-mm-ss}.log"
         PatternLayout:
           pattern: "%d [%t] %p %c - %m%n"
+        Policies:
+          OnStartupTriggeringPolicy: {}
+
       - name: "DEBUG_LOG"
-        fileName: "logs/debug.log"
+        filePattern: "logs/debug-%d{yyyy-MM-dd-HH-mm-ss}.log"
         PatternLayout:
           pattern: "%d [%t] %p %c - %m%n"
+        Policies:
+          OnStartupTriggeringPolicy: {}
+
   Loggers:
     Logger:
-      - name: "com.game"
-        level: "DEBUG"
-        AppenderRef:
-          - ref: "DEBUG_LOG"
+      name: "com.game"
+      level: "DEBUG"
+      AppenderRef:
+        - ref: "DEBUG_LOG"
 
     Root:
       level: "INFO"
