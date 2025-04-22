@@ -36,6 +36,6 @@ class SpeedBoostEffectTest {
     @Test
     void getDuration_returnsCorrectValue() {
         SpeedBoostEffect effect = new SpeedBoostEffect();
-        assertEquals(30f, effect.getDuration(), 0.001f);
+        assertEquals(5f, effect.getDuration(), 0.001f);
     }
 }

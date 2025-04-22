@@ -32,6 +32,6 @@ class ShieldEffectTest {
     @Test
     void getDuration_returnsCorrectValue() {
         ShieldEffect effect = new ShieldEffect();
-        assertEquals(20f, effect.getDuration(), 0.001f);
+        assertEquals(10f, effect.getDuration(), 0.001f);
     }
 }

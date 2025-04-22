@@ -40,6 +40,6 @@ class CircularShootEffectTest {
     @Test
     void getDuration_returnsCorrectValue() {
         CircularShootEffect effect = new CircularShootEffect();
-        assertEquals(20f, effect.getDuration(), 0.001f);
+        assertEquals(3f, effect.getDuration(), 0.001f);
     }
 }

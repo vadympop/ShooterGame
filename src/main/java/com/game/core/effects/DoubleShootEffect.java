@@ -5,7 +5,7 @@ import com.game.core.strategies.DoubleShootStrategy;
 import com.game.core.strategies.SingleShootStrategy;
 
 public class DoubleShootEffect implements Effect {
-    private final float duration = 20f;
+    private final float duration = 10f;
 
     @Override
     public void apply(Player player) {

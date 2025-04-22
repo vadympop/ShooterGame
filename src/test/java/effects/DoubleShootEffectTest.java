@@ -40,6 +40,6 @@ class DoubleShootEffectTest {
     @Test
     void getDuration_returnsCorrectValue() {
         DoubleShootEffect effect = new DoubleShootEffect();
-        assertEquals(20f, effect.getDuration(), 0.001f);
+        assertEquals(10f, effect.getDuration(), 0.001f);
     }
 }

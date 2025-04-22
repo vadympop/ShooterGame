@@ -36,6 +36,6 @@ class ReduceSpeedEffectTest {
     @Test
     void getDuration_returnsCorrectValue() {
         ReduceSpeedEffect effect = new ReduceSpeedEffect();
-        assertEquals(5f, effect.getDuration(), 0.001f);
+        assertEquals(10f, effect.getDuration(), 0.001f);
     }
 }
