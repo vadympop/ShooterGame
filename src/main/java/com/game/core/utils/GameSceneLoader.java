@@ -68,8 +68,7 @@ public class GameSceneLoader {
     public void loadSpawners(GameModel scene) {
         getConfig().getSpawners().forEach(x -> {
             Map<String, Consumer<Entity>> events = new HashMap<>();
-            events.put("onPlayerCreated", scene::addEntity);
-            events.put("onPlayerBulletCreated", scene::addEntity);
+            events.put("onEntityCreated", scene::addEntity);
 
             Spawner spawner = SpawnerFactory.createFromConfig(x, events);
             float[] pos = generatePos(x.getCol(), x.getRow());

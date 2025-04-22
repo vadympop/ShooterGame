@@ -28,7 +28,7 @@ public class CollisionHandler implements CollisionVisitor {
 
             @Override
             public void visit(Bonus bonus, Collidable other) {
-                bonus.setState(false);
+                bonus.applyEffect(player);
             }
 
             @Override public void visit(SolidBlock block, Collidable other) {}
@@ -57,7 +57,7 @@ public class CollisionHandler implements CollisionVisitor {
 
             @Override
             public void visit(Bonus bonus, Collidable other) {
-                bonus.setState(false);
+                bullet.setState(false);
             }
 
             @Override

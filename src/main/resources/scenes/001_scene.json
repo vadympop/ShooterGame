@@ -71,10 +71,10 @@
     },
     {
       "type": "BONUS",
-      "texture": "block_2.png",
-      "col": "10",
+      "texture": "block_1.png",
+      "col": "15",
       "row": "20",
-      "cooldown": ""
+      "cooldown": 10
     }
   ],
   "backgroundTiles": [

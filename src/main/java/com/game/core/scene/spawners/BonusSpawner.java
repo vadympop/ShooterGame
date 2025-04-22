@@ -2,6 +2,9 @@ package com.game.core.scene.spawners;
 
 import com.game.core.behaviour.base.GameObject;
 import com.game.core.entities.Entity;
+import com.game.core.entities.bonus.Bonus;
+import com.game.core.entities.bonus.BonusType;
+import com.game.core.factories.BonusFactory;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.Timer;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,6 +19,7 @@ public class BonusSpawner extends GameObject implements Spawner {
     private final Map<String, Consumer<Entity>> events = new HashMap<>();
     private Timer<BonusSpawner> spawnTimer;
     private final Tile tile;
+    private Bonus currentBonus;
 
     public BonusSpawner(Tile tile, float cooldown) {
         this.tile = Objects.requireNonNull(tile);
@@ -26,7 +30,14 @@ public class BonusSpawner extends GameObject implements Spawner {
 
     @Override
     public void spawn() {
+        if (currentBonus != null && currentBonus.getState()) return;
 
+        Bonus bonus = BonusFactory.create(BonusType.randomBonus());
+        bonus.setPos(getX(), getY());
+        currentBonus = bonus;
+
+        Consumer<Entity> event = getEvent("onEntityCreated");
+        if (event != null) event.accept(bonus);
     }
 
     @Override

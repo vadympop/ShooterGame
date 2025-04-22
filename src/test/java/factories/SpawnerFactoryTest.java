@@ -53,6 +53,8 @@ public class SpawnerFactoryTest {
             when(config.getTexture()).thenReturn("bonus.png");
             when(config.getCooldown()).thenReturn(5f);
             Map<String, Consumer<Entity>> events = new HashMap<>();
+            Consumer<Entity> spawnEvent = mock(Consumer.class);
+            events.put("spawn", spawnEvent);
 
             Spawner spawner = SpawnerFactory.createFromConfig(config, events);
 
@@ -89,16 +91,13 @@ public class SpawnerFactoryTest {
     }
 
     @Test
-    void createPlayerSpawnerWithEmptyEventsThrowsNotConfiguredException() {
-        when(config.getType()).thenReturn(SpawnerTypeEnum.PLAYER);
-        when(config.getTexture()).thenReturn("spawner.png");
+    void createWithEmptyEventsThrowsNotConfiguredException() {
         Map<String, Consumer<Entity>> emptyEvents = new HashMap<>();
 
         assertThrows(
                 NotConfiguredException.class,
                 () -> SpawnerFactory.createFromConfig(config, emptyEvents)
         );
-        verify(config).getType();
     }
 
     @Test
@@ -116,6 +115,7 @@ public class SpawnerFactoryTest {
     void createFromConfigWithNullSpawnerTypeThrowsIllegalArgumentException() {
         when(config.getType()).thenReturn(null);
         Map<String, Consumer<Entity>> events = new HashMap<>();
+        events.put("someEvent", mock(Consumer.class));
 
         assertThrows(
                 InvalidParameterException.class,

@@ -44,7 +44,7 @@ class PlayerSpawnerTest {
         try (MockedStatic<PlayerFactory> mocked = mockStatic(PlayerFactory.class)) {
             when(player.getSm()).thenReturn(mockSm);
             mocked.when(() -> PlayerFactory.create(playerSpawner)).thenReturn(player);
-            playerSpawner.addEvent("onPlayerCreated", event);
+            playerSpawner.addEvent("onEntityCreated", event);
             playerSpawner.spawn();
             assertNotNull(playerSpawner.getPlayer());
             verify(event).accept(player);
@@ -61,9 +61,9 @@ class PlayerSpawnerTest {
 
     @Test
     void addEvent_storesEvent() {
-        playerSpawner.addEvent("onPlayerCreated", event);
+        playerSpawner.addEvent("onEntityCreated", event);
 
-        assertEquals(event, playerSpawner.getEvent("onPlayerCreated"));
+        assertEquals(event, playerSpawner.getEvent("onEntityCreated"));
     }
 
     @Test

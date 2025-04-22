@@ -18,24 +18,22 @@ public class SpawnerFactory {
         Objects.requireNonNull(c);
         Objects.requireNonNull(events);
 
+        if (events.isEmpty())
+            throw new NotConfiguredException("Not provided events for spawner");
+
         if (c.getType() == null)
             throw new InvalidParameterException("Spawner type cannot be null");
 
         Tile tile = new Tile(c.getTexture(), null);
-        return switch (c.getType()) {
-            case PLAYER -> {
-                if (events.isEmpty())
-                    throw new NotConfiguredException("Not provided events for player's spawner");
-
-                Spawner spawner = new PlayerSpawner(
-                        tile,
-                        new Tile(c.getPlayerTexture(), null)
-                );
-                events.forEach(spawner::addEvent);
-
-                yield spawner;
-            }
+        Spawner spawner = switch (c.getType()) {
+            case PLAYER -> new PlayerSpawner(
+                    tile,
+                    new Tile(c.getPlayerTexture(), null)
+            );
             case BONUS -> new BonusSpawner(tile, c.getCooldown());
         };
+
+        events.forEach(spawner::addEvent);
+        return spawner;
     }
 }

@@ -34,6 +34,7 @@ public class GameModel {
         entitiesToAdd.clear();
 
         entities.forEach(x -> x.update(deltaTime));
+        spawners.forEach(x -> x.update(deltaTime));
 
         List<Entity> toRemove = entities.stream().filter(x -> !x.getState()).toList();
         collisionManager.removeEntities(toRemove);
@@ -65,7 +66,9 @@ public class GameModel {
     }
 
     public void addArea(Area area) { collisionManager.addArea(area); }
-    public void addSpawner(Spawner spawner) { this.spawners.add(spawner); }
+    public void addSpawner(Spawner spawner) {
+        this.spawners.add(spawner);
+    }
     public void addTile(SceneTile tile) { this.tiles.add(tile); }
 
     public String getSceneId() { return sceneId; }

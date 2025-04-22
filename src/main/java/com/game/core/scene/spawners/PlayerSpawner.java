@@ -32,9 +32,9 @@ public class PlayerSpawner extends GameObject implements Spawner {
         if (getPlayer() == null) {
             LOGGER.info("PlayerSpawner's first player spawn");
             setPlayer(PlayerFactory.create(this));
-            getPlayer().getSm().setOnBulletCreated(getEvent("onPlayerBulletCreated"));
+            getPlayer().getSm().setOnBulletCreated(getEvent("onEntityCreated"));
 
-            Consumer<Entity> event = getEvent("onPlayerCreated");
+            Consumer<Entity> event = getEvent("onEntityCreated");
             if (event != null) event.accept(getPlayer());
         }
 
