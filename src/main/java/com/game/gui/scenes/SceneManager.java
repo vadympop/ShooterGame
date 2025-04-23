@@ -6,6 +6,7 @@ import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
 import com.game.gui.scenes.game.GameModel;
 import com.game.gui.scenes.game.GameScene;
+import com.game.gui.scenes.menu.MenuScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -27,6 +28,7 @@ public class SceneManager {
 
     public void loadGameScene(String sceneId) {
         LOGGER.info("Loading game scene with id {}", sceneId);
+        if (getCurrentScene() != null) getCurrentScene().onExit();
 
         SceneConfig config;
         try {
@@ -46,6 +48,10 @@ public class SceneManager {
 
     public void loadMenuScene() {
         LOGGER.info("Loading menu scene");
+        if (getCurrentScene() != null) getCurrentScene().onExit();
+
+        setCurrentScene(new MenuScene(getPrimaryStage(), this));
+        getCurrentScene().onEnter();
     }
 
     public void throwError(String message) {

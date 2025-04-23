@@ -18,6 +18,6 @@ public class Launcher extends Application {
         LOGGER.info("Launching game");
 
         SceneManager sm = new SceneManager(primaryStage);
-        sm.loadGameScene("001");
+        sm.loadMenuScene();
     }
 }

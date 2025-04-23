@@ -40,6 +40,7 @@ public class GameView {
         primaryStage.setMinHeight(scaler.getSceneHeight());
         primaryStage.setMinWidth(scaler.getSceneWidth());
         primaryStage.setScene(scene);
+        primaryStage.centerOnScreen();
         primaryStage.sizeToScene();
     }
 
