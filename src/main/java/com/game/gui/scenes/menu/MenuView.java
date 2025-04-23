@@ -75,6 +75,7 @@ public class MenuView {
 
     // Show the stage
     public void show() {
+        controller.getSm().makeWindowMovable(primaryStage.getScene().getRoot());
         primaryStage.show();
     }
 

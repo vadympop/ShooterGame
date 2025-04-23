@@ -7,6 +7,7 @@ import com.game.core.utils.config.SceneConfig;
 import com.game.gui.scenes.game.GameModel;
 import com.game.gui.scenes.game.GameScene;
 import com.game.gui.scenes.menu.MenuScene;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -19,11 +20,25 @@ import java.net.URISyntaxException;
 public class SceneManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(SceneManager.class);
 
+    private double xOffset;
+    private double yOffset;
+
     private Scene currentScene;
     private Stage primaryStage;
 
     public SceneManager(Stage primaryStage) {
         setPrimaryStage(primaryStage);
+    }
+
+    public void makeWindowMovable(Node root) {
+        root.setOnMousePressed(mouseEvent -> {
+            xOffset = mouseEvent.getSceneX();
+            yOffset = mouseEvent.getSceneY();
+        });
+        root.setOnMouseDragged(mouseEvent ->  {
+            primaryStage.setX(mouseEvent.getScreenX() - xOffset);
+            primaryStage.setY(mouseEvent.getScreenY() - yOffset);
+        });
     }
 
     public void loadGameScene(String sceneId) {

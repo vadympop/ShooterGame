@@ -21,4 +21,8 @@ public class MenuController {
     public void start() {
         view.show();
     }
+
+    public SceneManager getSm() {
+        return sm;
+    }
 }
