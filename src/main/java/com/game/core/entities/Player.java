@@ -58,7 +58,8 @@ public class Player extends Entity {
             float bulletsReloadDelay,
             float bulletsCooldown,
             float defaultSpeed,
-            float rotationSpeed
+            float rotationSpeed,
+            boolean isInfinityBulletsMode
     ) {
         super(tile, hitbox);
 
@@ -69,7 +70,8 @@ public class Player extends Entity {
                 bulletConfig,
                 maxBulletsCount,
                 bulletsReloadDelay,
-                bulletsCooldown
+                bulletsCooldown,
+                isInfinityBulletsMode
         );
         this.spawner = Objects.requireNonNull(spawner);
         setMaxHealth(maxHealth);

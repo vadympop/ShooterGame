@@ -1,5 +1,7 @@
 package com.game.gui.scenes.menu;
 
+import com.game.core.enums.GameModeEnum;
+import com.game.core.utils.config.ConfigLoader;
 import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -144,11 +146,15 @@ public class MenuView {
                 bgSize
         );
 
+        ConfigLoader cfgLoader = ConfigLoader.getInstance();
         HBox gameModeSwitcher = createGameModeSwitcher(
-                "Infinity bullets mode",
                 "Shooting with bullets reloading",
+                "Infinity bullets mode",
                 createCustomSwitch(
-                        state -> System.out.println("Switch: " + (state ? "Увімкнено" : "Вимкнено"))
+                        state -> {
+                            if (state) cfgLoader.setGameMode(GameModeEnum.INFINITY_BULLETS);
+                            else cfgLoader.setGameMode(GameModeEnum.WITH_RELOADING);
+                        }
                 )
         );
 

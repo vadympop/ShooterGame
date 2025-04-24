@@ -1,6 +1,7 @@
 package com.game.core.utils.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.game.core.enums.GameModeEnum;
 import com.game.core.exceptions.InvalidConfigFileException;
 import com.game.core.exceptions.InvalidConfigurationException;
 import com.game.core.exceptions.InvalidParameterException;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Set;
 
 public class ConfigLoader {
@@ -25,6 +27,8 @@ public class ConfigLoader {
     private final ObjectMapper mapper = new ObjectMapper();
     private SceneConfig config;
     private static ConfigLoader instance;
+
+    private GameModeEnum gameMode = GameModeEnum.WITH_RELOADING;
 
     private ConfigLoader() {}
 
@@ -65,4 +69,9 @@ public class ConfigLoader {
 
     public SceneConfig getConfig() { return config; }
     private void setConfig(SceneConfig config) { this.config = config; }
+
+    public GameModeEnum getGameMode() { return gameMode; }
+    public void setGameMode(GameModeEnum gameMode) {
+        this.gameMode = Objects.requireNonNull(gameMode);
+    }
 }

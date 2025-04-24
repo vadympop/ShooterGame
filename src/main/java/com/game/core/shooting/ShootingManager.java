@@ -23,6 +23,7 @@ public class ShootingManager implements Updatable {
     private final Timer<ShootingManager> reloadingTimer;
     private final Player player;
     private boolean isShooting = false;
+    private final boolean isInfinityBulletsMode;
     private int maxBulletsCount;
     private int bulletsCount;
     private final float bulletsReloadDelay;
@@ -39,25 +40,30 @@ public class ShootingManager implements Updatable {
             SceneConfig.BulletConfig bulletConfig,
             int maxBulletsCount,
             float bulletsReloadDelay,
-            float bulletsCooldown
+            float bulletsCooldown,
+            boolean isInfinityBulletsMode
     ) {
         this.player = Objects.requireNonNull(player);
         this.bulletsCooldown = bulletsCooldown;
         this.bulletConfig = Objects.requireNonNull(bulletConfig);
         this.bulletsReloadDelay = bulletsReloadDelay;
+        this.isInfinityBulletsMode = isInfinityBulletsMode;
 
         setBulletType(bulletType);
         setShootingStrategy(shootingStrategy);
         setMaxBulletsCount(maxBulletsCount);
         setBulletsCount(maxBulletsCount);
 
-        reloadingTimer = new Timer<>(getBulletsReloadDelay(), (x) -> {
-            if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
+        if (!isInfinityBulletsMode())
+            reloadingTimer = new Timer<>(getBulletsReloadDelay(), (x) -> {
+                if (x.getBulletsCount() == x.getMaxBulletsCount()) return;
 
-            x.setBulletsCount(x.getBulletsCount() + 1);
+                x.setBulletsCount(x.getBulletsCount() + 1);
 
-            LOGGER.debug("Reloaded bullets for {}", getPlayer());
-        }, true);
+                LOGGER.debug("Reloaded bullets for {}", getPlayer());
+            }, true);
+        else
+            reloadingTimer = null;
     }
 
     public void toggleShooting(boolean state) {
@@ -72,7 +78,8 @@ public class ShootingManager implements Updatable {
 
     @Override
     public void update(double deltaTime) {
-        reloadingTimer.update(deltaTime, this, null);
+        if (reloadingTimer != null)
+            reloadingTimer.update(deltaTime, this, null);
 
         while (!bulletsQueue.isEmpty()) {
             DelayedWrapper<Bullet> shot = bulletsQueue.peek();
@@ -82,8 +89,10 @@ public class ShootingManager implements Updatable {
     }
 
     private void shoot() {
-        if (getBulletsCount() <= 0) return;
-        decrementBulletsCount();
+        if (!isInfinityBulletsMode) {
+            if (getBulletsCount() <= 0) return;
+            decrementBulletsCount();
+        }
 
         List<Bullet> bullets = getShootingStrategy().shoot(getPlayer(), getBulletType());
         for (Bullet bullet : bullets) {
@@ -137,4 +146,5 @@ public class ShootingManager implements Updatable {
     public SceneConfig.BulletConfig getBulletConfig() { return bulletConfig; }
     public float getBulletsCooldown() { return bulletsCooldown; }
     public float getBulletsReloadDelay() { return bulletsReloadDelay; }
+    public boolean isInfinityBulletsMode() { return isInfinityBulletsMode; }
 }

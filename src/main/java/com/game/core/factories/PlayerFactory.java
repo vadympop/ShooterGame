@@ -2,6 +2,7 @@ package com.game.core.factories;
 
 import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.entities.Player;
+import com.game.core.enums.GameModeEnum;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.utils.config.ConfigLoader;
 import com.game.core.utils.config.SceneConfig;
@@ -12,7 +13,8 @@ public class PlayerFactory {
     public static Player create(PlayerSpawner spawner) {
         Objects.requireNonNull(spawner);
 
-        SceneConfig config = ConfigLoader.getInstance().getConfig();
+        ConfigLoader cfgLoader = ConfigLoader.getInstance();
+        SceneConfig config = cfgLoader.getConfig();
         Bounds hitbox = BoundsFactory.createFromConfig(config.getPlayer().getHitbox());
 
         return new Player(
@@ -26,7 +28,8 @@ public class PlayerFactory {
                 config.getPlayer().getBulletsReloadDelay(),
                 config.getPlayer().getBulletsCooldown(),
                 config.getPlayer().getSpeed(),
-                config.getPlayer().getRotationSpeed()
+                config.getPlayer().getRotationSpeed(),
+                cfgLoader.getGameMode() == GameModeEnum.INFINITY_BULLETS
         );
     }
 }
