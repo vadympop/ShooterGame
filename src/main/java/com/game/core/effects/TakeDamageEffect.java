@@ -10,7 +10,7 @@ public class TakeDamageEffect implements Effect {
     public void apply(Player player) {
         if (player.getHealth() - damage <= 0) return;
 
-        player.takeDamage(damage);
+        player.takeDamage(damage, null);
     }
 
     @Override

@@ -91,4 +91,12 @@ class PlayerSpawnerTest {
     void getPlayerTile_returnsCorrectTile() {
         assertEquals(playerTile, playerSpawner.getPlayerTile());
     }
+
+    @Test
+    void getPlayerKillsCount_returnsSameWithPlayerKillsCount() {
+        playerSpawner.setPlayer(player);
+        player.incrementKillsCount();
+
+        assertEquals(playerSpawner.getPlayerKillsCount(), player.getKillsCount());
+    }
 }

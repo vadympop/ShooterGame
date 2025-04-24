@@ -61,14 +61,14 @@ class PlayerTest {
     @Test
     void testTakeDamage_reducesHealth() {
         Player player = createPlayer();
-        player.takeDamage(3);
+        player.takeDamage(3, null);
         assertEquals(7, player.getHealth());
     }
 
     @Test
     void testTakeDamage_lethalDamage_setsDead() {
         Player player = createPlayer();
-        player.takeDamage(20); // more than health
+        player.takeDamage(20, null); // more than health
         assertTrue(player.isDead());
     }
 
@@ -76,7 +76,7 @@ class PlayerTest {
     void testTakeDamage_withShield_doesNotReduceHealth() {
         Player player = createPlayer();
         player.setHasShield(true);
-        player.takeDamage(5);
+        player.takeDamage(5, null);
         assertEquals(10, player.getHealth());
         assertFalse(player.isDead());
     }
@@ -84,7 +84,7 @@ class PlayerTest {
     @Test
     void testRespawn_setsStateProperly() {
         Player player = createPlayer();
-        player.takeDamage(20);
+        player.takeDamage(20, null);
         player.respawn(100f, 200f);
         assertEquals(10, player.getHealth());
         assertFalse(player.isDead());
@@ -180,5 +180,14 @@ class PlayerTest {
                     false
             );
         });
+    }
+
+    @Test
+    void testIncrementKillsCount() {
+        Player player = createPlayer();
+        assertEquals(0, player.getKillsCount());
+
+        player.incrementKillsCount();
+        assertEquals(1, player.getKillsCount());
     }
 }

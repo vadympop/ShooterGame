@@ -47,7 +47,7 @@ public class CollisionHandler implements CollisionVisitor {
                 }
 
                 bullet.setState(false);
-                player.takeDamage(bullet.getDamage());
+                player.takeDamage(bullet.getDamage(), bullet.getOwner());
             }
 
             @Override

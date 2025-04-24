@@ -67,4 +67,5 @@ public class PlayerSpawner extends GameObject implements Spawner {
     public Player getPlayer() { return player; }
     public void setPlayer(Player player) { this.player = player; }
 
+    public int getPlayerKillsCount() { return getPlayer().getKillsCount(); }
 }

@@ -63,7 +63,8 @@ public class GameController {
                 model.getSpawners(),
                 model.getBlocks(),
                 model.getEntities(),
-                model.getTilesByType(TileType.OVERLAY)
+                model.getTilesByType(TileType.OVERLAY),
+                model.getPlayerSpawners()
         );
     }
 

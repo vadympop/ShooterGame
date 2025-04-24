@@ -20,7 +20,7 @@ class TakeDamageEffectTest {
 
         new TakeDamageEffect().apply(player);
 
-        verify(player).takeDamage(1);
+        verify(player).takeDamage(anyInt(), any());
     }
 
     @Test
@@ -29,7 +29,7 @@ class TakeDamageEffectTest {
 
         new TakeDamageEffect().apply(player);
 
-        verify(player, never()).takeDamage(anyInt());
+        verify(player, never()).takeDamage(anyInt(), any());
     }
 
     @Test

@@ -3,16 +3,16 @@ package com.game.gui.scenes.game;
 import com.game.core.entities.Entity;
 import com.game.core.scene.blocks.Block;
 import com.game.core.scene.graphics.SceneTile;
-import com.game.core.scene.graphics.TileType;
+import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.Scaler;
 import com.game.gui.utils.FXUtils;
+import com.game.gui.utils.RenderUtils;
 import com.game.gui.utils.TimeUtils;
 import com.game.gui.utils.WindowUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -83,19 +82,37 @@ public class GameView {
             List<Spawner> spawners,
             List<Block> blocks,
             List<Entity> entities,
-            List<SceneTile> overlayTiles
+            List<SceneTile> overlayTiles,
+            List<PlayerSpawner> playerSpawners
     ) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 
         Stream.of(
                 backgroundTiles,
                 spawners,
-                blocks,
+                blocks
+        ).forEach(list -> list.forEach(x -> x.draw(gc)));
+
+        renderPlayerKills(playerSpawners);
+
+        Stream.of(
                 entities,
                 overlayTiles
         ).forEach(list -> list.forEach(x -> x.draw(gc)));
 
         updateGUI();
+    }
+
+    private void renderPlayerKills(List<PlayerSpawner> spawners) {
+        for (PlayerSpawner spawner : spawners) {
+            double x = spawner.getX();
+            double y = spawner.getY();
+            double ovalWidth = 25;
+            double ovalHeight = 25;
+            String killsText = String.valueOf(spawner.getPlayerKillsCount());
+
+            RenderUtils.drawTextInOval(gc, x, y, ovalWidth, ovalHeight, killsText);
+        }
     }
 
     public void show() {

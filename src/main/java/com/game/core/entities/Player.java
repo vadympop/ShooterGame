@@ -46,6 +46,7 @@ public class Player extends Entity {
     private Effect activeEffect;
     private boolean hasShield = false;
     private float shieldHitboxMultiplier;
+    private int killsCount = 0;
 
     public Player(
             PlayerSpawner spawner,
@@ -99,13 +100,14 @@ public class Player extends Entity {
         return true;
     }
 
-    public void takeDamage(int damage) {
+    public void takeDamage(int damage, Player attacker) {
         if (isHasShield() || isDead()) return;
 
         this.setHealth(this.getHealth() - damage);
         if (this.getHealth() <= 0) {
             LOGGER.info("Took critical damage, player is dead");
             setDead(true);
+            if (attacker != null) attacker.incrementKillsCount();
             timersToAdd.add(new Timer<>(5f, (p) -> p.getSpawner().spawn()));
         }
     }
@@ -120,6 +122,8 @@ public class Player extends Entity {
 
         timersToAdd.add(new Timer<>(5f, p -> p.setHasShield(false)));
     }
+
+    public void incrementKillsCount() { killsCount++; }
 
     public void changeRotationDirection() { rotationDirection *= -1; }
 
@@ -223,6 +227,8 @@ public class Player extends Entity {
 
         this.shieldHitboxMultiplier = shieldHitboxMultiplier;
     }
+
+    public int getKillsCount() { return killsCount; }
 
     @Override
     public String toString() {
