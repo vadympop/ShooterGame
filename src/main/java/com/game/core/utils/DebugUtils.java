@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-public class DebugUtils {
+public final class DebugUtils {
+    private DebugUtils() {}
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DebugUtils.class);
     private static final Color HITBOX_COLOR = Color.AQUAMARINE;
 
