@@ -1,6 +1,5 @@
 package com.game.gui.scenes.menu.components;
 
-import com.game.gui.scenes.menu.MenuController;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ScaleTransition;
@@ -16,15 +15,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.util.function.Consumer;
+
 import static com.game.gui.scenes.menu.MenuViewConstants.CARD_SIZE;
 
 public class MapSelector {
     private final ScrollPane scrollPane;
     private final HBox mapsContainer;
-    private final MenuController controller;
+    private final Consumer<String> onClicked;
 
-    public MapSelector(MenuController controller, String[] sceneIds) {
-        this.controller = controller;
+    public MapSelector(Consumer<String> onClicked, String[] sceneIds) {
+        this.onClicked = onClicked;
         this.mapsContainer = createMapsContainer(sceneIds);
         this.scrollPane = createScrollPane();
     }
@@ -64,7 +65,7 @@ public class MapSelector {
         card.setPrefSize(CARD_SIZE, CARD_SIZE);
         card.setStyle("-fx-border-radius: 10; -fx-cursor: hand; -fx-border-color: white; -fx-border-width: 5;");
 
-        card.setOnMouseClicked(e -> controller.changeGameScene(sceneId));
+        card.setOnMouseClicked(e -> onClicked.accept(sceneId));
         card.setOnMouseEntered(e -> animateScale(card, 1.05));
         card.setOnMouseExited(e -> animateScale(card, 1.0));
 

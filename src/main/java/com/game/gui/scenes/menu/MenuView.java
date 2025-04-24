@@ -50,12 +50,12 @@ public class MenuView {
         Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
         startBackgroundAnimation(canvas.getGraphicsContext2D());
 
-        VBox titleBox = createTitleBox();
+        VBox titleBox = createTitles();
         VBox controls = createScenesSelecter();
         Button exitButton = createExitButton();
-        VBox content = createMainContent(titleBox, controls, exitButton);
+        VBox content = createMainBody(titleBox, controls, exitButton);
 
-        setupSceneAndStage(canvas, content);
+        setupStage(canvas, content);
     }
 
     public void show() {
@@ -63,7 +63,7 @@ public class MenuView {
         primaryStage.show();
     }
 
-    private VBox createTitleBox() {
+    private VBox createTitles() {
         Label titleLabel = new Label("Multiplayer Shooter Minigame");
         titleLabel.setFont(Font.font(FONT_FAMILY, 48));
         titleLabel.setTextFill(Color.WHITE);
@@ -78,7 +78,7 @@ public class MenuView {
     }
 
     private VBox createScenesSelecter() {
-        MapSelector mapSelector = new MapSelector(controller, SCENES);
+        MapSelector mapSelector = new MapSelector(sceneId -> controller.changeGameScene(sceneId), SCENES);
         ImageView leftArrow = FXUtils.createImageButton(
                 LEFT_ARROW_IMAGE, ARROW_SIZE, () -> mapSelector.scrollByAnimated(-1)
         );
@@ -137,7 +137,7 @@ public class MenuView {
         background.start();
     }
 
-    private VBox createMainContent(VBox titleBox, VBox controls, Button exitButton) {
+    private VBox createMainBody(VBox titleBox, VBox controls, Button exitButton) {
         dragArea = new Pane();
         dragArea.setPrefHeight(50);
         dragArea.setStyle("-fx-background-color: transparent;");
@@ -148,7 +148,7 @@ public class MenuView {
         return content;
     }
 
-    private void setupSceneAndStage(Canvas canvas, VBox content) {
+    private void setupStage(Canvas canvas, VBox content) {
         StackPane root = new StackPane(canvas, content);
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         scene.setFill(Color.BLACK);
