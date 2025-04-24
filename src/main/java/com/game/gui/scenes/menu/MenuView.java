@@ -30,18 +30,9 @@ import javafx.util.Duration;
 
 import java.util.function.Consumer;
 
+import static com.game.gui.scenes.menu.MenuViewConstants.*;
+
 public class MenuView {
-    private static final double CARD_SIZE = 180;
-    private static final double BACKGROUND_SCROLL_SPEED = 0.2;
-    private static final int TILE_SIZE = 64;
-    private static final int ARROW_SIZE = 50;
-    private static final String FONT_FAMILY = "Arial";
-    private static final int WINDOW_WIDTH = 1200;
-    private static final int WINDOW_HEIGHT = 750;
-
-    private static final String WINDOW_TITLE = "Main menu";
-    private static final String[] SCENES = {"001"};
-
     private static final Image TILE_IMAGE = new Image("/images/menu_bg_tile.png");
     private static final Image CARDS_IMAGE = new Image("/images/cards_bg.png");
     private static final Image LEFT_ARROW_IMAGE = new Image("/images/arrow_left.png");
