@@ -5,7 +5,6 @@ import com.game.core.entities.Player;
 import com.game.core.entities.bullet.Bullet;
 import com.game.core.entities.bullet.BulletType;
 import com.game.core.exceptions.InvalidParameterException;
-import com.game.core.shooting.DelayedWrapper;
 import com.game.core.shooting.ShootingManager;
 import com.game.core.strategies.ShootingStrategy;
 import com.game.core.utils.Timer;
@@ -44,7 +43,8 @@ public class ShootingManagerTest {
                 bulletConfig,
                 10, // maxBulletsCount
                 1.0f, // bulletsReloadDelay
-                0.1f // bulletsCooldown
+                0.1f, // bulletsCooldown
+                false
         );
 
         // Inject timer mock via reflection
@@ -80,7 +80,8 @@ public class ShootingManagerTest {
                         bulletConfig,
                         10,
                         1.0f,
-                        0.1f
+                        0.1f,
+                        false
                 )
         );
     }
@@ -96,9 +97,35 @@ public class ShootingManagerTest {
                         null,
                         10,
                         1.0f,
-                        0.1f
+                        0.1f,
+                        false
                 )
         );
+    }
+
+    @Test
+    void constructorWithInfinityBulletsMode() {
+        ShootingManager sm = new ShootingManager(
+                player,
+                bulletType,
+                shootingStrategy,
+                bulletConfig,
+                10,
+                1.0f,
+                0.1f,
+                true
+        );
+
+        try {
+            Field timerField = ShootingManager.class.getDeclaredField("reloadingTimer");
+            timerField.setAccessible(true);
+            Object timer = timerField.get(sm);
+
+            // if isInfinityBulletsMode=true, reloadingTimer must be null
+            assertNull(timer);
+        } catch (Exception e) {
+            fail("Unable to use reflection");
+        }
     }
 
     @Test
@@ -112,7 +139,8 @@ public class ShootingManagerTest {
                         bulletConfig,
                         0,
                         1.0f,
-                        0.1f
+                        0.1f,
+                        false
                 )
         );
         assertThrows(
@@ -124,7 +152,8 @@ public class ShootingManagerTest {
                         bulletConfig,
                         -1,
                         1.0f,
-                        0.1f
+                        0.1f,
+                        false
                 )
         );
     }
@@ -166,7 +195,8 @@ public class ShootingManagerTest {
                 bulletConfig,
                 1,
                 1.0f,
-                0.1f
+                0.1f,
+                false
         );
 
         shootingManager.setOnBulletCreated(onBulletCreated);
@@ -205,7 +235,8 @@ public class ShootingManagerTest {
                 bulletConfig,
                 10,
                 1.0f,
-                0.1f
+                0.1f,
+                false
         );
         shootingManager.setOnBulletCreated(onBulletCreated);
         when(shootingStrategy.shoot(player, bulletType)).thenReturn(List.of(bullet));

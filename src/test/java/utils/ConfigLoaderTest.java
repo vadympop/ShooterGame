@@ -1,6 +1,6 @@
 package utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.game.core.enums.GameModeEnum;
 import com.game.core.exceptions.InvalidConfigFileException;
 import com.game.core.exceptions.InvalidConfigurationException;
 import com.game.core.exceptions.InvalidParameterException;
@@ -29,7 +29,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ConfigLoaderTest {
-    private ObjectMapper objectMapper;
     @Mock private ValidatorFactory validatorFactory;
     @Mock private Validator validator;
     @Mock private ConstraintViolation<SceneConfig> violation;
@@ -40,7 +39,6 @@ public class ConfigLoaderTest {
     @BeforeEach
     void setup() {
         validationMock = mockStatic(Validation.class);
-        objectMapper = new ObjectMapper();
     }
 
     @AfterEach
@@ -138,5 +136,13 @@ public class ConfigLoaderTest {
 
         assertNull(result, "getConfig should return null before load");
         verifyNoInteractions(validator);
+    }
+
+    @Test
+    void setGameModeSetsCorrectValue() {
+        assertEquals(GameModeEnum.WITH_RELOADING, configLoader.getGameMode());
+
+        configLoader.setGameMode(GameModeEnum.INFINITY_BULLETS);
+        assertEquals(GameModeEnum.INFINITY_BULLETS, configLoader.getGameMode());
     }
 }

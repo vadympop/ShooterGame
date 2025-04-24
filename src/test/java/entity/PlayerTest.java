@@ -43,7 +43,8 @@ class PlayerTest {
                 1f,  // reload delay
                 0.5f,  // cooldown
                 100f, // defaultSpeed
-                30f   // rotationSpeed
+                30f,   // rotationSpeed
+                false
         );
     }
 
@@ -175,7 +176,8 @@ class PlayerTest {
                     1f,
                     0.5f,
                     100f,
-                    30f
+                    30f,
+                    false
             );
         });
     }
