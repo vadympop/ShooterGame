@@ -2,6 +2,8 @@ package com.game.gui.scenes.menu;
 
 import com.game.core.enums.GameModeEnum;
 import com.game.core.utils.config.ConfigLoader;
+import com.game.gui.utils.FXUtils;
+import com.game.gui.utils.WindowUtils;
 import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -52,6 +54,7 @@ public class MenuView {
     private HBox mapsContainer;
     private GraphicsContext gc;
     private Stage primaryStage;
+    private Pane dragArea;
     private MenuController controller;
     private AnimationTimer backgroundAnimation;
     private Timeline scrollPaneTimeline;
@@ -77,7 +80,7 @@ public class MenuView {
     }
 
     public void show() {
-        controller.getSm().makeWindowMovable(primaryStage.getScene().getRoot());
+        WindowUtils.makeWindowMovable(primaryStage, dragArea);
         primaryStage.show();
     }
 
@@ -182,9 +185,13 @@ public class MenuView {
     }
 
     private VBox createMainContent(VBox titleBox, VBox controls, Button exitButton) {
-        VBox content = new VBox(40, titleBox, controls, exitButton);
+        dragArea = new Pane();
+        dragArea.setPrefHeight(50);
+        dragArea.setStyle("-fx-background-color: transparent;");
+
+        VBox content = new VBox(40, dragArea, titleBox, controls, exitButton);
         content.setAlignment(Pos.CENTER);
-        content.setPadding(new Insets(30));
+        content.setPadding(new Insets(0, 30, 30, 30));
         return content;
     }
 
@@ -196,7 +203,9 @@ public class MenuView {
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.centerOnScreen();
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+
+        if (!primaryStage.isShowing())
+            primaryStage.initStyle(StageStyle.TRANSPARENT);
     }
 
     private void drawScrollingBackground(GraphicsContext gc) {
@@ -282,8 +291,7 @@ public class MenuView {
         arrow.setCursor(Cursor.HAND);
         arrow.setOpacity(0.8);
         arrow.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> onClick.run());
-        arrow.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> arrow.setOpacity(1.0));
-        arrow.addEventHandler(MouseEvent.MOUSE_EXITED, e -> arrow.setOpacity(0.8));
+        FXUtils.onHoverOpacityChange(arrow, 0.8f, 1.0f);
 
         return arrow;
     }

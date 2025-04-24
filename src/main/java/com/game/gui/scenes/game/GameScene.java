@@ -14,7 +14,7 @@ public class GameScene implements Scene {
         this.model = model;
         this.sm = sm;
         this.view = new GameView(primaryStage);
-        this.controller = new GameController(view, model);
+        this.controller = new GameController(view, model, sm);
     }
 
     @Override
@@ -24,6 +24,6 @@ public class GameScene implements Scene {
 
     @Override
     public void onExit() {
-
+        this.controller.stopLoop();
     }
 }

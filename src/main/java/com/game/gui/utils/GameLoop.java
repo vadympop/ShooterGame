@@ -1,4 +1,4 @@
-package com.game.gui;
+package com.game.gui.utils;
 
 import javafx.animation.AnimationTimer;
 import org.slf4j.Logger;
