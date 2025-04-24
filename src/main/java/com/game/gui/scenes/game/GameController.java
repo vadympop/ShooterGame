@@ -20,11 +20,6 @@ public class GameController {
     private GameLoop loop;
 
     private boolean isOnPause = false;
-
-    public Timer<GameController> getMainTimer() {
-        return mainTimer;
-    }
-
     private Timer<GameController> mainTimer;
 
     public GameController(GameView view, GameModel model, SceneManager sm) {
@@ -95,6 +90,7 @@ public class GameController {
         }
     }
 
+    public Timer<GameController> getMainTimer() { return mainTimer; }
     public GameView getView() { return view; }
     public GameModel getModel() { return model; }
     public SceneManager getSm() { return sm; }

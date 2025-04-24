@@ -36,10 +36,10 @@ public class GameView {
     private static final int PAUSE_BTN_SIZE = 32;
 
     private GraphicsContext gc;
-    private HBox hud;
     private Stage primaryStage;
     private GameController controller;
 
+    private HBox hud;
     private Label timerLabel;
     private VBox pauseOverlay;
     private Pane root;
@@ -123,7 +123,7 @@ public class GameView {
         timerLabel.setPadding(new Insets(10, 40, 10, 40));
         timerLabel.setStyle("-fx-background-color: #000; -fx-background-radius: 20; -fx-border-width: 4; -fx-border-radius: 15; -fx-border-color: #fff");
 
-        ImageView pauseButton = createPauseButton(this::togglePauseMenu);
+        ImageView pauseButton = FXUtils.createImageButton(PAUSE_BTN_IMAGE, PAUSE_BTN_SIZE, this::togglePauseMenu);
 
         Region spacer1 = new Region();
         Region spacer2 = new Region();
@@ -159,19 +159,6 @@ public class GameView {
 
         StackPane.setAlignment(menu, Pos.CENTER);
         return menu;
-    }
-
-    private ImageView createPauseButton(Runnable onClick) {
-        ImageView btn = new ImageView(PAUSE_BTN_IMAGE);
-        btn.setFitWidth(PAUSE_BTN_SIZE);
-        btn.setFitHeight(PAUSE_BTN_SIZE);
-        btn.setPreserveRatio(true);
-        btn.setCursor(Cursor.HAND);
-        btn.setOpacity(0.5);
-        btn.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> onClick.run());
-        FXUtils.onHoverOpacityChange(btn, 0.5f, 1.0f);
-
-        return btn;
     }
 
     private void togglePauseMenu() {
