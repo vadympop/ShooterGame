@@ -3,6 +3,7 @@ package com.game.gui.scenes.game;
 import com.game.core.scene.graphics.TileType;
 import com.game.core.utils.Scaler;
 import com.game.gui.utils.FXUtils;
+import com.game.gui.utils.TimeUtils;
 import com.game.gui.utils.WindowUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -133,7 +134,7 @@ public class GameView {
 
     private void updateGUI() {
         long time = Math.round(controller.getMainTimer().getTimeLeft());
-        timerLabel.setText(String.format("%02d:%02d", time/60, time%60));
+        timerLabel.setText(TimeUtils.formatTime(time));
     }
 
     private VBox createPauseOverlay() {
