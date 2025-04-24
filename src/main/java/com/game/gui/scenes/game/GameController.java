@@ -1,5 +1,6 @@
 package com.game.gui.scenes.game;
 
+import com.game.core.scene.graphics.TileType;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.Timer;
@@ -62,7 +63,13 @@ public class GameController {
     }
 
     public void render() {
-        view.render();
+        view.render(
+                model.getTilesByType(TileType.BACKGROUND),
+                model.getSpawners(),
+                model.getBlocks(),
+                model.getEntities(),
+                model.getTilesByType(TileType.OVERLAY)
+        );
     }
 
     public void update(double deltaTime) {
