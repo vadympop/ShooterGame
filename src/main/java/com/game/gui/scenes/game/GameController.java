@@ -54,6 +54,7 @@ public class GameController {
 
     public void togglePause() {
         isOnPause = !isOnPause();
+        loop.togglePause();
     }
 
     public void loadMainMenu() {
@@ -65,8 +66,6 @@ public class GameController {
     }
 
     public void update(double deltaTime) {
-        if (isOnPause()) return;
-
         if (mainTimer != null) mainTimer.update(deltaTime, this, () -> mainTimer = null);
         model.update(deltaTime);
     }

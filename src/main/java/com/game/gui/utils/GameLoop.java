@@ -12,7 +12,7 @@ public class GameLoop extends AnimationTimer {
     private long lastTime = System.nanoTime();
     private long fpsTimer = System.nanoTime();
     private int frames = 0;
-    private double deltaTime = 0;
+    private boolean isRunning;
     private final Consumer<Double> updater;
     private final Runnable renderer;
 
@@ -23,7 +23,9 @@ public class GameLoop extends AnimationTimer {
 
     @Override
     public void handle(long now) {
-        deltaTime = (now - lastTime) / 1_000_000_000.0;
+        if (!isRunning) return;
+
+        double deltaTime = (now - lastTime) / 1_000_000_000.0;
         lastTime = now;
 
         frames++;
@@ -37,5 +39,21 @@ public class GameLoop extends AnimationTimer {
 
         updater.accept(deltaTime);
         renderer.run();
+    }
+
+    @Override
+    public void start() {
+        isRunning = true;
+        super.start();
+    }
+
+    public void togglePause() {
+        isRunning = !isRunning;
+    }
+
+    @Override
+    public void stop() {
+        isRunning = false;
+        super.stop();
     }
 }
