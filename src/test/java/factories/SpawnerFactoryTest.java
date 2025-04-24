@@ -8,7 +8,7 @@ import com.game.core.scene.spawners.BonusSpawner;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.Scaler;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 import com.game.core.utils.config.enums.SpawnerTypeEnum;
 import org.junit.jupiter.api.AfterEach;
@@ -30,11 +30,11 @@ import static org.mockito.Mockito.*;
 public class SpawnerFactoryTest {
     @Mock private SceneConfig.SpawnerConfig config;
     @Mock private Scaler mockScaler;
-    private MockedStatic<ConfigLoader> configLoaderMock;
+    private MockedStatic<ConfigManager> configLoaderMock;
 
     @BeforeEach
     void setup() {
-        configLoaderMock = mockStatic(ConfigLoader.class);
+        configLoaderMock = mockStatic(ConfigManager.class);
     }
 
     @AfterEach

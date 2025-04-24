@@ -6,9 +6,8 @@ import com.game.core.entities.bonus.Bonus;
 import com.game.core.entities.bonus.BonusType;
 import com.game.core.factories.BonusFactory;
 import com.game.core.factories.BoundsFactory;
-import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.Scaler;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,24 +25,24 @@ public class BonusFactoryTest {
     @Mock private SceneConfig config;
     @Mock private SceneConfig.BonusConfig bonusConfig;
     @Mock private SceneConfig.BoundsConfig boundsConfig;
-    @Mock private ConfigLoader configLoader;
+    @Mock private ConfigManager configManager;
     @Mock private RectangleBounds hitbox;
     @Mock private Scaler scaler;
-    private MockedStatic<ConfigLoader> configLoaderMock;
+    private MockedStatic<ConfigManager> configLoaderMock;
     private MockedStatic<Scaler> scalerMock;
     private MockedStatic<BoundsFactory> boundsFactoryMock;
 
     @BeforeEach
     void setUp() {
-        configLoaderMock = mockStatic(ConfigLoader.class);
+        configLoaderMock = mockStatic(ConfigManager.class);
         boundsFactoryMock = mockStatic(BoundsFactory.class);
         scalerMock = mockStatic(Scaler.class);
 
         when(scaler.getTileWidth()).thenReturn(32f);
         when(scaler.getTileHeight()).thenReturn(32f);
-        when(configLoader.getConfig()).thenReturn(config);
+        when(configManager.getConfig()).thenReturn(config);
 
-        configLoaderMock.when(ConfigLoader::getInstance).thenReturn(configLoader);
+        configLoaderMock.when(ConfigManager::getInstance).thenReturn(configManager);
         scalerMock.when(Scaler::getInstance).thenReturn(scaler);
 
         when(config.getBonus()).thenReturn(bonusConfig);

@@ -1,7 +1,7 @@
 package com.game.gui.scenes.menu;
 
 import com.game.core.enums.GameModeEnum;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.gui.scenes.menu.components.MapSelector;
 import com.game.gui.scenes.menu.components.ScrollingBackground;
 import com.game.gui.utils.FXUtils;
@@ -97,7 +97,7 @@ public class MenuView {
                 bgSize
         );
 
-        ConfigLoader cfgLoader = ConfigLoader.getInstance();
+        ConfigManager cfgLoader = ConfigManager.getInstance();
         HBox gameModeSwitcher = createGameModeSwitcher(
                 "Shooting with bullets reloading",
                 "Infinity bullets mode",

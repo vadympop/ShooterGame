@@ -5,7 +5,7 @@ import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.bounds.RectangleBounds;
 import com.game.core.factories.BoundsFactory;
 import com.game.core.utils.Scaler;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 import com.game.core.utils.config.enums.BoundsTypeEnum;
 import org.junit.jupiter.api.AfterEach;
@@ -78,11 +78,11 @@ class BoundsFactoryTest {
         when(mockSceneConfig.getTileWidth()).thenReturn(32f);
         when(mockSceneConfig.getTileHeight()).thenReturn(32f);
 
-        ConfigLoader loaderMock = mock(ConfigLoader.class);
+        ConfigManager loaderMock = mock(ConfigManager.class);
         when(loaderMock.getConfig()).thenReturn(mockSceneConfig);
 
-        try (MockedStatic<ConfigLoader> mockedLoader = mockStatic(ConfigLoader.class)) {
-            mockedLoader.when(ConfigLoader::getInstance).thenReturn(loaderMock);
+        try (MockedStatic<ConfigManager> mockedLoader = mockStatic(ConfigManager.class)) {
+            mockedLoader.when(ConfigManager::getInstance).thenReturn(loaderMock);
 
             RectangleBounds bounds = BoundsFactory.createForBlock(null);
 

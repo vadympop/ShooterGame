@@ -4,7 +4,7 @@ import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.entities.Player;
 import com.game.core.enums.GameModeEnum;
 import com.game.core.scene.spawners.PlayerSpawner;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 
 import java.util.Objects;
@@ -13,7 +13,7 @@ public class PlayerFactory {
     public static Player create(PlayerSpawner spawner) {
         Objects.requireNonNull(spawner);
 
-        ConfigLoader cfgLoader = ConfigLoader.getInstance();
+        ConfigManager cfgLoader = ConfigManager.getInstance();
         SceneConfig config = cfgLoader.getConfig();
         Bounds hitbox = BoundsFactory.createFromConfig(config.getPlayer().getHitbox());
 

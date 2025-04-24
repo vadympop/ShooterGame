@@ -7,7 +7,7 @@ import com.game.core.factories.PlayerFactory;
 import com.game.core.scene.graphics.Tile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.utils.Scaler;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,28 +28,28 @@ public class PlayerFactoryTest {
     @Mock private SceneConfig.PlayerConfig playerConfig;
     @Mock private SceneConfig.BulletConfig bulletConfig;
     @Mock private SceneConfig.BoundsConfig boundsConfig;
-    @Mock private ConfigLoader configLoader;
+    @Mock private ConfigManager configManager;
     @Mock private Bounds hitbox;
     @Mock private Scaler scaler;
 
-    private MockedStatic<ConfigLoader> configLoaderMock;
+    private MockedStatic<ConfigManager> configLoaderMock;
     private MockedStatic<Scaler> scalerMock;
     private MockedStatic<BoundsFactory> boundsFactoryMock;
 
     @BeforeEach
     void setup() {
-        configLoaderMock = mockStatic(ConfigLoader.class);
+        configLoaderMock = mockStatic(ConfigManager.class);
         boundsFactoryMock = mockStatic(BoundsFactory.class);
         scalerMock = mockStatic(Scaler.class);
 
-        configLoaderMock.when(ConfigLoader::getInstance).thenReturn(configLoader);
+        configLoaderMock.when(ConfigManager::getInstance).thenReturn(configManager);
         scalerMock.when(Scaler::getInstance).thenReturn(scaler);
 
         boundsFactoryMock.when(() -> BoundsFactory.createFromConfig(boundsConfig)).thenReturn(hitbox);
     }
 
     void configurePlayer() {
-        when(configLoader.getConfig()).thenReturn(config);
+        when(configManager.getConfig()).thenReturn(config);
         when(spawner.getPlayerTile()).thenReturn(playerTile);
         when(config.getPlayer()).thenReturn(playerConfig);
         when(config.getBullet()).thenReturn(bulletConfig);

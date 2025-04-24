@@ -2,7 +2,7 @@ package com.game.gui.scenes;
 
 import com.game.core.utils.Scaler;
 import com.game.core.utils.GameSceneLoader;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 import com.game.gui.scenes.game.GameModel;
 import com.game.gui.scenes.game.GameScene;
@@ -32,7 +32,7 @@ public class SceneManager {
 
         SceneConfig config;
         try {
-            config = ConfigLoader.getInstance().load(sceneId);
+            config = ConfigManager.getInstance().loadSceneConfig(sceneId);
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }

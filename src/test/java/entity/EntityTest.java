@@ -7,7 +7,7 @@ import com.game.core.collisions.CollisionVisitor;
 import com.game.core.entities.Entity;
 import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.scene.graphics.Tile;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 import javafx.scene.canvas.GraphicsContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,10 +60,10 @@ class EntityTest {
         SceneConfig mockConfig = mock(SceneConfig.class);
         when(mockConfig.isDebug()).thenReturn(false);
 
-        ConfigLoader loader = ConfigLoader.getInstance();
+        ConfigManager loader = ConfigManager.getInstance();
 
         try {
-            Field configField = ConfigLoader.class.getDeclaredField("config");
+            Field configField = ConfigManager.class.getDeclaredField("config");
             configField.setAccessible(true);
             configField.set(loader, mockConfig);
         } catch (Exception e) {

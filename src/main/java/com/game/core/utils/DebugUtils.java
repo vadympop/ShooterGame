@@ -3,7 +3,7 @@ package com.game.core.utils;
 import com.game.core.behaviour.bounds.Bounds;
 import com.game.core.behaviour.bounds.CircleBounds;
 import com.game.core.behaviour.bounds.RectangleBounds;
-import com.game.core.utils.config.ConfigLoader;
+import com.game.core.utils.config.ConfigManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public final class DebugUtils {
     }
 
     public static void drawHitboxIfDebug(GraphicsContext gc, Bounds hitbox) {
-        if (!ConfigLoader.getInstance().getConfig().isDebug()) return;
+        if (!ConfigManager.getInstance().getConfig().isDebug()) return;
         drawHitbox(gc, hitbox);
     }
 }

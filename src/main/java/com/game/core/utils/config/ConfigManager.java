@@ -5,7 +5,6 @@ import com.game.core.enums.GameModeEnum;
 import com.game.core.exceptions.InvalidConfigFileException;
 import com.game.core.exceptions.InvalidConfigurationException;
 import com.game.core.exceptions.InvalidParameterException;
-import com.game.core.exceptions.NotConfiguredException;
 import com.game.core.utils.ResourceUtils;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -21,24 +20,24 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.Set;
 
-public class ConfigLoader {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigLoader.class);
+public class ConfigManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigManager.class);
 
     private final ObjectMapper mapper = new ObjectMapper();
     private SceneConfig config;
-    private static ConfigLoader instance;
+    private static ConfigManager instance;
 
     private GameModeEnum gameMode = GameModeEnum.WITH_RELOADING;
 
-    private ConfigLoader() {}
+    private ConfigManager() {}
 
-    public static synchronized ConfigLoader getInstance() {
-        if (instance == null) instance = new ConfigLoader();
+    public static synchronized ConfigManager getInstance() {
+        if (instance == null) instance = new ConfigManager();
 
         return instance;
     }
 
-    public SceneConfig load(String sceneId) throws IOException, URISyntaxException {
+    public SceneConfig loadSceneConfig(String sceneId) throws IOException, URISyntaxException {
         LOGGER.debug("Loading config for {} scene", sceneId);
         if (sceneId == null)
             throw new InvalidParameterException("Scene id should not be null");

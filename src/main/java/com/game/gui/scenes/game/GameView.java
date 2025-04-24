@@ -153,8 +153,10 @@ public class GameView {
     }
 
     private void updateGUI() {
-        long time = Math.round(controller.getMainTimer().getTimeLeft());
-        timerLabel.setText(TimeUtils.formatTime(time));
+        if (controller.getMainTimer() != null) {
+            long time = Math.round(controller.getMainTimer().getTimeLeft());
+            timerLabel.setText(TimeUtils.formatTime(time));
+        }
     }
 
     private VBox createPauseOverlay() {
