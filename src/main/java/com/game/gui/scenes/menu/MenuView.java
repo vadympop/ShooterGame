@@ -16,12 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
+import java.util.function.Consumer;
 
 public class MenuView {
     private static final double CARD_SIZE = 180;
@@ -51,13 +54,11 @@ public class MenuView {
     private AnimationTimer backgroundAnimation;
     private Timeline scrollPaneTimeline;
 
-    // Constructor to initialize the view
     public MenuView(Stage primaryStage) {
         setPrimaryStage(primaryStage);
         init();
     }
 
-    // Initialize the entire view
     public void init() {
         Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
         gc = canvas.getGraphicsContext2D();
@@ -66,20 +67,18 @@ public class MenuView {
         startBackgroundAnimation();
         mapsContainer = createMapsContainer();
         scrollPane = createScrollPane();
-        HBox controls = createArrowButtons();
+        VBox controls = createScenesSelecter();
         Button exitButton = createExitButton();
         VBox content = createMainContent(titleBox, controls, exitButton);
 
         setupSceneAndStage(canvas, content);
     }
 
-    // Show the stage
     public void show() {
         controller.getSm().makeWindowMovable(primaryStage.getScene().getRoot());
         primaryStage.show();
     }
 
-    // Create the title and subtitle labels
     private VBox createTitleBox() {
         Label titleLabel = new Label("Multiplayer Shooter Minigame");
         titleLabel.setFont(Font.font(FONT_FAMILY, 48));
@@ -94,7 +93,6 @@ public class MenuView {
         return texts;
     }
 
-    // Start the background animation
     private void startBackgroundAnimation() {
         backgroundAnimation = new AnimationTimer() {
             @Override
@@ -105,7 +103,6 @@ public class MenuView {
         backgroundAnimation.start();
     }
 
-    // Create the map container with cards
     private HBox createMapsContainer() {
         HBox container = new HBox(20);
         container.setAlignment(Pos.CENTER);
@@ -116,20 +113,18 @@ public class MenuView {
         return container;
     }
 
-    // Create a scrollable container for maps
     private ScrollPane createScrollPane() {
         ScrollPane pane = new ScrollPane(mapsContainer);
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setFitToHeight(true);
         pane.setPannable(true);
-        pane.setMaxWidth(440);
+        pane.setMaxWidth(CARD_SIZE + 55);
         pane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
         return pane;
     }
 
-    // Create left and right arrow buttons for scrolling
-    private HBox createArrowButtons() {
+    private VBox createScenesSelecter() {
         ImageView leftArrow = createArrowButton(LEFT_ARROW_IMAGE, () -> scrollByAnimated(-1));
         ImageView rightArrow = createArrowButton(RIGHT_ARROW_IMAGE, () -> scrollByAnimated(1));
 
@@ -149,14 +144,25 @@ public class MenuView {
                 bgSize
         );
 
+        HBox gameModeSwitcher = createGameModeSwitcher(
+                "Infinity bullets mode",
+                "Shooting with bullets reloading",
+                createCustomSwitch(
+                        state -> System.out.println("Switch: " + (state ? "Увімкнено" : "Вимкнено"))
+                )
+        );
+
         HBox controls = new HBox(20, leftArrow, scrollPane, rightArrow);
         controls.setAlignment(Pos.CENTER);
-        controls.setPadding(new Insets(40));
-        controls.setBackground(new Background(backgroundImage));
-        return controls;
+
+        VBox scenesSelecter = new VBox(5, gameModeSwitcher, controls);
+        scenesSelecter.setBackground(new Background(backgroundImage));
+        scenesSelecter.setAlignment(Pos.CENTER);
+        scenesSelecter.setPadding(new Insets(60));
+
+        return scenesSelecter;
     }
 
-    // Create an exit button
     private Button createExitButton() {
         Button exitButton = new Button("Exit");
         exitButton.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, 24));
@@ -169,15 +175,13 @@ public class MenuView {
         return exitButton;
     }
 
-    // Create the main content layout
-    private VBox createMainContent(VBox titleBox, HBox controls, Button exitButton) {
+    private VBox createMainContent(VBox titleBox, VBox controls, Button exitButton) {
         VBox content = new VBox(40, titleBox, controls, exitButton);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(30));
         return content;
     }
 
-    // Setup the scene and primary stage
     private void setupSceneAndStage(Canvas canvas, VBox content) {
         StackPane root = new StackPane(canvas, content);
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -189,7 +193,6 @@ public class MenuView {
         primaryStage.initStyle(StageStyle.TRANSPARENT);
     }
 
-    // Draw the scrolling background
     private void drawScrollingBackground(GraphicsContext gc) {
         double width = gc.getCanvas().getWidth();
         double height = gc.getCanvas().getHeight();
@@ -238,7 +241,6 @@ public class MenuView {
         return card;
     }
 
-    // Animate scaling effect for map card
     private void animateScale(Node card, double scaleTo) {
         ScaleTransition st = new ScaleTransition(Duration.millis(100), card);
         st.setToX(scaleTo);
@@ -246,7 +248,6 @@ public class MenuView {
         st.play();
     }
 
-    // Scroll the map selection horizontally with animation
     private void scrollByAnimated(int step) {
         double viewportWidth = scrollPane.getViewportBounds().getWidth();
         double contentWidth = mapsContainer.getWidth();
@@ -267,7 +268,6 @@ public class MenuView {
         scrollPaneTimeline.play();
     }
 
-    // Create an arrow button for scrolling
     private ImageView createArrowButton(Image image, Runnable onClick) {
         ImageView arrow = new ImageView(image);
         arrow.setFitWidth(ARROW_SIZE);
@@ -280,6 +280,58 @@ public class MenuView {
         arrow.addEventHandler(MouseEvent.MOUSE_EXITED, e -> arrow.setOpacity(0.8));
 
         return arrow;
+    }
+
+    private StackPane createCustomSwitch(Consumer<Boolean> onSwitchChanged) {
+        StackPane switchContainer = new StackPane();
+        switchContainer.setPrefSize(50, 25);
+        switchContainer.setStyle("-fx-background-color: #ccc; -fx-background-radius: 15; -fx-cursor: hand;");
+
+        Circle thumb = new Circle(10);
+        thumb.setFill(Color.GRAY);
+        thumb.setTranslateX(-12);
+
+        TranslateTransition moveThumb = new TranslateTransition(Duration.millis(200), thumb);
+        final boolean[] isOn = {false};
+
+        switchContainer.setOnMouseClicked(e -> {
+            isOn[0] = !isOn[0];
+            if (isOn[0]) {
+                switchContainer.setStyle("-fx-background-color: #2196F3; -fx-background-radius: 15; -fx-cursor: hand;");
+                thumb.setFill(Color.WHITE);
+                moveThumb.setToX(12);
+            } else {
+                switchContainer.setStyle("-fx-background-color: #ccc; -fx-background-radius: 15; -fx-cursor: hand;");
+                thumb.setFill(Color.GRAY);
+                moveThumb.setToX(-12);
+            }
+            moveThumb.play();
+            onSwitchChanged.accept(isOn[0]);
+        });
+
+        switchContainer.getChildren().add(thumb);
+        return switchContainer;
+    }
+
+    private HBox createGameModeSwitcher(String labelLeft, String labelRight, Node switcher) {
+        Label labelL = new Label(labelLeft);
+        labelL.setFont(Font.font(FONT_FAMILY, FontWeight.SEMI_BOLD, 16));
+        labelL.setTextFill(Color.WHITE);
+        labelL.setPrefWidth(220);
+        labelL.setAlignment(Pos.CENTER_RIGHT);
+
+        Label labelR = new Label(labelRight);
+        labelR.setFont(Font.font(FONT_FAMILY, FontWeight.SEMI_BOLD, 16));
+        labelR.setTextFill(Color.WHITE);
+        labelR.setPrefWidth(220);
+        labelR.setAlignment(Pos.CENTER_LEFT);
+
+        HBox box = new HBox(10, labelL, switcher, labelR);
+        box.setAlignment(Pos.CENTER);
+        box.setMaxWidth(550);
+        box.setStyle("-fx-background-color: rgba(68,68,68,0.35); -fx-background-radius: 10; -fx-padding: 10");
+
+        return box;
     }
 
     private void setPrimaryStage(Stage primaryStage) { this.primaryStage = primaryStage; }
