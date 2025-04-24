@@ -109,9 +109,10 @@ public class GameView {
             double y = spawner.getY();
             double ovalWidth = 25;
             double ovalHeight = 25;
-            String killsText = String.valueOf(spawner.getPlayerKillsCount());
+            int killsCount = spawner.getPlayerKillsCount();
+            String killsText = String.valueOf(killsCount);
 
-            RenderUtils.drawTextInOval(gc, x, y, ovalWidth, ovalHeight, killsText);
+            RenderUtils.drawTextInOval(gc, x, y, ovalWidth, ovalHeight, killsText, killsCount != 0);
         }
     }
 

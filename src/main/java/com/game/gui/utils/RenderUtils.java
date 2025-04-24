@@ -15,9 +15,10 @@ public final class RenderUtils {
             double y,
             double width,
             double height,
-            String text
+            String text,
+            boolean isActive
     ) {
-        gc.setFill(Color.BLACK);
+        gc.setFill(isActive ? Color.BLACK : Color.GRAY);
         gc.fillOval(x, y, width, height);
 
         gc.setStroke(Color.WHITE);
