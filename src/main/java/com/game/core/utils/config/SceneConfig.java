@@ -15,6 +15,7 @@ public class SceneConfig {
     @NotNull @Positive private float tileWidth;
     @NotNull @Positive private float tileHeight;
     private boolean isDebug;
+    @Positive private int gameDuration;
     @NotBlank private String name;
     @NotNull @Valid private List<@Valid AreaConfig> areas;
     @NotEmpty @Valid private List<@Valid SpawnerConfig> spawners;
@@ -67,6 +68,9 @@ public class SceneConfig {
 
     public boolean isDebug() { return isDebug; }
     public void setDebug(boolean debug) { isDebug = debug; }
+
+    public int getGameDuration() { return gameDuration; }
+    public void setGameDuration(int gameDuration) { this.gameDuration = gameDuration; }
 
     public static class BonusConfig {
         @NotBlank private String texture;

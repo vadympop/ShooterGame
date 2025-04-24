@@ -41,7 +41,7 @@ public class GameController {
     }
 
     private void createMainTimer() {
-        mainTimer = new Timer<>(120, x -> x.stopLoop());
+        mainTimer = new Timer<>(model.getGameDuration(), x -> x.stopLoop());
     }
 
     public void stopLoop() {

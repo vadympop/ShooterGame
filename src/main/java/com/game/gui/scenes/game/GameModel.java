@@ -21,12 +21,14 @@ public class GameModel {
     private final List<SceneTile> tiles = new ArrayList<>();
     private final List<Block> blocks = new ArrayList<>();
     private final CollisionManager collisionManager = new CollisionManager();
-    private String sceneId;
-    private String name;
+    private final String sceneId;
+    private final String name;
+    private final int gameDuration;
 
-    public GameModel(String sceneId, String name) {
-        setSceneId(sceneId);
-        setName(name);
+    public GameModel(String sceneId, String name, int gameDuration) {
+        this.sceneId = sceneId;
+        this.name = name;
+        this.gameDuration = gameDuration;
     }
 
     public void update(double deltaTime) {
@@ -72,13 +74,12 @@ public class GameModel {
     public void addTile(SceneTile tile) { this.tiles.add(tile); }
 
     public String getSceneId() { return sceneId; }
-    private void setSceneId(String sceneId) { this.sceneId = sceneId; }
-
     public String getName() { return name; }
-    private void setName(String name) { this.name = name; }
 
     public List<Entity> getEntities() { return Collections.unmodifiableList(entities); }
     public List<Spawner> getSpawners() { return Collections.unmodifiableList(spawners); }
     public List<SceneTile> getTiles() { return Collections.unmodifiableList(tiles); }
     public List<Block> getBlocks() { return Collections.unmodifiableList(blocks); }
+
+    public int getGameDuration() { return gameDuration; }
 }

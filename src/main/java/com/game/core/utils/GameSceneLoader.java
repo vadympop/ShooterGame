@@ -36,7 +36,7 @@ public class GameSceneLoader {
         LOGGER.debug("Load game scene from a config");
         SceneConfig config = getConfig();
 
-        GameModel newScene = new GameModel(config.getId(), config.getName());
+        GameModel newScene = new GameModel(config.getId(), config.getName(), config.getGameDuration());
         loadTiles(newScene, config.getBackgroundTiles(), TileType.BACKGROUND);
         loadTiles(newScene, config.getOverlayTiles(), TileType.OVERLAY);
         loadBlocks(newScene, config.getBlocks());
