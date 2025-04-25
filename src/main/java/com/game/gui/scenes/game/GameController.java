@@ -3,7 +3,11 @@ package com.game.gui.scenes.game;
 import com.game.core.scene.graphics.TileType;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
+import com.game.core.utils.GameSceneLoader;
+import com.game.core.utils.Scaler;
 import com.game.core.utils.Timer;
+import com.game.core.utils.config.ConfigManager;
+import com.game.core.utils.config.SceneConfig;
 import com.game.gui.scenes.SceneManager;
 import com.game.gui.utils.GameLoop;
 import javafx.scene.input.KeyCode;
@@ -16,21 +20,38 @@ public class GameController {
     private static final String[] KEYS = {"W", "Up", "Space", "Backspace"};
     private final SceneManager sm;
     private final GameView view;
-    private final GameModel model;
+    private GameModel model;
     private GameLoop loop;
 
     private boolean isOnPause = false;
     private Timer<GameController> mainTimer;
 
-    public GameController(GameView view, GameModel model, SceneManager sm) {
+    public GameController(GameView view, SceneManager sm) {
         view.setController(this);
 
+        generateModel();
         this.view = view;
-        this.model = model;
         this.sm = sm;
     }
 
+    private void generateModel() {
+        Scaler scaler = Scaler.getInstance();
+        SceneConfig config = ConfigManager.getInstance().getConfig();
+
+        GameSceneLoader loader = new GameSceneLoader(config, scaler);
+        this.model = loader.loadScene();
+    }
+
+    public void restart() {
+        view.restart();
+        generateModel();
+        start();
+    }
+
     public void start() {
+        // In case of map restarting
+        if (loop != null) stopLoop();
+
         createMainTimer();
         view.show();
 

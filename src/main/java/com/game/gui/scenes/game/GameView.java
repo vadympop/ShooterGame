@@ -6,37 +6,29 @@ import com.game.core.scene.graphics.SceneTile;
 import com.game.core.scene.spawners.PlayerSpawner;
 import com.game.core.scene.spawners.Spawner;
 import com.game.core.utils.Scaler;
-import com.game.gui.utils.FXUtils;
-import com.game.gui.utils.RenderUtils;
-import com.game.gui.utils.TimeUtils;
-import com.game.gui.utils.WindowUtils;
+import com.game.gui.utils.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static com.game.gui.scenes.menu.MenuViewConstants.*;
 
 public class GameView {
     private static final Image PAUSE_BTN_IMAGE = new Image("/images/pause_btn.png");
@@ -136,18 +128,20 @@ public class GameView {
         primaryStage.show();
     }
 
+    public void restart() {
+        gameEndOverlay.setVisible(false);
+        gameEndOverlay.getChildren().removeLast(); // Remove winner label
+        setPlayerControls(getPrimaryStage().getScene());
+    }
+
     private void createGUI() {
         hud = createHUD();
         StackPane.setAlignment(hud, Pos.TOP_CENTER);
-        root.getChildren().add(hud);
 
-        pauseOverlay = createPauseOverlay();
-        pauseOverlay.setVisible(false);
-        root.getChildren().add(pauseOverlay);
+        pauseOverlay = OverlayFactory.createPauseOverlay(this::togglePauseMenu, () -> controller.loadMainMenu());
+        gameEndOverlay = OverlayFactory.createGameEndOverlay(() -> controller.restart(), () -> controller.loadMainMenu());
 
-        gameEndOverlay = createGameEndOverlay();
-        gameEndOverlay.setVisible(false);
-        root.getChildren().add(gameEndOverlay);
+        root.getChildren().addAll(hud, pauseOverlay, gameEndOverlay);
     }
 
     private HBox createHUD() {
@@ -179,27 +173,6 @@ public class GameView {
         }
     }
 
-    private VBox createPauseOverlay() {
-        VBox menu = new VBox(20);
-        menu.setAlignment(Pos.CENTER);
-        menu.setPadding(new Insets(30));
-        menu.setStyle("-fx-background-color: rgba(0,0,0,0.5)");
-
-        Button resumeButton = new Button("Resume");
-        resumeButton.setOnAction(e -> togglePauseMenu());
-
-        Button mainMenuButton = new Button("Main Menu");
-        mainMenuButton.setOnAction(e -> controller.loadMainMenu());
-
-        Button exitButton = new Button("Exit");
-        exitButton.setOnAction(e -> Platform.exit());
-
-        menu.getChildren().addAll(resumeButton, mainMenuButton, exitButton);
-
-        StackPane.setAlignment(menu, Pos.CENTER);
-        return menu;
-    }
-
     public void gameEnd(PlayerSpawner winner) {
         resetPlayerControls(getPrimaryStage().getScene());
         Text winnerLabel = createWinnerLabel(winner.getX(), winner.getY());
@@ -208,20 +181,16 @@ public class GameView {
         gameEndOverlay.setVisible(true);
     }
 
-    private Pane createGameEndOverlay() {
-        Pane overlay = new Pane();
-        overlay.setPadding(new Insets(30));
-        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.5)");
-
-        return overlay;
-    }
-
     private Text createWinnerLabel(float spawnerX, float spawnerY) {
         double offset = 50;
         double textX, textY, angle;
 
-        boolean isLeft = spawnerX < WINDOW_WIDTH / 2.0;
-        boolean isTop = spawnerY < WINDOW_HEIGHT / 2.0;
+        Scaler scaler = Scaler.getInstance();
+
+        double centerX = scaler.getSceneWidth() / 2.0;
+        double centerY = scaler.getSceneHeight() / 2.0;
+        boolean isLeft = spawnerX < centerX;
+        boolean isTop = spawnerY < centerY;
 
         if (isLeft && isTop) {
             // Top left
@@ -246,16 +215,14 @@ public class GameView {
         }
 
         Text label = new Text("Winner");
-
         label.setStrokeWidth(4);
         label.setStroke(Color.web("#29005c"));
         label.setFont(Font.font("Impact", FontWeight.EXTRA_BOLD, 60));
 
-        double textWidth = label.getLayoutBounds().getWidth();
-        double textHeight = label.getLayoutBounds().getHeight();
-
-        label.setLayoutX(textX - textWidth / 2.0);
-        label.setLayoutY(textY - textHeight / 2.0);
+        double translateX = textX - centerX;
+        double translateY = textY - centerY;
+        label.setTranslateX(translateX);
+        label.setTranslateY(translateY);
         label.setRotate(angle);
 
         Timeline blinkAnimation = new Timeline(

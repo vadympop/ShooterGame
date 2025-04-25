@@ -5,16 +5,14 @@ import com.game.gui.scenes.SceneManager;
 import javafx.stage.Stage;
 
 public class GameScene implements Scene {
-    private final GameModel model;
     private final GameController controller;
     private final GameView view;
     private final SceneManager sm;
 
-    public GameScene(GameModel model, Stage primaryStage, SceneManager sm) {
-        this.model = model;
+    public GameScene(Stage primaryStage, SceneManager sm) {
         this.sm = sm;
         this.view = new GameView(primaryStage);
-        this.controller = new GameController(view, model, sm);
+        this.controller = new GameController(view, sm);
     }
 
     @Override

@@ -1,10 +1,8 @@
 package com.game.gui.scenes;
 
 import com.game.core.utils.Scaler;
-import com.game.core.utils.GameSceneLoader;
 import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
-import com.game.gui.scenes.game.GameModel;
 import com.game.gui.scenes.game.GameScene;
 import com.game.gui.scenes.menu.MenuScene;
 import javafx.scene.control.Alert;
@@ -39,10 +37,7 @@ public class SceneManager {
         Scaler scaler = Scaler.getInstance();
         scaler.setSettings(config);
 
-        GameSceneLoader loader = new GameSceneLoader(config, scaler);
-        GameModel model = loader.loadScene();
-
-        setCurrentScene(new GameScene(model, getPrimaryStage(), this));
+        setCurrentScene(new GameScene(getPrimaryStage(), this));
         getCurrentScene().onEnter();
     }
 
