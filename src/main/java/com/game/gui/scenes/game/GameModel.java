@@ -11,6 +11,7 @@ import com.game.core.scene.spawners.Spawner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GameModel {
@@ -41,6 +42,10 @@ public class GameModel {
         List<Entity> toRemove = entities.stream().filter(x -> !x.getState()).toList();
         collisionManager.removeEntities(toRemove);
         entities.removeAll(toRemove);
+    }
+
+    public PlayerSpawner getWinnerPlayerSpawner() {
+        return Collections.max(getPlayerSpawners(), Comparator.comparingInt(PlayerSpawner::getPlayerKillsCount));
     }
 
     public List<SceneTile> getTilesByType(TileType type) {

@@ -13,7 +13,21 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * Factory class responsible for creating {@link Spawner} instances
+ * based on the provided configuration and events.
+ */
 public class SpawnerFactory {
+    /**
+     * Creates a {@link Spawner} instance from the provided configuration and event mappings.
+     *
+     * @param c      the spawner configuration, must not be null
+     * @param events a map of event names to their corresponding actions, must not be null or empty
+     * @return a newly created {@link Spawner} instance configured based on the provided parameters
+     * @throws NotConfiguredException    if the events map is empty
+     * @throws InvalidParameterException if the spawner type in the configuration is null
+     * @throws NullPointerException      if the configuration or events map is null
+     */
     public static Spawner createFromConfig(SceneConfig.SpawnerConfig c, Map<String, Consumer<Entity>> events) {
         Objects.requireNonNull(c);
         Objects.requireNonNull(events);

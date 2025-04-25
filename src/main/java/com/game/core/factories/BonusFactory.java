@@ -8,7 +8,19 @@ import com.game.core.scene.graphics.Tile;
 import com.game.core.utils.config.ConfigManager;
 import com.game.core.utils.config.SceneConfig;
 
+/**
+ * A factory class responsible for creating instances of {@link Bonus} based on a given {@link BonusType}.
+ * It utilizes configuration settings to determine the properties of the created bonuses,
+ * such as their texture, hitbox, and associated effects.
+ */
 public class BonusFactory {
+    /**
+     * Creates a new {@link Bonus} instance based on the specified {@link BonusType}.
+     * The bonus will have a predefined texture, hitbox, and behavior effect configured via the scene config.
+     *
+     * @param type the type of bonus to create; determines the specific effect applied
+     * @return a new {@link Bonus} instance with the appropriate configuration and effect
+     */
     public static Bonus create(BonusType type) {
         SceneConfig config = ConfigManager.getInstance().getConfig();
         Tile tile = new Tile(config.getBonus().getTexture(), null);

@@ -9,9 +9,20 @@ import com.game.core.scene.blocks.SolidBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Handles collisions between various types of game entities by implementing the
+ * {@link CollisionVisitor} interface. The class provides logic for resolving
+ * interactions when different objects collide in the game environment.
+ */
 public class CollisionHandler implements CollisionVisitor {
     private static final Logger LOGGER = LoggerFactory.getLogger(CollisionHandler.class);
 
+    /**
+     * Resolves collisions where a {@link Player} is involved.
+     *
+     * @param player The player entity that was part of the collision.
+     * @param other  The other collidable entity.
+     */
     @Override
     public void visit(Player player, Collidable other) {
         other.onCollision(new CollisionVisitor() {
@@ -36,6 +47,12 @@ public class CollisionHandler implements CollisionVisitor {
         }, player);
     }
 
+    /**
+     * Resolves collisions where a {@link Bullet} is involved.
+     *
+     * @param bullet The bullet entity that was part of the collision.
+     * @param other  The other collidable entity.
+     */
     @Override
     public void visit(Bullet bullet, Collidable other) {
         other.onCollision(new CollisionVisitor() {
@@ -73,6 +90,12 @@ public class CollisionHandler implements CollisionVisitor {
         }, bullet);
     }
 
+    /**
+     * Resolves collisions where a {@link Bonus} is involved.
+     *
+     * @param bonus The bonus entity that was part of the collision.
+     * @param other The other collidable entity.
+     */
     @Override
     public void visit(Bonus bonus, Collidable other) {
         other.onCollision(new CollisionVisitor() {
@@ -92,6 +115,12 @@ public class CollisionHandler implements CollisionVisitor {
         }, bonus);
     }
 
+    /**
+     * Resolves collisions where a {@link SolidBlock} is involved.
+     *
+     * @param block The solid block entity that was part of the collision.
+     * @param other The other collidable entity.
+     */
     @Override
     public void visit(SolidBlock block, Collidable other) {
         other.onCollision(new CollisionVisitor() {
@@ -108,6 +137,12 @@ public class CollisionHandler implements CollisionVisitor {
         }, block);
     }
 
+    /**
+     * Resolves collisions where a {@link BreakableBlock} is involved.
+     *
+     * @param block The breakable block entity that was part of the collision.
+     * @param other The other collidable entity.
+     */
     @Override
     public void visit(BreakableBlock block, Collidable other) {
         other.onCollision(new CollisionVisitor() {

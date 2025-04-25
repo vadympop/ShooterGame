@@ -10,6 +10,9 @@ import com.game.gui.utils.FXUtils;
 import com.game.gui.utils.RenderUtils;
 import com.game.gui.utils.TimeUtils;
 import com.game.gui.utils.WindowUtils;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,12 +25,18 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static com.game.gui.scenes.menu.MenuViewConstants.*;
 
 public class GameView {
     private static final Image PAUSE_BTN_IMAGE = new Image("/images/pause_btn.png");
@@ -41,6 +50,7 @@ public class GameView {
     private HBox hud;
     private Label timerLabel;
     private VBox pauseOverlay;
+    private Pane gameEndOverlay;
     private Pane root;
 
     public GameView(Stage primaryStage) {
@@ -75,6 +85,11 @@ public class GameView {
     private void setPlayerControls(Scene scene) {
         scene.setOnKeyPressed(keyEvent -> controller.onKeyPressed(keyEvent));
         scene.setOnKeyReleased(keyEvent -> controller.onKeyReleased(keyEvent));
+    }
+
+    private void resetPlayerControls(Scene scene) {
+        scene.setOnKeyPressed(null);
+        scene.setOnKeyPressed(null);
     }
 
     public void render(
@@ -129,6 +144,10 @@ public class GameView {
         pauseOverlay = createPauseOverlay();
         pauseOverlay.setVisible(false);
         root.getChildren().add(pauseOverlay);
+
+        gameEndOverlay = createGameEndOverlay();
+        gameEndOverlay.setVisible(false);
+        root.getChildren().add(gameEndOverlay);
     }
 
     private HBox createHUD() {
@@ -179,6 +198,75 @@ public class GameView {
 
         StackPane.setAlignment(menu, Pos.CENTER);
         return menu;
+    }
+
+    public void gameEnd(PlayerSpawner winner) {
+        resetPlayerControls(getPrimaryStage().getScene());
+        Text winnerLabel = createWinnerLabel(winner.getX(), winner.getY());
+
+        gameEndOverlay.getChildren().add(winnerLabel);
+        gameEndOverlay.setVisible(true);
+    }
+
+    private Pane createGameEndOverlay() {
+        Pane overlay = new Pane();
+        overlay.setPadding(new Insets(30));
+        overlay.setStyle("-fx-background-color: rgba(0,0,0,0.5)");
+
+        return overlay;
+    }
+
+    private Text createWinnerLabel(float spawnerX, float spawnerY) {
+        double offset = 50;
+        double textX, textY, angle;
+
+        boolean isLeft = spawnerX < WINDOW_WIDTH / 2.0;
+        boolean isTop = spawnerY < WINDOW_HEIGHT / 2.0;
+
+        if (isLeft && isTop) {
+            // Top left
+            textX = spawnerX + offset;
+            textY = spawnerY + offset;
+            angle = 135;
+        } else if (!isLeft && isTop) {
+            // Top right
+            textX = spawnerX - offset;
+            textY = spawnerY + offset;
+            angle = 45;
+        } else if (isLeft && !isTop) {
+            // Bottom left
+            textX = spawnerX + offset;
+            textY = spawnerY - offset;
+            angle = 45;
+        } else {
+            // Bottom right
+            textX = spawnerX - offset;
+            textY = spawnerY - offset;
+            angle = 135;
+        }
+
+        Text label = new Text("Winner");
+
+        label.setStrokeWidth(4);
+        label.setStroke(Color.web("#29005c"));
+        label.setFont(Font.font("Impact", FontWeight.EXTRA_BOLD, 60));
+
+        double textWidth = label.getLayoutBounds().getWidth();
+        double textHeight = label.getLayoutBounds().getHeight();
+
+        label.setLayoutX(textX - textWidth / 2.0);
+        label.setLayoutY(textY - textHeight / 2.0);
+        label.setRotate(angle);
+
+        Timeline blinkAnimation = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(label.fillProperty(), Color.WHITE)),
+                new KeyFrame(Duration.millis(200), new KeyValue(label.fillProperty(), Color.web("#e0da2f"))),
+                new KeyFrame(Duration.millis(200 * 2), new KeyValue(label.fillProperty(), Color.WHITE))
+        );
+        blinkAnimation.setCycleCount(Timeline.INDEFINITE);
+        blinkAnimation.play();
+
+        return label;
     }
 
     private void togglePauseMenu() {

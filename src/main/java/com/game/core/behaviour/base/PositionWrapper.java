@@ -1,6 +1,9 @@
 package com.game.core.behaviour.base;
 
 
+/**
+ * An abstract class that serves as a wrapper for a position represented by x and y coordinates.
+ */
 public abstract class PositionWrapper {
     private float x = 0;
     private float y = 0;

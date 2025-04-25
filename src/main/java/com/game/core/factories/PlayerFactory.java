@@ -9,7 +9,19 @@ import com.game.core.utils.config.SceneConfig;
 
 import java.util.Objects;
 
+/**
+ * A factory class responsible for creating instances of {@link Player}.
+ * It uses configuration settings from {@link ConfigManager} to initialize
+ * the {@link Player} objects with appropriate parameters.
+ */
 public class PlayerFactory {
+    /**
+     * Creates a new {@link Player} instance based on the provided {@link PlayerSpawner}.
+     *
+     * @param spawner the spawner responsible for determining the initial position of the player
+     * @return a fully initialized {@link Player} object
+     * @throws NullPointerException if the spawner is null
+     */
     public static Player create(PlayerSpawner spawner) {
         Objects.requireNonNull(spawner);
 

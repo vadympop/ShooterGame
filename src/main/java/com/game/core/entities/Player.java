@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * Represents a player in the game with abilities such as movement, shooting, respawning,
+ * and applying effects. Manages player properties like health, shield, and kills count.
+ */
 public class Player extends Entity {
     private static final Logger LOGGER = LoggerFactory.getLogger(Player.class);
 
@@ -48,6 +52,22 @@ public class Player extends Entity {
     private float shieldHitboxMultiplier;
     private int killsCount = 0;
 
+    /**
+     * Constructs a Player instance with specified parameters.
+     *
+     * @param spawner                The PlayerSpawner responsible for spawning this player.
+     * @param hitbox                 The bounding box for collision detection.
+     * @param tile                   The graphical tile representing the player.
+     * @param bulletConfig           Configuration for the player's bullets.
+     * @param maxHealth              The maximum health of the player.
+     * @param maxBulletsCount        Maximum number of bullets the player can store.
+     * @param shieldHitboxMultiplier Multiplier for the hitbox size when the shield is active.
+     * @param bulletsReloadDelay     The delay before reloading bullets.
+     * @param bulletsCooldown        The cooldown time between shooting bullets.
+     * @param defaultSpeed           The default movement speed of the player.
+     * @param rotationSpeed          The speed of rotation for the player.
+     * @param isInfinityBulletsMode  Specifies if the player has infinite bullets.
+     */
     public Player(
             PlayerSpawner spawner,
             Bounds hitbox,
@@ -83,6 +103,12 @@ public class Player extends Entity {
         setRotationSpeed(rotationSpeed);
     }
 
+    /**
+     * Applies a specified effect to the player if no other active effect exists.
+     *
+     * @param effect The effect to be applied.
+     * @return True if the effect is successfully applied, false otherwise.
+     */
     public boolean applyEffect(Effect effect) {
         LOGGER.info("Apply effect {}", effect.getClass().getSimpleName());
         if (getActiveEffect() != null || getActiveEffect() instanceof NoEffect) return false;
@@ -100,6 +126,12 @@ public class Player extends Entity {
         return true;
     }
 
+    /**
+     * Reduces the player's health by the specified damage amount and marks the player as dead if health falls below zero.
+     *
+     * @param damage   The amount of damage to inflict.
+     * @param attacker The player attacking this player (null if there is no attacker).
+     */
     public void takeDamage(int damage, Player attacker) {
         if (isHasShield() || isDead()) return;
 
@@ -112,6 +144,12 @@ public class Player extends Entity {
         }
     }
 
+    /**
+     * Respawns the player at the specified position with full health and temporary shield.
+     *
+     * @param x The x-coordinate for respawning.
+     * @param y The y-coordinate for respawning.
+     */
     public void respawn(float x, float y) {
         LOGGER.info("Player respawned");
 
@@ -123,15 +161,31 @@ public class Player extends Entity {
         timersToAdd.add(new Timer<>(5f, p -> p.setHasShield(false)));
     }
 
-    public void incrementKillsCount() { killsCount++; }
+    /**
+     * Increments the player's kills count by one.
+     */
+    public void incrementKillsCount() {
+        killsCount++;
+    }
 
-    public void changeRotationDirection() { rotationDirection *= -1; }
+    /**
+     * Changes the player's rotation direction to the opposite direction.
+     */
+    public void changeRotationDirection() {
+        rotationDirection *= -1;
+    }
 
+    /**
+     * Handles behavior when a key is pressed, including starting movement and changing rotation direction.
+     */
     public void onKeyPressed() {
         setMoving(true);
         changeRotationDirection();
     }
 
+    /**
+     * Stops player movement when the key is released.
+     */
     public void onKeyReleased() {
         setMoving(false);
     }
@@ -161,9 +215,22 @@ public class Player extends Entity {
         getSm().toggleShooting(false);
     }
 
+    /**
+     * Handles collisions with other objects by invoking the collision visitor's logic.
+     *
+     * @param visitor The collision visitor handling the collision logic.
+     * @param other   The other collidable object involved in the collision.
+     */
     @Override
-    public void onCollision(CollisionVisitor visitor, Collidable other) { visitor.visit(this, other); }
+    public void onCollision(CollisionVisitor visitor, Collidable other) {
+        visitor.visit(this, other);
+    }
 
+    /**
+     * Renders the player on the game canvas, including a visual effect if the shield is active.
+     *
+     * @param gc The graphics context for rendering.
+     */
     @Override
     public void render(GraphicsContext gc) {
         super.render(gc);
@@ -171,6 +238,12 @@ public class Player extends Entity {
         if (isHasShield()) drawEffectCircle(gc, Color.web("#949494", 0.5f));
     }
 
+    /**
+     * Draws a circular visual effect around the player.
+     *
+     * @param gc    The graphics context for rendering the circle.
+     * @param color The color of the effect circle.
+     */
     public void drawEffectCircle(GraphicsContext gc, Color color) {
         float maxSize = getHitbox().getMaxSize();
         double[] displayPos = PositionUtils.generateDisplayPos(getX(), getY(), getHitbox());
@@ -200,7 +273,20 @@ public class Player extends Entity {
         this.maxHealth = maxHealth;
     }
 
-    public boolean isHasShield() { return hasShield; }
+    /**
+     * Checks if the player currently has a shield.
+     *
+     * @return True if the shield is active, false otherwise.
+     */
+    public boolean isHasShield() {
+        return hasShield;
+    }
+
+    /**
+     * Activates or deactivates the player's shield and adjusts the hitbox size accordingly.
+     *
+     * @param hasShield True to activate the shield, false to deactivate it.
+     */
     public void setHasShield(boolean hasShield) {
         this.hasShield = hasShield;
         float multiplier = 1f;
@@ -217,8 +303,14 @@ public class Player extends Entity {
     public boolean isMoving() { return isMoving; }
     public void setMoving(boolean moving) { isMoving = moving; }
 
-    // Getter for ShootingManager
-    public ShootingManager getSm() { return sm; }
+    /**
+     * Retrieves the shooting manager responsible for handling the player's shooting behavior.
+     *
+     * @return The ShootingManager instance.
+     */
+    public ShootingManager getSm() {
+        return sm;
+    }
 
     public float getShieldHitboxMultiplier() { return shieldHitboxMultiplier; }
     public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) {

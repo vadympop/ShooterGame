@@ -21,17 +21,32 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+/**
+ * Responsible for loading and initializing game scenes from a configuration.
+ * This includes the setup of tiles, blocks, spawners, and areas in the game model.
+ */
 public class GameSceneLoader {
     private static final Logger LOGGER = LoggerFactory.getLogger(GameSceneLoader.class);
 
     private final SceneConfig config;
     private final Scaler scaler;
 
+    /**
+     * Creates a new instance of GameSceneLoader.
+     *
+     * @param config the scene configuration that contains details about the game scene
+     * @param scaler the scaler used for calculating positional transformations
+     */
     public GameSceneLoader(SceneConfig config, Scaler scaler) {
         this.config = Objects.requireNonNull(config);
         this.scaler = Objects.requireNonNull(scaler);
     }
 
+    /**
+     * Loads and initializes the game scene based on the configuration.
+     *
+     * @return a fully constructed {@link GameModel} containing the game scene
+     */
     public GameModel loadScene() {
         LOGGER.debug("Load game scene from a config");
         SceneConfig config = getConfig();
@@ -46,6 +61,13 @@ public class GameSceneLoader {
         return newScene;
     }
 
+    /**
+     * Generates the position of an element based on its column and row.
+     *
+     * @param colsCount the column position of the element
+     * @param rowsCount the row position of the element
+     * @return a 2-element float array containing the x and y coordinates
+     */
     public float[] generatePos(int colsCount, int rowsCount) {
         Scaler scaler = getScaler();
 
@@ -54,6 +76,11 @@ public class GameSceneLoader {
         return new float[]{xPos, yPos};
     }
 
+    /**
+     * Loads areas into the GameModel based on the configuration.
+     *
+     * @param scene the {@link GameModel} to which the areas will be added
+     */
     public void loadAreas(GameModel scene) {
         getConfig().getAreas().forEach(x -> {
             Area area = AreaFactory.createFromConfig(x);
@@ -65,6 +92,11 @@ public class GameSceneLoader {
         });
     }
 
+    /**
+     * Loads spawners into the GameModel based on the configuration.
+     *
+     * @param scene the {@link GameModel} to which the spawners will be added
+     */
     public void loadSpawners(GameModel scene) {
         getConfig().getSpawners().forEach(x -> {
             Map<String, Consumer<Entity>> events = new HashMap<>();
@@ -79,6 +111,13 @@ public class GameSceneLoader {
         });
     }
 
+    /**
+     * Loads tiles into the GameModel based on the configuration.
+     *
+     * @param scene    the {@link GameModel} to which the tiles will be added
+     * @param tiles    the list of tile configurations represented as strings
+     * @param tileType the type of the tiles (e.g., BACKGROUND or OVERLAY)
+     */
     public void loadTiles(GameModel scene, List<String> tiles, TileType tileType) {
         loadObjectsFromStrings(
                 scene, getConfig().getMappings().getTiles(), tiles, tileType,
@@ -90,6 +129,12 @@ public class GameSceneLoader {
         );
     }
 
+    /**
+     * Loads blocks into the GameModel based on the configuration.
+     *
+     * @param scene  the {@link GameModel} to which the blocks will be added
+     * @param blocks the list of block configurations represented as strings
+     */
     public void loadBlocks(GameModel scene, List<String> blocks) {
         loadObjectsFromStrings(
                 scene, getConfig().getMappings().getBlocks(), blocks, null,
@@ -103,6 +148,16 @@ public class GameSceneLoader {
         );
     }
 
+    /**
+     * Loads dynamic objects, such as tiles or blocks, into the GameModel by parsing configuration data.
+     *
+     * @param scene           the {@link GameModel} to which the objects will be added
+     * @param texturesMapping a mapping of configuration strings to texture properties
+     * @param elements        the list of configuration strings representing game elements
+     * @param tileType        the type of the tile, null if not applicable
+     * @param addFunction     a function that defines how to add the parsed object to the GameModel
+     * @param <T>             a type parameter extending {@link SceneConfig.MappingTileConfig}
+     */
     public <T extends SceneConfig.MappingTileConfig> void loadObjectsFromStrings(
             GameModel scene,
             Map<String, T> texturesMapping,

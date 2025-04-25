@@ -20,6 +20,10 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Singleton class responsible for managing scene configurations and storing the current game mode.
+ * Provides functionality to load and validate scene configuration files.
+ */
 public class ConfigManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigManager.class);
 
@@ -37,6 +41,17 @@ public class ConfigManager {
         return instance;
     }
 
+    /**
+     * Loads the scene configuration for the specified scene ID.
+     *
+     * @param sceneId The ID of the scene for which the configuration is being loaded.
+     * @return The loaded {@link SceneConfig} object.
+     * @throws IOException                   If an I/O error occurs while reading the configuration file.
+     * @throws URISyntaxException            If the resource URI syntax is incorrect.
+     * @throws InvalidParameterException     If the provided scene ID is null.
+     * @throws InvalidConfigFileException    If the configuration file is not found or invalid.
+     * @throws InvalidConfigurationException If the configuration does not pass validation.
+     */
     public SceneConfig loadSceneConfig(String sceneId) throws IOException, URISyntaxException {
         LOGGER.debug("Loading config for {} scene", sceneId);
         if (sceneId == null)
@@ -55,6 +70,12 @@ public class ConfigManager {
         return config;
     }
 
+    /**
+     * Validates the provided {@link SceneConfig} object against its constraints.
+     *
+     * @param config The {@link SceneConfig} object to be validated.
+     * @throws InvalidConfigurationException If the configuration has one or more validation errors.
+     */
     private void validateConfig(SceneConfig config) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();

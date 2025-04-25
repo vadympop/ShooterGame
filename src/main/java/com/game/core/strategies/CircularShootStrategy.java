@@ -9,9 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * A shooting strategy that deploys bullets in a circular pattern around the player.
+ */
 public class CircularShootStrategy implements ShootingStrategy {
     private SceneConfig.BulletConfig bulletConfig;
 
+    /**
+     * Shoots bullets in a circular pattern around the player.
+     *
+     * @param player     The player shooting the bullets.
+     * @param bulletType The type of the bullets to be shot.
+     * @return A list of bullets arranged in a circular pattern.
+     */
     @Override
     public List<Bullet> shoot(Player player, BulletType bulletType) {
         List<Bullet> bullets = new ArrayList<>();
