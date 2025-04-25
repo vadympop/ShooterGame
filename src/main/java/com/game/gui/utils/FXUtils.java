@@ -1,10 +1,13 @@
 package com.game.gui.utils;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 public final class FXUtils {
     private FXUtils() {}
@@ -25,5 +28,10 @@ public final class FXUtils {
         node.setOpacity(baseOpacity);
         node.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> node.setOpacity(newOpacity));
         node.addEventHandler(MouseEvent.MOUSE_EXITED, e -> node.setOpacity(baseOpacity));
+    }
+
+    public static void styleOverlay(Pane node) {
+        node.setPadding(new Insets(30));
+        node.setStyle("-fx-background-color: rgba(0,0,0,0.5)");
     }
 }
