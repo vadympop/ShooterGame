@@ -27,10 +27,10 @@
     "bulletsReloadDelay": 0.75,
     "speed": 220,
     "rotationSpeed": 250,
-    "shieldHitboxMultiplier": 1.85,
+    "shieldHitboxMultiplier": 1.55,
     "hitbox": {
       "type": "CIRCLE",
-      "radius": 10
+      "radius": 12
     }
   },
   "areas": [],
