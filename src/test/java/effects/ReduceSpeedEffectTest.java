@@ -21,7 +21,7 @@ class ReduceSpeedEffectTest {
 
         new ReduceSpeedEffect().apply(player);
 
-        verify(player).setSpeed(75f);
+        verify(player).setSpeed(50f);
     }
 
     @Test

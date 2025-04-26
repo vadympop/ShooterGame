@@ -73,6 +73,14 @@ class PlayerTest {
     }
 
     @Test
+    void testHasSmallHealth_returnsTrue() {
+        Player player = createPlayer();
+        player.takeDamage(5, null);
+
+        assertTrue(player.hasSmallHealth());
+    }
+
+    @Test
     void testTakeDamage_withShield_doesNotReduceHealth() {
         Player player = createPlayer();
         player.setHasShield(true);
