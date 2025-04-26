@@ -33,7 +33,7 @@ public class BonusFactoryTest {
     private MockedStatic<BoundsFactory> boundsFactoryMock;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         configLoaderMock = mockStatic(ConfigManager.class);
         boundsFactoryMock = mockStatic(BoundsFactory.class);
         scalerMock = mockStatic(Scaler.class);
@@ -52,7 +52,7 @@ public class BonusFactoryTest {
     }
 
     @AfterEach
-    void tearDown() {
+    void teardown() {
         configLoaderMock.close();
         boundsFactoryMock.close();
         scalerMock.close();

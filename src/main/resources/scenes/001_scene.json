@@ -11,9 +11,9 @@
   "bullet": {
     "textures": {
       "STANDARD": "bullet.png",
-      "DOUBLE_DAMAGED_STANDARD": "s"
+      "DOUBLE_DAMAGED_STANDARD": "double_damage_bullet.png"
     },
-    "damage": 2,
+    "damage": 1,
     "timeToDestroy": 1.5,
     "hitbox": {
       "type": "CIRCLE",
@@ -22,7 +22,7 @@
   },
   "player": {
     "maxHealth": 2,
-    "maxBulletsCount": 20,
+    "maxBulletsCount": 7,
     "bulletsCooldown": 0.15,
     "bulletsReloadDelay": 0.75,
     "speed": 220,
@@ -59,14 +59,14 @@
     {
       "type": "PLAYER",
       "texture": "block_1.png",
-      "playerTexture": "player.png",
+      "playerTexture": "player_blue.png",
       "col": "35",
       "row": "6"
     },
     {
       "type": "PLAYER",
       "texture": "block_1.png",
-      "playerTexture": "player.png",
+      "playerTexture": "player_red.png",
       "col": "7",
       "row": "18"
     },

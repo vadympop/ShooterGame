@@ -12,5 +12,5 @@ public final class MenuViewConstants {
     public static final int WINDOW_HEIGHT = 750;
 
     public static final String WINDOW_TITLE = "Main menu";
-    public static final String[] SCENES = {"001"};
+    public static final String[] SCENES = {"001", "002"};
 }

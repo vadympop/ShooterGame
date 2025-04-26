@@ -46,7 +46,7 @@ public class MapSelector {
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         pane.setFitToHeight(true);
         pane.setPannable(true);
-        pane.setMaxWidth(CARD_SIZE + 55);
+        pane.setMaxWidth(CARD_SIZE + 50);
         pane.setStyle("-fx-background-color: transparent; -fx-background: transparent;");
         return pane;
     }
@@ -85,7 +85,7 @@ public class MapSelector {
 
         if (contentWidth <= viewportWidth) return;
 
-        double scrollStep = (CARD_SIZE + 20) / (contentWidth - viewportWidth);
+        double scrollStep = (CARD_SIZE + 32) / (contentWidth - viewportWidth);
 
         double currentHValue = scrollPane.getHvalue();
         double newValue = currentHValue + step * scrollStep;
