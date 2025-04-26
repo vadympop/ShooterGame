@@ -30,6 +30,9 @@ import java.util.function.Consumer;
 
 import static com.game.gui.scenes.menu.MenuViewConstants.*;
 
+/**
+ * Represents the main menu view of the game.
+ */
 public class MenuView {
     private static final Image TILE_IMAGE = new Image("/images/menu_bg_tile.png");
     private static final Image CARDS_IMAGE = new Image("/images/cards_bg.png");
@@ -46,6 +49,10 @@ public class MenuView {
         init();
     }
 
+    /**
+     * Initializes the main menu view, including setting up the UI components,
+     * background animations, and adding necessary layout configurations.
+     */
     public void init() {
         Canvas canvas = new Canvas(WINDOW_WIDTH, WINDOW_HEIGHT);
         startBackgroundAnimation(canvas.getGraphicsContext2D());
@@ -58,11 +65,20 @@ public class MenuView {
         setupStage(canvas, content);
     }
 
+    /**
+     * Displays the menu view by making the primary stage visible
+     * and enabling window drag functionality.
+     */
     public void show() {
         WindowUtils.makeWindowMovable(primaryStage, dragArea);
         primaryStage.show();
     }
 
+    /**
+     * Creates the title section of the menu, containing the main title and subtitle.
+     *
+     * @return a VBox containing the title and subtitle labels
+     */
     private VBox createTitles() {
         Label titleLabel = new Label("Multiplayer Shooter Minigame");
         titleLabel.setFont(Font.font(FONT_FAMILY, 48));
@@ -77,6 +93,12 @@ public class MenuView {
         return texts;
     }
 
+    /**
+     * Creates the scene selector section of the menu, including a map selector, navigation arrows,
+     * and a switch for selecting the game mode.
+     *
+     * @return a VBox containing the scene selector components
+     */
     private VBox createScenesSelecter() {
         MapSelector mapSelector = new MapSelector(sceneId -> controller.changeGameScene(sceneId), SCENES);
         ImageView leftArrow = FXUtils.createImageButton(
@@ -120,6 +142,12 @@ public class MenuView {
         return scenesSelecter;
     }
 
+    /**
+     * Creates the exit button for the menu.
+     * The button allows users to close the game.
+     *
+     * @return a styled Button configured with exit functionality
+     */
     private Button createExitButton() {
         Button exitButton = new Button("Exit");
         exitButton.setFont(Font.font(FONT_FAMILY, FontWeight.BOLD, 24));
@@ -132,11 +160,24 @@ public class MenuView {
         return exitButton;
     }
 
+    /**
+     * Starts the background scrolling animation using the provided GraphicsContext.
+     *
+     * @param gc the GraphicsContext used to render the background animation
+     */
     private void startBackgroundAnimation(GraphicsContext gc) {
         background = new ScrollingBackground(gc, TILE_IMAGE, WINDOW_WIDTH, WINDOW_HEIGHT);
         background.start();
     }
 
+    /**
+     * Creates the layout structure of the menu, combining the title, controls, and exit button.
+     *
+     * @param titleBox   the VBox containing the title section
+     * @param controls   the VBox containing the controls such as the scene selector
+     * @param exitButton the Button to exit the game
+     * @return a VBox containing the combined layout of the menu
+     */
     private VBox createMainBody(VBox titleBox, VBox controls, Button exitButton) {
         dragArea = new Pane();
         dragArea.setPrefHeight(50);
@@ -148,6 +189,13 @@ public class MenuView {
         return content;
     }
 
+    /**
+     * Configures the primary stage by embedding the canvas and main content into the scene.
+     * Applies necessary styling and positions the stage in the center of the screen.
+     *
+     * @param canvas  the Canvas used for rendering background animations
+     * @param content the VBox containing the main menu content
+     */
     private void setupStage(Canvas canvas, VBox content) {
         StackPane root = new StackPane(canvas, content);
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -161,6 +209,13 @@ public class MenuView {
             primaryStage.initStyle(StageStyle.TRANSPARENT);
     }
 
+    /**
+     * Creates a custom switch component that toggles between two states.
+     * The provided Consumer is triggered when the switch state changes.
+     *
+     * @param onSwitchChanged a Consumer that is called when the switch state changes
+     * @return a StackPane styled as a custom switch component
+     */
     private StackPane createCustomSwitch(Consumer<Boolean> onSwitchChanged) {
         StackPane switchContainer = new StackPane();
         switchContainer.setPrefSize(50, 25);
@@ -192,6 +247,14 @@ public class MenuView {
         return switchContainer;
     }
 
+    /**
+     * Creates a game mode switcher UI component that provides labeled options and a switcher control.
+     *
+     * @param labelLeft  the label text for the left side of the switch
+     * @param labelRight the label text for the right side of the switch
+     * @param switcher   the Node acting as the switcher control
+     * @return an HBox containing the labeled game mode switcher
+     */
     private HBox createGameModeSwitcher(String labelLeft, String labelRight, Node switcher) {
         Label labelL = new Label(labelLeft);
         labelL.setFont(Font.font(FONT_FAMILY, FontWeight.SEMI_BOLD, 16));
@@ -213,6 +276,10 @@ public class MenuView {
         return box;
     }
 
+    /**
+     * Stops all running animations, such as the scrolling background.
+     * This method should be called when the menu view is no longer needed.
+     */
     public void stopAllAnimations() {
         if (background != null) background.stop();
     }

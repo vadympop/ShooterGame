@@ -19,6 +19,11 @@ import java.util.function.Consumer;
 
 import static com.game.gui.scenes.menu.MenuViewConstants.CARD_SIZE;
 
+/**
+ * A GUI component that provides a scrollable list of map selection cards.
+ * Each card represents a map, and users can interact with the cards
+ * to select a map, triggering a callback.
+ */
 public class MapSelector {
     private final ScrollPane scrollPane;
     private final HBox mapsContainer;
@@ -30,6 +35,12 @@ public class MapSelector {
         this.scrollPane = createScrollPane();
     }
 
+    /**
+     * Creates the container that holds the map cards.
+     *
+     * @param sceneIds an array of scene IDs for creating the map cards
+     * @return an {@code HBox} containing all the map cards
+     */
     private HBox createMapsContainer(String[] sceneIds) {
         HBox container = new HBox(20);
         container.setAlignment(Pos.CENTER);
@@ -40,6 +51,11 @@ public class MapSelector {
         return container;
     }
 
+    /**
+     * Creates a scrollable container to hold the map cards.
+     *
+     * @return a {@code ScrollPane} displaying the map cards
+     */
     private ScrollPane createScrollPane() {
         ScrollPane pane = new ScrollPane(mapsContainer);
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -51,6 +67,13 @@ public class MapSelector {
         return pane;
     }
 
+    /**
+     * Creates an individual map card based on the given scene ID.
+     * The card is styled and supports hover and click interactions.
+     *
+     * @param sceneId the ID of the scene used to configure the card
+     * @return a {@code StackPane} representing a single map card
+     */
     private StackPane createMapCard(String sceneId) {
         ImageView imageView = new ImageView(new Image("/images/" + sceneId + "_scene.png"));
         imageView.setFitWidth(CARD_SIZE);
@@ -72,6 +95,12 @@ public class MapSelector {
         return card;
     }
 
+    /**
+     * Animates the scale of a given card to the specified size.
+     *
+     * @param card    the {@code Node} to scale
+     * @param scaleTo the target scale factor
+     */
     private void animateScale(Node card, double scaleTo) {
         ScaleTransition st = new ScaleTransition(Duration.millis(100), card);
         st.setToX(scaleTo);
@@ -79,6 +108,12 @@ public class MapSelector {
         st.play();
     }
 
+    /**
+     * Animates the scroll pane to navigate through the map cards.
+     *
+     * @param step the number of steps to scroll. Positive values scroll right,
+     *             and negative values scroll left.
+     */
     public void scrollByAnimated(int step) {
         double viewportWidth = scrollPane.getViewportBounds().getWidth();
         double contentWidth = mapsContainer.getWidth();

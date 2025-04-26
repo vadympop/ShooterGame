@@ -30,6 +30,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 
+/**
+ * The GameView class creates and manages the game HUD, pause menu, and end game overlay.
+ * It handles rendering game elements, managing player controls, and responding to various events.
+ */
 public class GameView {
     private static final Image PAUSE_BTN_IMAGE = new Image("/images/pause_btn.png");
 
@@ -50,6 +54,10 @@ public class GameView {
         init();
     }
 
+    /**
+     * Initializes the game view by setting up the primary stage, creating the canvas,
+     * initializing the GUI components, and setting player controls.
+     */
     public void init() {
         Stage primaryStage = getPrimaryStage();
         Scaler scaler = Scaler.getInstance();
@@ -74,16 +82,37 @@ public class GameView {
         primaryStage.sizeToScene();
     }
 
+    /**
+     * Configures the player controls by setting keyboard input handlers for the given scene.
+     *
+     * @param scene The scene where the player controls will be configured.
+     */
     private void setPlayerControls(Scene scene) {
         scene.setOnKeyPressed(keyEvent -> controller.onKeyPressed(keyEvent));
         scene.setOnKeyReleased(keyEvent -> controller.onKeyReleased(keyEvent));
     }
 
+    /**
+     * Resets the player controls by removing all input handlers from the given scene.
+     *
+     * @param scene The scene where the player controls will be reset.
+     */
     private void resetPlayerControls(Scene scene) {
         scene.setOnKeyPressed(null);
         scene.setOnKeyPressed(null);
     }
 
+    /**
+     * Renders the game elements on the canvas, including background tiles, spawners, blocks,
+     * entities, and overlay tiles. Also updates the player's HUD and current state.
+     *
+     * @param backgroundTiles A list of tiles representing the background layer.
+     * @param spawners        A list of spawners responsible for spawning entities in the scene.
+     * @param blocks          A list of blocks used as obstacles or interactable objects in the game.
+     * @param entities        A list of game entities to be drawn on the canvas.
+     * @param overlayTiles    A list of tiles representing the overlay (UI) layer.
+     * @param playerSpawners  A list of player spawners used for tracking kills and positions.
+     */
     public void render(
             List<SceneTile> backgroundTiles,
             List<Spawner> spawners,
@@ -110,6 +139,11 @@ public class GameView {
         updateGUI();
     }
 
+    /**
+     * Renders the number of player kills near each player's position.
+     *
+     * @param spawners A list of player spawners used to track player kills.
+     */
     private void renderPlayerKills(List<PlayerSpawner> spawners) {
         for (PlayerSpawner spawner : spawners) {
             double x = spawner.getX();
@@ -123,17 +157,27 @@ public class GameView {
         }
     }
 
+    /**
+     * Displays the primary stage of the game GUI and makes the window movable.
+     */
     public void show() {
         WindowUtils.makeWindowMovable(primaryStage, hud);
         primaryStage.show();
     }
 
+    /**
+     * Restarts the game by hiding the end game overlay and resetting player controls.
+     */
     public void restart() {
         gameEndOverlay.setVisible(false);
         gameEndOverlay.getChildren().removeLast(); // Remove winner label
         setPlayerControls(getPrimaryStage().getScene());
     }
 
+    /**
+     * Creates the graphical user interface components, including the HUD, pause menu,
+     * and end game overlay.
+     */
     private void createGUI() {
         hud = createHUD();
         StackPane.setAlignment(hud, Pos.TOP_CENTER);
@@ -144,6 +188,11 @@ public class GameView {
         root.getChildren().addAll(hud, pauseOverlay, gameEndOverlay);
     }
 
+    /**
+     * Creates the heads-up display (HUD), which includes the timer, pause button, and spacers.
+     *
+     * @return The HBox containing the HUD components.
+     */
     private HBox createHUD() {
         HBox hud = new HBox();
         hud.setPadding(new Insets(10));
@@ -166,6 +215,9 @@ public class GameView {
         return hud;
     }
 
+    /**
+     * Updates the GUI elements, such as the timer display, based on the current game state.
+     */
     private void updateGUI() {
         if (controller.getMainTimer() != null) {
             long time = Math.round(controller.getMainTimer().getTimeLeft());
@@ -173,6 +225,11 @@ public class GameView {
         }
     }
 
+    /**
+     * Displays the end game overlay with a label announcing the winner.
+     *
+     * @param winner The player spawner representing the winning player.
+     */
     public void gameEnd(PlayerSpawner winner) {
         resetPlayerControls(getPrimaryStage().getScene());
         Text winnerLabel = createWinnerLabel(winner.getX(), winner.getY());
@@ -181,6 +238,13 @@ public class GameView {
         gameEndOverlay.setVisible(true);
     }
 
+    /**
+     * Creates a text label to indicate the winner, positioning it based on the player's coordinates.
+     *
+     * @param spawnerX The X-coordinate of the winning player spawner.
+     * @param spawnerY The Y-coordinate of the winning player spawner.
+     * @return A Text object styled and positioned to display the winner label.
+     */
     private Text createWinnerLabel(float spawnerX, float spawnerY) {
         double offset = 50;
         double textX, textY, angle;
@@ -236,6 +300,9 @@ public class GameView {
         return label;
     }
 
+    /**
+     * Toggles the visibility of the pause menu and pauses or resumes the game.
+     */
     private void togglePauseMenu() {
         controller.togglePause();
         pauseOverlay.setVisible(!pauseOverlay.isVisible());

@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+/**
+ * Manages the lifecycle and transitions of scenes in the application.
+ * It handles loading, unloading, and switching between game and menu scenes.
+ */
 public class SceneManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(SceneManager.class);
 
@@ -24,6 +28,12 @@ public class SceneManager {
         setPrimaryStage(primaryStage);
     }
 
+    /**
+     * Loads and displays the game scene identified by the given scene ID.
+     * Exits the current scene (if any) before transitioning to the new scene.
+     *
+     * @param sceneId the ID of the scene to load
+     */
     public void loadGameScene(String sceneId) {
         LOGGER.info("Loading game scene with id {}", sceneId);
         if (getCurrentScene() != null) getCurrentScene().onExit();
@@ -41,6 +51,10 @@ public class SceneManager {
         getCurrentScene().onEnter();
     }
 
+    /**
+     * Loads and displays the menu scene.
+     * Exits the current scene (if any) before transitioning to the menu scene.
+     */
     public void loadMenuScene() {
         LOGGER.info("Loading menu scene");
         if (getCurrentScene() != null) getCurrentScene().onExit();
@@ -49,6 +63,11 @@ public class SceneManager {
         getCurrentScene().onEnter();
     }
 
+    /**
+     * Displays an error message in an alert dialog.
+     *
+     * @param message the error message to display
+     */
     public void throwError(String message) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
@@ -56,8 +75,23 @@ public class SceneManager {
         alert.showAndWait();
     }
 
-    public Scene getCurrentScene() { return currentScene; }
-    public void setCurrentScene(Scene currentScene) { this.currentScene = currentScene; }
+    /**
+     * Retrieves the currently active scene.
+     *
+     * @return the current scene
+     */
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    /**
+     * Sets the currently active scene.
+     *
+     * @param currentScene the scene to set as active
+     */
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
+    }
 
     public Stage getPrimaryStage() { return primaryStage; }
     public void setPrimaryStage(Stage primaryStage) { this.primaryStage = primaryStage; }

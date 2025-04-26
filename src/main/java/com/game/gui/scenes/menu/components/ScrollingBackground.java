@@ -7,6 +7,10 @@ import javafx.scene.image.Image;
 import static com.game.gui.scenes.menu.MenuViewConstants.BACKGROUND_SCROLL_SPEED;
 import static com.game.gui.scenes.menu.MenuViewConstants.TILE_SIZE;
 
+/**
+ * A class responsible for creating a scrolling background effect using a tile image.
+ * The background is rendered onto a `GraphicsContext` and animates by continuously updating offsets.
+ */
 public class ScrollingBackground {
     private final GraphicsContext gc;
     private final Image tileImage;
@@ -32,14 +36,24 @@ public class ScrollingBackground {
         };
     }
 
+    /**
+     * Starts the animation timer to begin rendering and scrolling the background.
+     */
     public void start() {
         animationTimer.start();
     }
 
+    /**
+     * Stops the animation timer and halts rendering and scrolling of the background.
+     */
     public void stop() {
         animationTimer.stop();
     }
 
+    /**
+     * Renders the scrolling background by drawing repeated tiles onto the `GraphicsContext`.
+     * It ensures sufficient tiles are rendered to cover the visible area and apply the offset.
+     */
     private void draw() {
         gc.clearRect(0, 0, width, height);
 
@@ -59,6 +73,10 @@ public class ScrollingBackground {
         }
     }
 
+    /**
+     * Updates the x and y offsets used for scrolling the background.
+     * The offsets loop around when they exceed the tile size.
+     */
     private void updateOffsets() {
         offsetX = (offsetX - BACKGROUND_SCROLL_SPEED) % TILE_SIZE;
         offsetY = (offsetY - BACKGROUND_SCROLL_SPEED) % TILE_SIZE;

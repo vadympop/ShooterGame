@@ -16,6 +16,11 @@ import javafx.scene.input.KeyEvent;
 import java.util.List;
 
 
+/**
+ * The GameController class serves as the main controller for the game logic and interactions.
+ * It manages the game flow, including loading the scene, handling user inputs,
+ * controlling the game loop, and rendering updates.
+ */
 public class GameController {
     private static final String[] KEYS = {"W", "Up", "Space", "Backspace"};
     private final SceneManager sm;
@@ -34,6 +39,10 @@ public class GameController {
         this.sm = sm;
     }
 
+    /**
+     * Generates the game model by loading the scene configuration and initializing
+     * the game components for rendering and gameplay.
+     */
     private void generateModel() {
         Scaler scaler = Scaler.getInstance();
         SceneConfig config = ConfigManager.getInstance().getConfig();
@@ -42,12 +51,20 @@ public class GameController {
         this.model = loader.loadScene();
     }
 
+    /**
+     * Restarts the game by resetting the view, regenerating the model,
+     * and starting the game loop.
+     */
     public void restart() {
         view.restart();
         generateModel();
         start();
     }
 
+    /**
+     * Starts the game by initializing the game loop, showing the game view,
+     * and spawning the initial entities in the scene.
+     */
     public void start() {
         // In case of map restarting
         if (loop != null) stopLoop();
@@ -61,25 +78,42 @@ public class GameController {
         loop.start();
     }
 
+    /**
+     * Creates the main timer for the game to track and handle the game duration
+     * and determine the winner when the timer ends.
+     */
     private void createMainTimer() {
         mainTimer = new Timer<>(model.getGameDuration(), x -> {
             view.gameEnd(model.getWinnerPlayerSpawner());
         });
     }
 
+    /**
+     * Stops the game loop, pausing all ongoing gameplay updates and rendering.
+     */
     public void stopLoop() {
         loop.stop();
     }
 
+    /**
+     * Toggles the pause state of the game and pauses or resumes the game loop accordingly.
+     */
     public void togglePause() {
         isOnPause = !isOnPause();
         loop.togglePause();
     }
 
+    /**
+     * Loads the main menu scene by delegating the call to the SceneManager.
+     */
     public void loadMainMenu() {
         sm.loadMenuScene();
     }
 
+    /**
+     * Renders the game by passing the current game state, including tiles, spawners,
+     * blocks, entities, and player spawners, to the GameView for display.
+     */
     public void render() {
         view.render(
                 model.getTilesByType(TileType.BACKGROUND),
@@ -91,11 +125,23 @@ public class GameController {
         );
     }
 
+    /**
+     * Updates the game state by progressing the timer and model state based on
+     * the elapsed time since the last update.
+     *
+     * @param deltaTime The time elapsed since the last update, in seconds.
+     */
     public void update(double deltaTime) {
         if (mainTimer != null) mainTimer.update(deltaTime, this, () -> mainTimer = null);
         model.update(deltaTime);
     }
 
+    /**
+     * Handles the key press events and triggers corresponding player actions
+     * mapped to specific keys.
+     *
+     * @param keyEvent The KeyEvent representing the key press input.
+     */
     public void onKeyPressed(KeyEvent keyEvent) {
         List<PlayerSpawner> spawners = getModel().getPlayerSpawners();
         for (int i = 0; i < spawners.size(); i++) {
@@ -105,6 +151,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Handles the key release events and triggers corresponding player actions
+     * mapped to specific keys.
+     *
+     * @param keyEvent The KeyEvent representing the key release input.
+     */
     public void onKeyReleased(KeyEvent keyEvent) {
         List<PlayerSpawner> spawners = getModel().getPlayerSpawners();
         for (int i = 0; i < spawners.size(); i++) {
@@ -116,7 +168,24 @@ public class GameController {
 
     public Timer<GameController> getMainTimer() { return mainTimer; }
     public GameView getView() { return view; }
-    public GameModel getModel() { return model; }
-    public SceneManager getSm() { return sm; }
+
+    /**
+     * Gets the GameModel instance representing the current game state.
+     *
+     * @return The GameModel instance.
+     */
+    public GameModel getModel() {
+        return model;
+    }
+
+    /**
+     * Gets the SceneManager instance managing scene transitions.
+     *
+     * @return The SceneManager instance.
+     */
+    public SceneManager getSm() {
+        return sm;
+    }
+
     public boolean isOnPause() { return isOnPause; }
 }
