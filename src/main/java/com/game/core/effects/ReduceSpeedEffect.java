@@ -7,7 +7,7 @@ public class ReduceSpeedEffect implements Effect {
 
     @Override
     public void apply(Player player) {
-        player.setSpeed(player.getSpeed() * 0.75f);
+        player.setSpeed(player.getSpeed() * 0.5f);
     }
 
     @Override
