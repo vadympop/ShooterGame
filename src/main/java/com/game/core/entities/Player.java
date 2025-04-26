@@ -236,6 +236,7 @@ public class Player extends Entity {
         super.render(gc);
 
         if (isHasShield()) drawEffectCircle(gc, Color.web("#949494", 0.5f));
+        if (hasSmallHealth()) drawEffectCircle(gc, Color.web("#b52218", 0.5f));
     }
 
     /**
@@ -265,6 +266,8 @@ public class Player extends Entity {
 
     public float getDefaultSpeed() { return defaultSpeed; }
     private void setDefaultSpeed(float defaultSpeed) { this.defaultSpeed = defaultSpeed; }
+
+    public boolean hasSmallHealth() { return getHealth() <= getMaxHealth() * 0.5; }
 
     public int getMaxHealth() { return maxHealth; }
     private void setMaxHealth(int maxHealth) {
