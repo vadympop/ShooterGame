@@ -52,5 +52,5 @@ Gameplay features:
 
 ![GIF](https://i.imgur.com/xa7a79W.gif)
 Lagging because a little bit compressed
-
+https://i.imgur.com/xa7a79W.gif
 
