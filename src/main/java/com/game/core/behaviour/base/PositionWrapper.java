@@ -1,6 +1,9 @@
 package com.game.core.behaviour.base;
 
 
+/**
+ * An abstract class that serves as a wrapper for a position represented by x and y coordinates.
+ */
 public abstract class PositionWrapper {
     private float x = 0;
     private float y = 0;
@@ -11,5 +14,13 @@ public abstract class PositionWrapper {
     public void setPos(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "PositionWrapper{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

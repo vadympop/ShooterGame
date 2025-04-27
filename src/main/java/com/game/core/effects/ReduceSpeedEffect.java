@@ -3,11 +3,11 @@ package com.game.core.effects;
 import com.game.core.entities.Player;
 
 public class ReduceSpeedEffect implements Effect {
-    private final float duration = 5f;
+    private final float duration = 10f;
 
     @Override
     public void apply(Player player) {
-        player.setSpeed(player.getSpeed() * 0.75f);
+        player.setSpeed(player.getSpeed() * 0.5f);
     }
 
     @Override

@@ -1,29 +1,15 @@
 package com.game.core.scene.areas;
 
-import com.game.core.behaviour.base.GameObject;
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.effects.Effect;
 import com.game.core.effects.ReduceSpeedEffect;
-import com.game.core.entities.Player;
 
-public class SlowingArea extends GameObject implements Area  {
-    private final Effect effect = new ReduceSpeedEffect();
-    private Bounds bounds;
-
+/**
+ * Represents an area in the game where entities experience a reduction in speed.
+ * The effect of slowing down entities is achieved by applying the {@link ReduceSpeedEffect}
+ * within the specified boundary.
+ */
+public class SlowingArea extends Area {
     public SlowingArea(Bounds bounds) {
-        setBounds(bounds);
+        super(new ReduceSpeedEffect(), bounds);
     }
-
-    @Override
-    public void applyEffect(Player player) {
-        player.applyEffect(effect);
-    }
-
-    @Override
-    public boolean contains(Player player) {
-        return getBounds().contains(player.getHitbox());
-    }
-
-    @Override public Bounds getBounds() { return bounds; }
-    private void setBounds(Bounds bounds) { this.bounds = bounds; }
 }

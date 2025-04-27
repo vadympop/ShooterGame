@@ -1,22 +1,31 @@
 package com.game.core.utils.config;
 
+import com.game.core.entities.bullet.BulletType;
+import com.game.core.utils.config.enums.AreaTypeEnum;
+import com.game.core.utils.config.enums.BoundsTypeEnum;
+import com.game.core.utils.config.enums.SpawnerTypeEnum;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+
 import java.util.List;
 import java.util.Map;
 
 public class SceneConfig {
-    private String id;
-    private float tileWidth;
-    private float tileHeight;
-    private String bonusTexture;
-    private String name;
-    private List<AreaConfig> areas;
-    private List<SpawnerConfig> spawners;
-    private List<String> backgroundTiles;
-    private List<String> blocks;
-    private List<String> overlayTiles;
-    private MappingsConfig mappings;
-    private PlayerConfig player;
-    private BulletConfig bullet;
+    @NotBlank private String id;
+    @NotNull @Positive private float tileWidth;
+    @NotNull @Positive private float tileHeight;
+    private boolean isDebug;
+    @Positive private int gameDuration;
+    @NotBlank private String name;
+    @NotNull @Valid private List<@Valid AreaConfig> areas;
+    @NotEmpty @Valid private List<@Valid SpawnerConfig> spawners;
+    @NotEmpty private List<@NotBlank String> backgroundTiles;
+    @NotEmpty private List<@NotBlank String> blocks;
+    @NotEmpty private List<@NotBlank String> overlayTiles;
+    @NotNull @Valid private MappingsConfig mappings;
+    @NotNull @Valid private PlayerConfig player;
+    @NotNull @Valid private BulletConfig bullet;
+    @NotNull @Valid private BonusConfig bonus;
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -54,44 +63,63 @@ public class SceneConfig {
     public BulletConfig getBullet() { return bullet; }
     public void setBullet(BulletConfig bullet) { this.bullet = bullet; }
 
-    public String getBonusTexture() { return bonusTexture; }
-    public void setBonusTexture(String bonusTexture) { this.bonusTexture = bonusTexture; }
+    public BonusConfig getBonus() { return bonus; }
+    public void setBonus(BonusConfig bonus) { this.bonus = bonus; }
 
-    public static class BulletConfig {
-        private String texture;
-        private float speed;
-        private float timeToDestroy;
+    public boolean isDebug() { return isDebug; }
+    public void setDebug(boolean debug) { isDebug = debug; }
+
+    public int getGameDuration() { return gameDuration; }
+    public void setGameDuration(int gameDuration) { this.gameDuration = gameDuration; }
+
+    public static class BonusConfig {
+        @NotBlank private String texture;
+        @Valid private BoundsConfig hitbox;
+
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
 
         public String getTexture() { return texture; }
         public void setTexture(String texture) { this.texture = texture; }
+    }
 
-        public float getSpeed() { return speed; }
-        public void setSpeed(float speed) { this.speed = speed; }
+    public static class BulletConfig {
+        @NotEmpty @Valid private Map<BulletType, @NotBlank String> textures;
+        @NotNull @Positive private float timeToDestroy;
+        @NotNull @Positive private int damage;
+        @NotNull @Valid private BoundsConfig hitbox;
+
+        public Map<BulletType, String> getTextures() { return textures; }
+        public void setTextures(Map<BulletType, String> textures) { this.textures = textures; }
 
         public float getTimeToDestroy() { return timeToDestroy; }
         public void setTimeToDestroy(float timeToDestroy) { this.timeToDestroy = timeToDestroy; }
+
+        public int getDamage() { return damage; }
+        public void setDamage(int damage) { this.damage = damage; }
+
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
     }
 
     public static class PlayerConfig {
-        private int maxHealth;
-        private int maxBulletsCount;
-        private int bulletDamage;
-        private float bulletsReloadDelay;
-        private float speed;
-        private float rotationSpeed;
-        private CircleBoundsConfig hitbox;
+        @NotNull @Positive private int maxHealth;
+        @NotNull @Positive private int maxBulletsCount;
+        @NotNull @Positive private float bulletsCooldown;
+        @NotNull @Positive private float bulletsReloadDelay;
+        @NotNull @Positive private float speed;
+        @NotNull @Positive private float rotationSpeed;
+        @NotNull @Positive private float shieldHitboxMultiplier;
+        @NotNull @Valid private BoundsConfig hitbox;
 
-        public CircleBoundsConfig getHitbox() { return hitbox; }
-        public void setHitbox(CircleBoundsConfig hitbox) { this.hitbox = hitbox; }
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
 
         public int getMaxHealth() { return maxHealth; }
         public void setMaxHealth(int maxHealth) { this.maxHealth = maxHealth; }
 
         public int getMaxBulletsCount() { return maxBulletsCount; }
         public void setMaxBulletsCount(int maxBulletsCount) { this.maxBulletsCount = maxBulletsCount; }
-
-        public int getBulletDamage() { return bulletDamage; }
-        public void setBulletDamage(int bulletDamage) { this.bulletDamage = bulletDamage; }
 
         public float getBulletsReloadDelay() { return bulletsReloadDelay; }
         public void setBulletsReloadDelay(float bulletsReloadDelay) { this.bulletsReloadDelay = bulletsReloadDelay; }
@@ -101,52 +129,62 @@ public class SceneConfig {
 
         public float getRotationSpeed() { return rotationSpeed; }
         public void setRotationSpeed(float rotationSpeed) { this.rotationSpeed = rotationSpeed; }
+
+        public float getBulletsCooldown() { return bulletsCooldown; }
+        public void setBulletsCooldown(float bulletsCooldown) { this.bulletsCooldown = bulletsCooldown; }
+
+        public float getShieldHitboxMultiplier() { return shieldHitboxMultiplier; }
+        public void setShieldHitboxMultiplier(float shieldHitboxMultiplier) { this.shieldHitboxMultiplier = shieldHitboxMultiplier; }
     }
 
     public static class AreaConfig {
-        private String type;
-        private String col;
-        private String row;
-        private BoundsConfig bounds;
+        @NotNull private AreaTypeEnum type;
+        @NotNull @Positive private int col;
+        @NotNull @Positive private int row;
+        @NotNull @Valid private BoundsConfig bounds;
 
-        public String getType() { return type; }
-        public void setType(String type) { this.type = type; }
+        public AreaTypeEnum getType() { return type; }
+        public void setType(AreaTypeEnum type) { this.type = type; }
 
-        public String getCol() { return col; }
-        public void setCol(String col) { this.col = col; }
+        public int getCol() { return col; }
+        public void setCol(int col) { this.col = col; }
 
-        public String getRow() { return row; }
-        public void setRow(String row) { this.row = row; }
+        public int getRow() { return row; }
+        public void setRow(int row) { this.row = row; }
 
         public BoundsConfig getBounds() { return bounds; }
         public void setBounds(BoundsConfig bounds) { this.bounds = bounds; }
     }
 
     public static class BoundsConfig {
-        private String type;
-        private String width;
-        private String height;
+        @NotNull private BoundsTypeEnum type;
+        private float width;
+        private float height;
+        private float radius;
 
-        public String getType() { return type; }
-        public void setType(String type) { this.type = type; }
+        public BoundsTypeEnum getType() { return type; }
+        public void setType(BoundsTypeEnum type) { this.type = type; }
 
-        public String getWidth() { return width; }
-        public void setWidth(String width) { this.width = width; }
+        public float getRadius() { return radius; }
+        public void setRadius(float radius) { this.radius = radius; }
 
-        public String getHeight() { return height; }
-        public void setHeight(String height) { this.height = height; }
+        public float getWidth() { return width; }
+        public void setWidth(float width) { this.width = width; }
+
+        public float getHeight() { return height; }
+        public void setHeight(float height) { this.height = height; }
     }
 
     public static class SpawnerConfig {
-        private int type;
-        private int col;
-        private int row;
-        private String texture;
+        @NotNull private SpawnerTypeEnum type;
+        @NotNull @Positive private int col;
+        @NotNull @Positive private int row;
+        @NotBlank private String texture;
         private float cooldown; // only for bonusspawner
         private String playerTexture; // only for playerspawner
 
-        public int getType() { return type; }
-        public void setType(int type) { this.type = type; }
+        public SpawnerTypeEnum getType() { return type; }
+        public void setType(SpawnerTypeEnum type) { this.type = type; }
 
         public int getCol() { return col; }
         public void setCol(int col) { this.col = col; }
@@ -165,22 +203,18 @@ public class SceneConfig {
     }
 
     public static class MappingsConfig {
-        private Map<String, MappingTileConfig> tiles;
-        private Map<String, String> spawners;
-        private Map<String, MappingBlockConfig> blocks;
+        @NotEmpty @Valid private Map<String, @NotNull MappingTileConfig> tiles;
+        @NotEmpty @Valid private Map<String, @NotNull MappingBlockConfig> blocks;
 
         public Map<String, MappingTileConfig> getTiles() { return tiles; }
         public void setTiles(Map<String, MappingTileConfig> tiles) { this.tiles = tiles; }
-
-        public Map<String, String> getSpawners() { return spawners; }
-        public void setSpawners(Map<String, String> spawners) { this.spawners = spawners; }
 
         public Map<String, MappingBlockConfig> getBlocks() { return blocks; }
         public void setBlocks(Map<String, MappingBlockConfig> blocks) { this.blocks = blocks; }
     }
 
     public static class MappingTileConfig {
-        private String texture;
+        @NotBlank private String texture;
         private boolean defaultSize;
 
         public String getTexture() { return texture; }
@@ -192,30 +226,12 @@ public class SceneConfig {
 
     public static class MappingBlockConfig extends MappingTileConfig {
         private boolean isBreakable;
-        private RectangleBoundsConfig hitbox;
+        private BoundsConfig hitbox;
 
         public boolean isBreakable() { return isBreakable; }
         public void setBreakable(boolean breakable) { isBreakable = breakable; }
 
-        public RectangleBoundsConfig getHitbox() { return hitbox; }
-        public void setHitbox(RectangleBoundsConfig hitbox) { this.hitbox = hitbox; }
-    }
-
-    public static class CircleBoundsConfig {
-        private float radius;
-
-        public float getRadius() { return radius; }
-        public void setRadius(float radius) { this.radius = radius; }
-    }
-
-    public static class RectangleBoundsConfig {
-        private float width;
-        private float height;
-
-        public float getWidth() { return width; }
-        public void setWidth(float width) { this.width = width; }
-
-        public float getHeight() { return height; }
-        public void setHeight(float height) { this.height = height; }
+        public BoundsConfig getHitbox() { return hitbox; }
+        public void setHitbox(BoundsConfig hitbox) { this.hitbox = hitbox; }
     }
 }

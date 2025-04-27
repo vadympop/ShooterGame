@@ -5,16 +5,16 @@ import com.game.core.strategies.CircularShootStrategy;
 import com.game.core.strategies.SingleShootStrategy;
 
 public class CircularShootEffect implements Effect {
-    private final float duration = 20f;
+    private final float duration = 3f;
 
     @Override
     public void apply(Player player) {
-        player.setShootingStrategy(new CircularShootStrategy());
+        player.getSm().setShootingStrategy(new CircularShootStrategy());
     }
 
     @Override
     public void remove(Player player) {
-        player.setShootingStrategy(new SingleShootStrategy());
+        player.getSm().setShootingStrategy(new SingleShootStrategy());
     }
 
     @Override

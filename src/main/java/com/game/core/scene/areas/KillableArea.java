@@ -1,29 +1,14 @@
 package com.game.core.scene.areas;
 
-import com.game.core.behaviour.base.GameObject;
 import com.game.core.behaviour.bounds.Bounds;
-import com.game.core.effects.Effect;
 import com.game.core.effects.TakeDamageEffect;
-import com.game.core.entities.Player;
 
-public class KillableArea extends GameObject implements Area  {
-    private final Effect effect = new TakeDamageEffect();
-    private Bounds bounds;
-
+/**
+ * Represents an area in the game where entities can take damage.
+ * This area uses {@link TakeDamageEffect} to apply damage to entities that enter its bounds.
+ */
+public class KillableArea extends Area {
     public KillableArea(Bounds bounds) {
-        setBounds(bounds);
+        super(new TakeDamageEffect(), bounds);
     }
-
-    @Override
-    public void applyEffect(Player player) {
-        player.applyEffect(effect);
-    }
-
-    @Override
-    public boolean contains(Player player) {
-        return getBounds().contains(player.getHitbox());
-    }
-
-    @Override public Bounds getBounds() { return bounds; }
-    private void setBounds(Bounds bounds) { this.bounds = bounds; }
 }
