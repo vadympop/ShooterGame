@@ -96,6 +96,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     /**
      * Gets the maximum X-coordinate of this rectangle.
+     * x + width / 2
      *
      * @return the maximum X-coordinate.
      */
@@ -106,6 +107,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     /**
      * Gets the maximum Y-coordinate of this rectangle.
+     * y + height / 2
      *
      * @return the maximum Y-coordinate.
      */
@@ -116,6 +118,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     /**
      * Gets the minimum X-coordinate of this rectangle.
+     * x - width / 2
      *
      * @return the minimum X-coordinate.
      */
@@ -126,6 +129,7 @@ public class RectangleBounds extends PositionWrapper implements Bounds {
 
     /**
      * Gets the minimum Y-coordinate of this rectangle.
+     * y - height / 2
      *
      * @return the minimum Y-coordinate.
      */

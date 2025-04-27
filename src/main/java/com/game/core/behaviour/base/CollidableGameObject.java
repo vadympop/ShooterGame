@@ -6,6 +6,11 @@ import com.game.core.behaviour.bounds.Bounds;
 
 import java.util.Objects;
 
+/**
+ * Represents a game object that can collide with others.
+ * This abstract class provides functionalities to check for collision
+ * and position management by utilizing a hitbox defined by {@link Bounds}.
+ */
 public abstract class CollidableGameObject extends GameObject implements Positionable, Collidable {
     private Bounds hitbox;
 

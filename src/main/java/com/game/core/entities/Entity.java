@@ -127,8 +127,6 @@ public abstract class Entity extends CollidableGameObject implements Collidable,
         this.rotationAngle = rotationAngle % 360;
     }
 
-    // Setter and getter for collision manager
-
     /**
      * Retrieves the collision manager assigned to the entity.
      *

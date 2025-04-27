@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 /**
- * Represents a bullet entity in the game, fired by a player or another entity.
+ * Represents a bullet entity in the game, fired by a player.
  * A bullet has a specific owner, type, speed, damage, and a timer for automatic destruction.
  */
 public class Bullet extends Entity {
