@@ -188,6 +188,7 @@ public class Bullet extends Entity {
 
         public builder damage(int damage) {
             this.damage = damage;
+            if (type == BulletType.DOUBLE_DAMAGED_STANDARD) this.damage *= 2;
             return this;
         }
 
