@@ -260,7 +260,7 @@ public class GameView {
             // Top left
             textX = spawnerX + offset;
             textY = spawnerY + offset;
-            angle = 135;
+            angle = 315;
         } else if (!isLeft && isTop) {
             // Top right
             textX = spawnerX - offset;
@@ -275,7 +275,7 @@ public class GameView {
             // Bottom right
             textX = spawnerX - offset;
             textY = spawnerY - offset;
-            angle = 135;
+            angle = 315;
         }
 
         Text label = new Text("Winner");
